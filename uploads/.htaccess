@@ -1,0 +1,7 @@
+# Bloqueia execucao de PHP neste diretorio
+php_flag engine off
+
+# Permite apenas arquivos PDF
+<FilesMatch "\.(?!pdf$)[^.]+$">
+    Require all denied
+</FilesMatch>

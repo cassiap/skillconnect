@@ -1,0 +1,9 @@
+# Bloqueia acesso ao .env via navegador
+<Files ".env">
+    Require all denied
+</Files>
+
+# Desativa exibicao de erros em producao
+php_flag display_errors off
+php_flag display_startup_errors off
+php_value error_reporting 0

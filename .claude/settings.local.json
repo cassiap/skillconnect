@@ -1,0 +1,8 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(C:xamppmysqlbinmysql.exe -u root -e \"SHOW TABLES;\" skillconnect)",
+      "Bash(\"C:/xampp/mysql/bin/mysql.exe\":*)"
+    ]
+  }
+}
