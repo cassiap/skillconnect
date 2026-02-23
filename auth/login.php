@@ -1,5 +1,5 @@
 <?php
-session_start();
+require_once __DIR__ . '/../config/helpers.php';
 
 // Se já logado, redireciona
 if (!empty($_SESSION['logado'])) {
@@ -8,15 +8,12 @@ if (!empty($_SESSION['logado'])) {
 }
 
 // CSRF
-if (empty($_SESSION['csrf_token'])) {
-    $_SESSION['csrf_token'] = bin2hex(random_bytes(32));
-}
-$csrf = $_SESSION['csrf_token'];
+$csrf = csrf_token();
 
 // Flash
-$flash_error = $_SESSION['flash_error'] ?? null;
-$flash_info  = $_SESSION['flash_info']  ?? null;
-unset($_SESSION['flash_error'], $_SESSION['flash_info']);
+$flash_error   = get_flash('error');
+$flash_info    = get_flash('info');
+$flash_success = get_flash('success');
 ?>
 <!DOCTYPE html>
 <html lang="pt-br">
@@ -104,6 +101,9 @@ unset($_SESSION['flash_error'], $_SESSION['flash_info']);
 
                 <?php if ($flash_error): ?>
                   <div class="alert alert-danger"><?= htmlspecialchars($flash_error) ?></div>
+                <?php endif; ?>
+                <?php if ($flash_success): ?>
+                  <div class="alert alert-success"><?= htmlspecialchars($flash_success) ?></div>
                 <?php endif; ?>
                 <?php if ($flash_info): ?>
                   <div class="alert alert-info"><?= htmlspecialchars($flash_info) ?></div>

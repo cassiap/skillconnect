@@ -1,16 +1,14 @@
 <?php
-session_start();
 require_once __DIR__ . '/../config/db.php';
 
-if (!isset($_SESSION['logado']) || $_SESSION['perfil'] !== 'admin') {
-    header('Location: ../auth/login.php');
-    exit();
-}
+admin_check();
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['titulo'])) {
     if (!csrf_validate()) {
-        echo "<script>alert('Sessão expirada. Tente novamente.');</script>";
-    } else {
+        flash('error', 'Sessão expirada. Tente novamente.');
+        redirect('cadastravaga.php');
+    }
+
     $titulo     = trim($_POST['titulo'] ?? '');
     $empresa    = trim($_POST['empresa'] ?? '');
     $descricao  = trim($_POST['descricao'] ?? '');
@@ -25,11 +23,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['titulo'])) {
     $stmt->bind_param("sssssssss", $titulo, $empresa, $descricao, $requisitos, $tipo, $modalidade, $salario, $cidade, $estado);
 
     if ($stmt->execute()) {
-        echo "<script>alert('Vaga cadastrada com sucesso!'); window.location.href='../user/vagas.php';</script>";
+        $stmt->close();
+        flash('success', 'Vaga cadastrada com sucesso!');
+        redirect('../user/vagas.php');
     } else {
-        echo "<script>alert('Erro ao cadastrar vaga.');</script>";
-    }
-    $stmt->close();
+        $stmt->close();
+        flash('error', 'Erro ao cadastrar vaga.');
+        redirect('cadastravaga.php');
     }
 }
 ?>

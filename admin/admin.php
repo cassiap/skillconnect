@@ -1,11 +1,6 @@
 <?php
-session_start();
-
-// Proteção: só permite acesso se for admin
-if (!isset($_SESSION['logado']) || $_SESSION['perfil'] !== 'admin') {
-    header('Location: ../auth/login.php');
-    exit();
-}
+require_once __DIR__ . '/../config/helpers.php';
+admin_check();
 ?>
 <!DOCTYPE html>
 <html lang="pt-br">
@@ -55,10 +50,6 @@ if (!isset($_SESSION['logado']) || $_SESSION['perfil'] !== 'admin') {
 </div>
 
 <?php include('../includes/footer.php'); ?>
-
-<!-- Scripts do Bootstrap -->
-<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
 
 </body>
 </html>

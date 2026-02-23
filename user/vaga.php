@@ -1,5 +1,4 @@
 <?php
-session_start();
 require_once __DIR__ . '/../config/db.php';
 
 // Valida o ID da vaga
@@ -14,8 +13,8 @@ $stmt->execute();
 $resultado = $stmt->get_result();
 
 if ($resultado->num_rows === 0) {
-    echo "<script>alert('Vaga não encontrada.'); window.location.href='vagas.php';</script>";
-    exit;
+    flash('error', 'Vaga não encontrada.');
+    redirect('vagas.php');
 }
 
 $vaga = $resultado->fetch_assoc();

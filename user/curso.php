@@ -1,5 +1,4 @@
 <?php
-session_start();
 require_once __DIR__ . '/../config/db.php';
 
 // Verifica se o ID foi passado via URL
@@ -14,8 +13,8 @@ $stmt->execute();
 $resultado = $stmt->get_result();
 
 if ($resultado->num_rows === 0) {
-    echo "<script>alert('Curso não encontrado.'); window.location.href='cursos.php';</script>";
-    exit;
+    flash('error', 'Curso não encontrado.');
+    redirect('cursos.php');
 }
 
 $curso = $resultado->fetch_assoc();

@@ -1,11 +1,33 @@
 <?php
-session_start();
 require_once __DIR__ . '/../config/db.php';
 
-// Permite acesso apenas para administradores
-if (!isset($_SESSION['logado']) || $_SESSION['perfil'] !== 'admin') {
-    header('Location: ../auth/login.php');
-    exit();
+admin_check();
+
+// Processar alteracao de status
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['candidatura_id'], $_POST['novo_status'])) {
+    if (!csrf_validate()) {
+        flash('error', 'Sessão expirada. Tente novamente.');
+        redirect('candidaturas.php');
+    }
+
+    $candidatura_id = intval($_POST['candidatura_id']);
+    $novo_status = $_POST['novo_status'];
+    $status_validos = ['enviada', 'em_analise', 'aprovado', 'reprovado'];
+
+    if (!in_array($novo_status, $status_validos, true)) {
+        flash('error', 'Status inválido.');
+        redirect('candidaturas.php');
+    }
+
+    $stmt = $cx->prepare("UPDATE candidaturas SET status = ?, atualizado_em = NOW() WHERE id = ?");
+    $stmt->bind_param("si", $novo_status, $candidatura_id);
+    if ($stmt->execute() && $stmt->affected_rows > 0) {
+        flash('success', 'Status da candidatura atualizado!');
+    } else {
+        flash('error', 'Erro ao atualizar status.');
+    }
+    $stmt->close();
+    redirect('candidaturas.php');
 }
 
 // Busca candidaturas com dados do usuario e da vaga
@@ -45,6 +67,7 @@ $resultado = $stmt->get_result();
                         <th>Status</th>
                         <th>Data</th>
                         <th>Currículo</th>
+                        <th>Ações</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -75,6 +98,23 @@ $resultado = $stmt->get_result();
                                     <span class="text-muted">—</span>
                                 <?php endif; ?>
                             </td>
+                            <td>
+                                <form method="POST" class="form-inline" style="gap:4px;flex-wrap:nowrap;">
+                                    <?php echo csrf_field(); ?>
+                                    <input type="hidden" name="candidatura_id" value="<?php echo $row['id']; ?>">
+                                    <select name="novo_status" class="form-control form-control-sm">
+                                        <?php
+                                        $opcoes = ['enviada' => 'Enviada', 'em_analise' => 'Em Análise', 'aprovado' => 'Aprovado', 'reprovado' => 'Reprovado'];
+                                        foreach ($opcoes as $val => $label):
+                                        ?>
+                                            <option value="<?php echo $val; ?>" <?php echo $row['status'] === $val ? 'selected' : ''; ?>><?php echo $label; ?></option>
+                                        <?php endforeach; ?>
+                                    </select>
+                                    <button type="submit" class="btn btn-sm btn-primary ml-1" title="Atualizar status">
+                                        <i class="fas fa-check"></i>
+                                    </button>
+                                </form>
+                            </td>
                         </tr>
                     <?php endwhile; ?>
                 </tbody>
@@ -94,7 +134,10 @@ $resultado = $stmt->get_result();
         $('#tabelaCandidaturas').DataTable({
             language: {
                 url: '//cdn.datatables.net/plug-ins/1.13.4/i18n/pt-BR.json'
-            }
+            },
+            columnDefs: [
+                { orderable: false, searchable: false, targets: -1 }
+            ]
         });
     });
 </script>

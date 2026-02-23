@@ -1,13 +1,7 @@
 <?php
-session_start();
 require_once __DIR__ . '/../config/db.php';
 
-// Protege o acesso apenas para admins
-if (!isset($_SESSION['logado']) || $_SESSION['perfil'] !== 'admin') {
-    $_SESSION['url_destino'] = $_SERVER['REQUEST_URI'];
-    header('Location: ../auth/login.php');
-    exit();
-}
+admin_check();
 
 // Consulta todos os usuarios
 $stmt = $cx->prepare("SELECT id, nome, cpf, telefone, email, perfil, ativo FROM usuarios ORDER BY id DESC");

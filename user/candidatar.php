@@ -1,13 +1,7 @@
 <?php
-session_start();
 require_once __DIR__ . '/../config/db.php';
 
-// Exige login
-if (!isset($_SESSION['logado'])) {
-    $_SESSION['url_destino'] = $_SERVER['REQUEST_URI'];
-    header('Location: ../auth/login.php');
-    exit();
-}
+auth_check();
 
 $vaga_id = intval($_GET['vaga_id'] ?? $_POST['vaga_id'] ?? 0);
 $usuario_id = $_SESSION['user_id'];
@@ -26,8 +20,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $check->execute();
         if ($check->get_result()->num_rows > 0) {
             $check->close();
-            echo "<script>alert('Você já se candidatou a esta vaga.'); window.location.href='vagas.php';</script>";
-            exit;
+            flash('info', 'Você já se candidatou a esta vaga.');
+            redirect('vagas.php');
         }
         $check->close();
 
@@ -54,8 +48,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                         $stmt->bind_param("iis", $usuario_id, $vaga_id, $novoNome);
                         if ($stmt->execute()) {
                             $stmt->close();
-                            header("Location: vagas.php?sucesso=1");
-                            exit();
+                            flash('success', 'Candidatura enviada com sucesso!');
+                            redirect('vagas.php');
                         } else {
                             $error = 'Erro ao salvar no banco de dados.';
                         }
@@ -68,7 +62,22 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 }
             }
         } else {
-            $error = 'Erro no upload do currículo.';
+            $uploadError = $_FILES['curriculo']['error'] ?? UPLOAD_ERR_NO_FILE;
+            switch ($uploadError) {
+                case UPLOAD_ERR_NO_FILE:
+                    $error = 'Nenhum arquivo foi enviado. Selecione seu currículo em PDF.';
+                    break;
+                case UPLOAD_ERR_INI_SIZE:
+                case UPLOAD_ERR_FORM_SIZE:
+                    $error = 'Arquivo muito grande. Máximo: 5 MB.';
+                    break;
+                case UPLOAD_ERR_PARTIAL:
+                    $error = 'Upload interrompido. Tente novamente.';
+                    break;
+                default:
+                    $error = 'Erro interno no servidor.';
+                    break;
+            }
         }
     }
 }

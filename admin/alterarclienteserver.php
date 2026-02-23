@@ -1,11 +1,7 @@
 <?php
-session_start();
 require_once __DIR__ . '/../config/db.php';
 
-if (!isset($_SESSION['logado']) || $_SESSION['perfil'] !== 'admin') {
-    header('Location: ../auth/login.php');
-    exit();
-}
+admin_check();
 
 if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
     header('Location: listarclientes.php');
@@ -13,8 +9,8 @@ if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
 }
 
 if (!csrf_validate()) {
-    echo "<script>alert('Sessão expirada. Tente novamente.'); window.location.href='listarclientes.php';</script>";
-    exit();
+    flash('error', 'Sessão expirada. Tente novamente.');
+    redirect('listarclientes.php');
 }
 
 $id       = intval($_POST['id']);
@@ -27,8 +23,11 @@ $stmt = $cx->prepare("UPDATE usuarios SET nome=?, cpf=?, telefone=?, email=? WHE
 $stmt->bind_param("ssssi", $nome, $cpf, $telefone, $email, $id);
 
 if ($stmt->execute()) {
-    echo "<script>alert('Usuário atualizado com sucesso!'); window.location.href='listarclientes.php';</script>";
+    $stmt->close();
+    flash('success', 'Usuário atualizado com sucesso!');
+    redirect('listarclientes.php');
 } else {
-    echo "<script>alert('Erro ao atualizar usuário.'); window.location.href='listarclientes.php';</script>";
+    $stmt->close();
+    flash('error', 'Erro ao atualizar usuário.');
+    redirect('listarclientes.php');
 }
-$stmt->close();

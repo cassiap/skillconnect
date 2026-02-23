@@ -1,12 +1,7 @@
 <?php
-session_start();
 require_once __DIR__ . '/../config/db.php';
 
-// Bloqueia acesso se não for admin
-if (!isset($_SESSION['logado']) || $_SESSION['perfil'] !== 'admin') {
-    header('Location: ../auth/login.php');
-    exit();
-}
+admin_check();
 
 // Verifica se o ID foi passado
 if (!isset($_GET['id'])) {

@@ -1,13 +1,7 @@
 <?php
-session_start();
 require_once __DIR__ . '/../config/db.php';
 
-// Exige login
-if (!isset($_SESSION['logado'])) {
-    $_SESSION['url_destino'] = $_SERVER['REQUEST_URI'];
-    header('Location: ../auth/login.php');
-    exit();
-}
+auth_check();
 
 $curso_id = intval($_GET['curso_id'] ?? 0);
 $usuario_id = $_SESSION['user_id'];
@@ -28,8 +22,8 @@ if ($curso_id > 0) {
 // Processa o formulario
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if (!csrf_validate()) {
-        echo "<script>alert('Sessão expirada. Tente novamente.'); window.location.href=window.location.href;</script>";
-        exit;
+        flash('error', 'Sessão expirada. Tente novamente.');
+        redirect("inscrever.php?curso_id=$curso_id");
     }
     $curso_id_form = intval($_POST['curso_id'] ?? 0);
 
@@ -39,8 +33,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $check->execute();
     if ($check->get_result()->num_rows > 0) {
         $check->close();
-        echo "<script>alert('Você já está inscrito nesse curso.'); window.location.href='cursos.php';</script>";
-        exit;
+        flash('info', 'Você já está inscrito nesse curso.');
+        redirect('cursos.php');
     }
     $check->close();
 
@@ -49,11 +43,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $stmt->bind_param("ii", $usuario_id, $curso_id_form);
     if ($stmt->execute()) {
         $stmt->close();
-        echo "<script>alert('Inscrição realizada com sucesso!'); window.location.href='cursos.php';</script>";
-        exit;
+        flash('success', 'Inscrição realizada com sucesso!');
+        redirect('cursos.php');
     } else {
         $stmt->close();
-        echo "<script>alert('Erro ao salvar inscrição.');</script>";
+        flash('error', 'Erro ao salvar inscrição.');
+        redirect("inscrever.php?curso_id=$curso_id_form");
     }
 }
 ?>

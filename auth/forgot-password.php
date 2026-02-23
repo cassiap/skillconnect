@@ -1,6 +1,8 @@
 <?php
-session_start();
 require_once __DIR__ . '/../config/helpers.php';
+$_flash_error   = get_flash('error');
+$_flash_info    = get_flash('info');
+$_flash_success = get_flash('success');
 ?>
 <!DOCTYPE html>
 <html lang="pt-br">
@@ -90,6 +92,16 @@ require_once __DIR__ . '/../config/helpers.php';
                   <h1 class="h4 text-gray-900 mb-2">Esqueceu sua Senha?</h1>
                   <p class="mb-4">Acontece! Basta inserir seu e-mail abaixo e enviaremos um link para redefinir sua senha.</p>
                 </div>
+
+                <?php if ($_flash_error): ?>
+                  <div class="alert alert-danger"><?= htmlspecialchars($_flash_error) ?></div>
+                <?php endif; ?>
+                <?php if ($_flash_success): ?>
+                  <div class="alert alert-success"><?= htmlspecialchars($_flash_success) ?></div>
+                <?php endif; ?>
+                <?php if ($_flash_info): ?>
+                  <div class="alert alert-info"><?= htmlspecialchars($_flash_info) ?></div>
+                <?php endif; ?>
 
                 <form class="user" method="POST" action="processa-recuperacao.php" id="recoverForm" autocomplete="off">
                   <?php echo csrf_field(); ?>

@@ -1,6 +1,8 @@
 <?php
-session_start();
 require_once __DIR__ . '/../config/db.php';
+
+// Limpeza de tokens expirados ou ja usados
+$cx->query("DELETE FROM recuperacao_senha WHERE usado = 1 OR expira_em < NOW()");
 
 if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
     header("Location: forgot-password.php");
@@ -8,15 +10,15 @@ if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
 }
 
 if (!csrf_validate()) {
-    echo "<script>alert('Sessão expirada. Tente novamente.'); window.location.href='forgot-password.php';</script>";
-    exit;
+    flash('error', 'Sessão expirada. Tente novamente.');
+    redirect('forgot-password.php');
 }
 
 $email = trim($_POST['email'] ?? '');
 
 if ($email === '') {
-    echo "<script>alert('Informe o e-mail.'); window.location.href='forgot-password.php';</script>";
-    exit;
+    flash('error', 'Informe o e-mail.');
+    redirect('forgot-password.php');
 }
 
 // Busca usuario por email
@@ -46,4 +48,5 @@ if ($result->num_rows === 1) {
 }
 
 // Sempre mostra a mesma mensagem (nao revela se o email existe)
-echo "<script>alert('Se o e-mail estiver cadastrado, você receberá um link de recuperação.'); window.location.href='login.php';</script>";
+flash('info', 'Se o e-mail estiver cadastrado, você receberá um link de recuperação.');
+redirect('login.php');

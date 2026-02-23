@@ -1,16 +1,14 @@
 <?php
-session_start();
 require_once __DIR__ . '/../config/db.php';
 
-if (!isset($_SESSION['logado']) || $_SESSION['perfil'] !== 'admin') {
-    header('Location: ../auth/login.php');
-    exit();
-}
+admin_check();
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if (!csrf_validate()) {
-        echo "<script>alert('Sessão expirada. Tente novamente.');</script>";
-    } else {
+        flash('error', 'Sessão expirada. Tente novamente.');
+        redirect('cadastracurso.php');
+    }
+
     $titulo    = trim($_POST['titulo'] ?? '');
     $descricao = trim($_POST['descricao'] ?? '');
     $carga     = intval($_POST['carga_horaria'] ?? 0);
@@ -23,11 +21,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $stmt->bind_param("ssissdi", $titulo, $descricao, $carga, $modalidade, $nivel, $preco, $vagas);
 
     if ($stmt->execute()) {
-        echo "<script>alert('Curso cadastrado com sucesso!'); window.location.href='../user/cursos.php';</script>";
+        $stmt->close();
+        flash('success', 'Curso cadastrado com sucesso!');
+        redirect('../user/cursos.php');
     } else {
-        echo "<script>alert('Erro ao cadastrar curso.');</script>";
-    }
-    $stmt->close();
+        $stmt->close();
+        flash('error', 'Erro ao cadastrar curso.');
+        redirect('cadastracurso.php');
     }
 }
 ?>
