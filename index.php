@@ -1,243 +1,184 @@
 <?php
-require_once __DIR__ . '/config/helpers.php';
+require_once __DIR__ . '/config/db.php';
+
+$cursosDestaque = [];
+$rc = $cx->query("SELECT id, titulo, descricao, modalidade, nivel FROM cursos WHERE ativo = 1 ORDER BY id DESC LIMIT 3");
+while ($rc && $c = $rc->fetch_assoc()) {
+    $cursosDestaque[] = $c;
+}
+
+$vagasDestaque = [];
+$rv = $cx->query("SELECT id, titulo, empresa, cidade, estado, tipo, modalidade FROM vagas WHERE ativo = 1 ORDER BY id DESC LIMIT 3");
+while ($rv && $v = $rv->fetch_assoc()) {
+    $vagasDestaque[] = $v;
+}
+
+function resumo_home(string $texto, int $limite = 110): string {
+    $texto = trim(strip_tags($texto));
+    if ($texto === '') {
+        return 'Veja os detalhes para saber mais.';
+    }
+    if (function_exists('mb_strlen') && function_exists('mb_substr')) {
+        if (mb_strlen($texto) <= $limite) {
+            return $texto;
+        }
+        return rtrim(mb_substr($texto, 0, $limite - 3)) . '...';
+    }
+    if (strlen($texto) <= $limite) {
+        return $texto;
+    }
+    return rtrim(substr($texto, 0, $limite - 3)) . '...';
+}
 ?>
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
     <meta charset="UTF-8">
-    <title>SkillConnect - Início</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>SkillConnect - Cursos, Vagas e Assistente IA</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta2/css/all.min.css" rel="stylesheet">
+    <style>
+        .hero-home {
+            border-radius: 22px;
+            background: linear-gradient(130deg, #1d4ed8 0%, #0369a1 52%, #0f766e 100%);
+            color: #fff;
+            padding: 42px 34px;
+        }
+        .soft-card {
+            border-radius: 14px;
+            border: 1px solid #e5e7eb;
+            height: 100%;
+            transition: transform .15s ease, box-shadow .15s ease;
+            background: #fff;
+        }
+        .soft-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(30, 64, 175, .12);
+        }
+        .section-title {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 14px;
+        }
+        .feature-card {
+            border: 1px solid #dbeafe;
+            border-radius: 14px;
+            background: #f8fafc;
+            height: 100%;
+        }
+    </style>
 </head>
 <body class="bg-light">
 
 <?php include('includes/header.php'); ?>
 
-<!-- Banner principal -->
-<section class="text-center bg-white py-5 border-bottom">
-    <div class="container">
-        <h1 class="display-4 font-weight-bold text-primary">SkillConnect</h1>
-        <p class="lead">Conectando você a cursos profissionalizantes e oportunidades de carreira.</p>
-        <a href="user/cursos.php" class="btn btn-success btn-lg mt-3">Ver Cursos</a>
-    </div>
-</section>
-
-<!-- Seção de destaques -->
-<div class="container py-5">
-    <div class="row text-center">
-        <div class="col-md-4 mb-4">
-            <div class="card shadow h-100">
-                <div class="card-body">
-                    <i class="fas fa-book fa-3x text-primary mb-3"></i>
-                    <h5 class="card-title">Cursos Profissionalizantes</h5>
-                    <p class="card-text">Desenvolva habilidades que o mercado exige com formações acessíveis e de qualidade.</p>
-                    <a href="user/cursos.php" class="btn btn-outline-primary">Explorar</a>
-                </div>
-            </div>
+<div class="container py-4">
+    <section class="hero-home mb-4">
+        <h1 class="display-5 font-weight-bold">Conecte formação profissional a oportunidades reais</h1>
+        <p class="lead mb-4">Explore cursos, acompanhe vagas e use o Assistente IA para montar seu proximo passo de carreira.</p>
+        <div class="d-flex flex-wrap">
+            <a href="user/cursos.php" class="btn btn-light mr-2 mb-2"><i class="fas fa-book"></i> Ver cursos</a>
+            <a href="user/vagas.php" class="btn btn-outline-light mr-2 mb-2"><i class="fas fa-briefcase"></i> Ver vagas</a>
+            <a href="user/assistente.php" class="btn btn-warning mb-2"><i class="fas fa-robot"></i> Abrir assistente IA</a>
         </div>
+    </section>
 
-        <div class="col-md-4 mb-4">
-            <div class="card shadow h-100">
-                <div class="card-body">
-                    <i class="fas fa-briefcase fa-3x text-success mb-3"></i>
-                    <h5 class="card-title">Vagas de Emprego</h5>
-                    <p class="card-text">Acesse oportunidades alinhadas à sua formação e objetivos profissionais.</p>
-                    <a href="user/vagas.php" class="btn btn-outline-success">Ver Vagas</a>
-                </div>
-            </div>
-        </div>
-
-        <div class="col-md-4 mb-4">
-            <div class="card shadow h-100">
-                <div class="card-body">
-                    <i class="fas fa-user-plus fa-3x text-warning mb-3"></i>
-                    <h5 class="card-title">Inscreva-se</h5>
-                    <p class="card-text">Participe dos cursos e aumente suas chances de conquistar uma vaga no mercado.</p>
-                    <a href="user/cursos.php" class="btn btn-outline-warning">Inscrever-se</a>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-
-<!-- Seção de números -->
-<div class="bg-white py-5">
-    <div class="container text-center">
+    <section class="mb-5">
         <div class="row">
-            <div class="col-md-4">
-                <h2 class="text-primary font-weight-bold">+150</h2>
-                <p>Cursos Disponíveis</p>
+            <div class="col-md-4 mb-3">
+                <div class="feature-card p-3">
+                    <h3 class="h6 text-primary"><i class="fas fa-route"></i> Plano de carreira</h3>
+                    <p class="small text-muted mb-0">Defina uma trilha de estudo com metas semanais e foco em empregabilidade.</p>
+                </div>
             </div>
-            <div class="col-md-4">
-                <h2 class="text-success font-weight-bold">+350</h2>
-                <p>Inscrições Realizadas</p>
+            <div class="col-md-4 mb-3">
+                <div class="feature-card p-3">
+                    <h3 class="h6 text-primary"><i class="fas fa-laptop-code"></i> Cursos práticos</h3>
+                    <p class="small text-muted mb-0">Aprenda habilidades aplicaveis para disputar vagas com mais preparo.</p>
+                </div>
             </div>
-            <div class="col-md-4">
-                <h2 class="text-warning font-weight-bold">+90%</h2>
-                <p>Alunos Satisfeitos</p>
-            </div>
-        </div>
-    </div>
-</div>
-
-<!-- Cursos em destaque -->
-<div class="container py-5">
-    <div class="text-center mb-4">
-        <h3 class="text-primary font-weight-bold">Cursos em Destaque</h3>
-        <p class="text-muted">Veja o que temos de melhor esta semana!</p>
-    </div>
-    <div class="row">
-        <div class="col-md-6 mb-4">
-            <div class="card shadow">
-                <div class="card-body text-center">
-                    <h5 class="card-title text-primary">Curso de Desenvolvimento Web</h5>
-                    <p class="card-text">Aprenda HTML, CSS, JavaScript e PHP e construa sites modernos do zero.</p>
-                    <a href="user/curso.php?id=1" class="btn btn-primary">Saiba Mais</a>
+            <div class="col-md-4 mb-3">
+                <div class="feature-card p-3">
+                    <h3 class="h6 text-primary"><i class="fas fa-briefcase"></i> Oportunidades</h3>
+                    <p class="small text-muted mb-0">Acesse vagas e candidate-se com curriculo em PDF direto pela plataforma.</p>
                 </div>
             </div>
         </div>
-        <div class="col-md-6 mb-4">
-            <div class="card shadow">
-                <div class="card-body text-center">
-                    <h5 class="card-title text-primary">Curso de Excel Avançado</h5>
-                    <p class="card-text">Domine técnicas e fórmulas para se destacar em análises de dados e relatórios.</p>
-                    <a href="user/curso.php?id=2" class="btn btn-primary">Saiba Mais</a>
+    </section>
+
+    <section class="mb-5">
+        <div class="section-title">
+            <h2 class="h4 text-primary mb-0">Cursos em destaque</h2>
+            <a href="user/cursos.php" class="btn btn-sm btn-outline-primary">Ver todos</a>
+        </div>
+        <div class="row">
+            <?php if (count($cursosDestaque) === 0): ?>
+                <div class="col-12"><div class="alert alert-info mb-0">Nenhum curso ativo no momento.</div></div>
+            <?php else: ?>
+                <?php foreach ($cursosDestaque as $curso): ?>
+                    <div class="col-md-4 mb-3">
+                        <div class="card soft-card">
+                            <div class="card-body d-flex flex-column">
+                                <div class="small text-muted mb-2">
+                                    <?php echo htmlspecialchars(ucfirst($curso['modalidade'] ?? '')); ?>
+                                    <?php if (!empty($curso['nivel'])): ?> - <?php echo htmlspecialchars(ucfirst($curso['nivel'])); ?><?php endif; ?>
+                                </div>
+                                <h5 class="mb-2"><?php echo htmlspecialchars($curso['titulo']); ?></h5>
+                                <p class="text-muted small mb-3"><?php echo htmlspecialchars(resumo_home((string) ($curso['descricao'] ?? ''))); ?></p>
+                                <a href="user/curso.php?id=<?php echo (int) $curso['id']; ?>" class="btn btn-outline-primary mt-auto">Ver detalhes</a>
+                            </div>
+                        </div>
+                    </div>
+                <?php endforeach; ?>
+            <?php endif; ?>
+        </div>
+    </section>
+
+    <section class="mb-5">
+        <div class="section-title">
+            <h2 class="h4 text-success mb-0">Vagas em destaque</h2>
+            <a href="user/vagas.php" class="btn btn-sm btn-outline-success">Ver todas</a>
+        </div>
+        <div class="row">
+            <?php if (count($vagasDestaque) === 0): ?>
+                <div class="col-12"><div class="alert alert-info mb-0">Nenhuma vaga ativa no momento.</div></div>
+            <?php else: ?>
+                <?php foreach ($vagasDestaque as $vaga): ?>
+                    <div class="col-md-4 mb-3">
+                        <div class="card soft-card">
+                            <div class="card-body d-flex flex-column">
+                                <div class="small text-muted mb-2">
+                                    <?php echo htmlspecialchars($vaga['tipo'] ?? ''); ?>
+                                    <?php if (!empty($vaga['modalidade'])): ?> - <?php echo htmlspecialchars(ucfirst($vaga['modalidade'])); ?><?php endif; ?>
+                                </div>
+                                <h5 class="mb-1"><?php echo htmlspecialchars($vaga['titulo']); ?></h5>
+                                <p class="text-muted mb-2"><?php echo htmlspecialchars($vaga['empresa'] ?? 'Empresa nao informada'); ?></p>
+                                <p class="small text-muted mb-3"><i class="fas fa-map-marker-alt"></i> <?php echo htmlspecialchars(trim(($vaga['cidade'] ?? '') . ' / ' . ($vaga['estado'] ?? ''), ' /')); ?></p>
+                                <a href="user/vaga.php?id=<?php echo (int) $vaga['id']; ?>" class="btn btn-outline-success mt-auto">Ver detalhes</a>
+                            </div>
+                        </div>
+                    </div>
+                <?php endforeach; ?>
+            <?php endif; ?>
+        </div>
+    </section>
+
+    <section class="card soft-card mb-4">
+        <div class="card-body">
+            <div class="row align-items-center">
+                <div class="col-lg-8">
+                    <h3 class="h5 text-dark">Assistente IA para carreira e empregabilidade</h3>
+                    <p class="text-muted mb-0">Receba um plano pratico para estudar melhor, melhorar curriculo e buscar vagas alinhadas ao seu perfil.</p>
+                </div>
+                <div class="col-lg-4 text-lg-right mt-3 mt-lg-0">
+                    <a href="user/assistente.php" class="btn btn-primary"><i class="fas fa-robot"></i> Usar agora</a>
                 </div>
             </div>
         </div>
-    </div>
+    </section>
 </div>
-
-<!-- Carrossel de depoimentos -->
-<div class="bg-light py-5">
-    <div class="container">
-        <h4 class="text-center text-primary mb-5">O que nossos alunos dizem</h4>
-        <div id="carouselDepoimentos" class="carousel slide" data-ride="carousel" data-interval="5000">
-            <div class="carousel-inner">
-                <div class="carousel-item active text-center">
-                    <blockquote class="blockquote">
-                        <p class="mb-4">“Os cursos me ajudaram a conquistar meu primeiro emprego na área de TI!”</p>
-                        <footer class="blockquote-footer">Ana Paula, 23 anos</footer>
-                    </blockquote>
-                </div>
-                <div class="carousel-item text-center">
-                    <blockquote class="blockquote">
-                        <p class="mb-4">“Material excelente e professores muito atenciosos. Super recomendo!”</p>
-                        <footer class="blockquote-footer">Carlos Eduardo, 30 anos</footer>
-                    </blockquote>
-                </div>
-                <div class="carousel-item text-center">
-                    <blockquote class="blockquote">
-                        <p class="mb-4">“Me formei em 3 meses e consegui um estágio na área!”</p>
-                        <footer class="blockquote-footer">Juliana Ferreira, 19 anos</footer>
-                    </blockquote>
-                </div>
-            </div>
-            <a class="carousel-control-prev" href="#carouselDepoimentos" role="button" data-slide="prev">
-                <span class="carousel-control-prev-icon"></span>
-            </a>
-            <a class="carousel-control-next" href="#carouselDepoimentos" role="button" data-slide="next">
-                <span class="carousel-control-next-icon"></span>
-            </a>
-        </div>
-    </div>
-</div>
-
-<!-- INTEGRAÇÃO DO GPT SOBRE O PROJETO -->
-<div class="container mt-5">
-    <h2 class="mb-4">Pergunte algo sobre o Projeto SkillConnect</h2>
-    <form method="POST" action="">
-        <?php echo csrf_field(); ?>
-        <div class="form-group">
-            <textarea
-                name="prompt_usuario"
-                class="form-control"
-                rows="4"
-                placeholder="Descreva sua dúvida sobre o projeto SkillConnect..."
-                required><?= isset($_POST['prompt_usuario']) ? htmlspecialchars($_POST['prompt_usuario']) : '' ?></textarea>
-        </div>
-        <button type="submit" class="btn btn-primary">Enviar para a IA</button>
-    </form>
-</div>
-
-<div class="container mt-5">
-    <h2 class="mb-4">Resposta da IA (OpenAI) sobre o SkillConnect</h2>
-    <?php
-    // Captura o texto que o usuário digitou (ou string vazia, se nada foi enviado ainda)
-    $promptDoUsuario = "";
-    if (isset($_POST['prompt_usuario']) && trim($_POST['prompt_usuario']) !== "") {
-        $promptDoUsuario = trim($_POST['prompt_usuario']);
-    }
-
-    if ($promptDoUsuario !== "" && csrf_validate()) {
-        require_once __DIR__ . '/config/env.php';
-        $apiKey = env('OPENAI_API_KEY', '');
-
-        if (str_starts_with($apiKey, 'sk-') && strlen($apiKey) > 30) {
-            // Aqui definimos o contexto do projeto SkillConnect para a IA:
-            $contextoDoProjeto = "
-Você é um assistente especializado em projetos de plataforma de cursos online chamada SkillConnect. 
-O SkillConnect é um site que conecta alunos a cursos profissionalizantes e oportunidades de emprego. 
-Ele possui:
-- Página inicial com banner, cards destacando cursos, vagas de emprego e chamada para inscrição.
-- Um carrossel com depoimentos de alunos.
-- Área administrativa para gerenciar clientes (nome, CPF, telefone, CEP, e-mail, senha).
-- Integração com API da OpenAI para responder perguntas sobre o próprio projeto.
-
-Sempre que o usuário fizer uma pergunta, responda de forma detalhada sobre o funcionamento, design ou lógica do projeto SkillConnect,
-sem falar nada sobre você ser uma IA. Simule que você é parte da equipe de desenvolvimento e conhece toda a arquitetura do site.
-";
-
-            // Agora montamos as mensagens:
-            $messages = [
-                ["role" => "system", "content" => $contextoDoProjeto],
-                ["role" => "user",   "content" => $promptDoUsuario]
-            ];
-
-            $payload = [
-                "model"    => "gpt-3.5-turbo",
-                "messages" => $messages
-            ];
-
-            $ch = curl_init("https://api.openai.com/v1/chat/completions");
-            curl_setopt_array($ch, [
-                CURLOPT_RETURNTRANSFER => true,
-                CURLOPT_HTTPHEADER     => [
-                    "Content-Type: application/json",
-                    "Authorization: Bearer $apiKey"
-                ],
-                CURLOPT_POST           => true,
-                CURLOPT_POSTFIELDS     => json_encode($payload),
-            ]);
-
-            $rawResponse = curl_exec($ch);
-            curl_close($ch);
-
-            $decoded = json_decode($rawResponse);
-            if (isset($decoded->error)) {
-                echo "<div class='alert alert-danger'>";
-                echo "Erro da API: " . htmlspecialchars($decoded->error->message);
-                echo "</div>";
-            } else {
-                $respostaDaIA = $decoded->choices[0]->message->content ?? "Sem resposta.";
-                echo "<div class='card border-secondary mb-3'>";
-                echo "<div class='card-header bg-secondary text-white'>GPT sobre SkillConnect</div>";
-                echo "<div class='card-body'>";
-                echo nl2br(htmlspecialchars($respostaDaIA));
-                echo "</div>";
-                echo "</div>";
-            }
-        } else {
-            echo "<div class='alert alert-danger'>";
-            echo "⚠️ Chave da OpenAI ausente ou inválida.";
-            echo "</div>";
-        }
-    } else {
-        echo "<div class='alert alert-info'>Digite algo sobre o projeto SkillConnect no campo acima e clique em “Enviar para a IA”.</div>";
-    }
-    ?>
-</div>
-<!-- FIM DA INTEGRAÇÃO DO GPT SOBRE O PROJETO SkillConnect -->
 
 <?php include('includes/footer.php'); ?>
 

@@ -3,52 +3,58 @@ require_once __DIR__ . '/../config/db.php';
 
 auth_check();
 
-$curso_id = intval($_GET['curso_id'] ?? 0);
-$usuario_id = $_SESSION['user_id'];
+$curso_id = (int) ($_GET['curso_id'] ?? $_POST['curso_id'] ?? 0);
+$usuario_id = (int) ($_SESSION['user_id'] ?? 0);
 
-// Busca o titulo do curso
-$curso_nome = "Curso não encontrado";
-if ($curso_id > 0) {
-    $stmt = $cx->prepare("SELECT titulo FROM cursos WHERE id = ? AND ativo = 1");
-    $stmt->bind_param("i", $curso_id);
-    $stmt->execute();
-    $result = $stmt->get_result();
-    if ($row = $result->fetch_assoc()) {
-        $curso_nome = $row['titulo'];
-    }
-    $stmt->close();
+if ($curso_id <= 0) {
+    flash('error', 'Curso invalido.');
+    redirect('cursos.php');
 }
 
-// Processa o formulario
+$cursoStmt = $cx->prepare("SELECT id, titulo FROM cursos WHERE id = ? AND ativo = 1 LIMIT 1");
+$cursoStmt->bind_param("i", $curso_id);
+$cursoStmt->execute();
+$cursoRes = $cursoStmt->get_result();
+$curso = $cursoRes->fetch_assoc();
+$cursoStmt->close();
+
+if (!$curso) {
+    flash('error', 'Curso nao encontrado ou inativo.');
+    redirect('cursos.php');
+}
+
+$checkStmt = $cx->prepare("SELECT id, status FROM inscricoes_cursos WHERE usuario_id = ? AND curso_id = ? LIMIT 1");
+$checkStmt->bind_param("ii", $usuario_id, $curso_id);
+$checkStmt->execute();
+$inscricaoExistente = $checkStmt->get_result()->fetch_assoc();
+$checkStmt->close();
+
+if ($inscricaoExistente) {
+    flash('info', 'Voce ja esta inscrito neste curso.');
+    redirect('meus-cursos.php');
+}
+
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if (!csrf_validate()) {
-        flash('error', 'Sessão expirada. Tente novamente.');
-        redirect("inscrever.php?curso_id=$curso_id");
+        flash('error', 'Sessao expirada. Tente novamente.');
+        redirect("inscrever.php?curso_id={$curso_id}");
     }
-    $curso_id_form = intval($_POST['curso_id'] ?? 0);
 
-    // Verifica se ja existe inscricao
-    $check = $cx->prepare("SELECT id FROM inscricoes_cursos WHERE usuario_id = ? AND curso_id = ?");
-    $check->bind_param("ii", $usuario_id, $curso_id_form);
-    $check->execute();
-    if ($check->get_result()->num_rows > 0) {
-        $check->close();
-        flash('info', 'Você já está inscrito nesse curso.');
-        redirect('cursos.php');
-    }
-    $check->close();
+    try {
+        $stmt = $cx->prepare("INSERT INTO inscricoes_cursos (usuario_id, curso_id) VALUES (?, ?)");
+        $stmt->bind_param("ii", $usuario_id, $curso_id);
+        $stmt->execute();
+        $stmt->close();
 
-    // Insere inscricao
-    $stmt = $cx->prepare("INSERT INTO inscricoes_cursos (usuario_id, curso_id) VALUES (?, ?)");
-    $stmt->bind_param("ii", $usuario_id, $curso_id_form);
-    if ($stmt->execute()) {
-        $stmt->close();
-        flash('success', 'Inscrição realizada com sucesso!');
-        redirect('cursos.php');
-    } else {
-        $stmt->close();
-        flash('error', 'Erro ao salvar inscrição.');
-        redirect("inscrever.php?curso_id=$curso_id_form");
+        flash('success', 'Inscricao realizada com sucesso!');
+        redirect('meus-cursos.php');
+    } catch (mysqli_sql_exception $e) {
+        if ((int) $e->getCode() === 1062) {
+            flash('info', 'Voce ja esta inscrito neste curso.');
+            redirect('meus-cursos.php');
+        }
+        flash('error', 'Erro ao registrar inscricao.');
+        redirect("inscrever.php?curso_id={$curso_id}");
     }
 }
 ?>
@@ -56,7 +62,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <html lang="pt-br">
 <head>
     <meta charset="UTF-8">
-    <title>Inscrição no Curso - SkillConnect</title>
+    <title>Inscricao no Curso - SkillConnect</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta2/css/all.min.css" rel="stylesheet">
 </head>
@@ -65,18 +71,18 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <?php include('../includes/header.php'); ?>
 
 <div class="container mt-5">
-    <h2 class="text-primary mb-4">Inscrever-se em: <?php echo htmlspecialchars($curso_nome); ?></h2>
+    <h2 class="text-primary mb-4">Inscrever-se em: <?php echo htmlspecialchars($curso['titulo']); ?></h2>
 
     <div class="card shadow-sm">
         <div class="card-body">
             <p><strong>Nome:</strong> <?php echo htmlspecialchars($_SESSION['nome'] ?? ''); ?></p>
             <p><strong>E-mail:</strong> <?php echo htmlspecialchars($_SESSION['email'] ?? ''); ?></p>
 
-            <form method="POST" action="">
+            <form method="POST">
                 <?php echo csrf_field(); ?>
                 <input type="hidden" name="curso_id" value="<?php echo $curso_id; ?>">
-                <button type="submit" class="btn btn-success">Confirmar Inscrição</button>
-                <a href="cursos.php" class="btn btn-secondary ml-2">Voltar</a>
+                <button type="submit" class="btn btn-success">Confirmar inscricao</button>
+                <a href="curso.php?id=<?php echo $curso_id; ?>" class="btn btn-secondary ml-2">Voltar</a>
             </form>
         </div>
     </div>

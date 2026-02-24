@@ -16,7 +16,7 @@ admin_check();
 
 <div class="container py-5">
     <h2 class="mb-4 text-primary">Painel do Administrador</h2>
-    <p class="text-muted">Bem-vindo(a), <strong><?php echo $_SESSION['nome']; ?></strong>!</p>
+    <p class="text-muted">Bem-vindo(a), <strong><?php echo htmlspecialchars($_SESSION['nome'] ?? ''); ?></strong>!</p>
     
     <div class="row">
         <div class="col-md-4 mb-4">
@@ -33,7 +33,7 @@ admin_check();
                 <div class="card-body text-center">
                     <i class="fas fa-users fa-2x text-primary mb-3"></i>
                     <h5 class="card-title">Ver Candidaturas</h5>
-                    <a href="ver-inscricoes.php" class="btn btn-outline-primary btn-sm mt-2">Acessar</a>
+                    <a href="candidaturas.php" class="btn btn-outline-primary btn-sm mt-2">Acessar</a>
                 </div>
             </div>
         </div>

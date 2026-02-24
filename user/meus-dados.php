@@ -114,6 +114,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     <a href="../index.php" class="btn btn-secondary mr-2">Voltar</a>
                     <a href="../auth/logout.php" class="btn btn-danger ml-auto">Sair</a>
                 </div>
+                <div class="card shadow-sm mt-3">
+                    <div class="card-body py-3">
+                        <h6 class="mb-2">Meu espaco</h6>
+                        <a class="d-block small mb-1" href="meus-cursos.php"><i class="fas fa-book-open"></i> Meus cursos</a>
+                        <a class="d-block small mb-1" href="minhas-candidaturas.php"><i class="fas fa-briefcase"></i> Minhas vagas</a>
+                        <a class="d-block small" href="meu-curriculo.php"><i class="fas fa-file-pdf"></i> Meu currículo</a>
+                    </div>
+                </div>
             </div>
         </aside>
 

@@ -8,13 +8,10 @@ if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
     exit;
 }
 
-/* ===== CSRF opcional ===== */
-if (isset($_POST['csrf_token'], $_SESSION['csrf_token'])) {
-    if (!hash_equals($_SESSION['csrf_token'], $_POST['csrf_token'])) {
-        $_SESSION['flash_error'] = "Sessão expirada. Tente novamente.";
-        header("Location: login.php");
-        exit;
-    }
+/* ===== CSRF obrigatorio ===== */
+if (!csrf_validate()) {
+    flash('error', 'Sessao expirada. Tente novamente.');
+    redirect('login.php');
 }
 
 /* ===== Entrada ===== */
@@ -22,26 +19,24 @@ $email = trim($_POST['email'] ?? '');
 $senha = $_POST['senha'] ?? '';
 
 if ($email === '' || $senha === '') {
-    $_SESSION['flash_error'] = "Informe e-mail e senha.";
-    header("Location: login.php");
-    exit;
+    flash('error', 'Informe e-mail e senha.');
+    redirect('login.php');
 }
 
 /* ===== Busca por e-mail ===== */
-$sql  = "SELECT id, nome, email, perfil, senha FROM usuarios WHERE email = ?";
+$sql = "SELECT id, nome, email, perfil, senha FROM usuarios WHERE email = ?";
 $stmt = mysqli_prepare($cx, $sql);
 if (!$stmt) {
-    $_SESSION['flash_error'] = "Erro interno.";
-    header("Location: login.php");
-    exit;
+    flash('error', 'Erro interno.');
+    redirect('login.php');
 }
 mysqli_stmt_bind_param($stmt, "s", $email);
 mysqli_stmt_execute($stmt);
-$res  = mysqli_stmt_get_result($stmt);
+$res = mysqli_stmt_get_result($stmt);
 $user = mysqli_fetch_assoc($res);
 mysqli_stmt_close($stmt);
 
-/* ===== Verificação/Migração de senha ===== */
+/* ===== Verificacao/Migracao de senha ===== */
 $autenticado = false;
 if ($user) {
     $hashArmazenado = $user['senha'];
@@ -59,9 +54,9 @@ if ($user) {
             }
         }
     } else {
-        // compat: se ainda estiver em texto puro, aceita 1x e migra
-        $pareceHash = (strlen($hashArmazenado) >= 55) &&
-                      (strpos($hashArmazenado, '$2y$') === 0 || strpos($hashArmazenado, '$argon2') === 0);
+        // Compat: se ainda estiver em texto puro, aceita 1x e migra.
+        $pareceHash = (strlen($hashArmazenado) >= 55)
+            && (strpos($hashArmazenado, '$2y$') === 0 || strpos($hashArmazenado, '$argon2') === 0);
         if (!$pareceHash && hash_equals($hashArmazenado, $senha)) {
             $autenticado = true;
             $novoHash = password_hash($senha, PASSWORD_DEFAULT);
@@ -76,37 +71,33 @@ if ($user) {
 }
 
 if (!$autenticado) {
-    $_SESSION['flash_error'] = "E-mail ou senha inválidos.";
-    header("Location: login.php");
-    exit;
+    flash('error', 'E-mail ou senha invalidos.');
+    redirect('login.php');
 }
 
-/* ===== Sessão segura ===== */
+/* ===== Sessao segura ===== */
 session_regenerate_id(true);
-$_SESSION['logado']  = true;
+$_SESSION['logado'] = true;
 $_SESSION['user_id'] = $user['id'];
-$_SESSION['nome']    = $user['nome'];
+$_SESSION['nome'] = $user['nome'];
 $_SESSION['usuario'] = $user['nome'];
-$_SESSION['email']   = $user['email'];
-$_SESSION['perfil']  = $user['perfil'];
+$_SESSION['email'] = $user['email'];
+$_SESSION['perfil'] = $user['perfil'];
 
 /* ===== url_destino (se houver) ===== */
 if (!empty($_SESSION['url_destino'])) {
     $dest = $_SESSION['url_destino'];
     unset($_SESSION['url_destino']);
-    // se vier relativo, manda pra raiz
-    if (stripos($dest, 'http') !== 0) {
-        $dest = '/' . ltrim($dest, '/');
+
+    // Aceita somente caminho interno relativo.
+    if (is_string($dest) && str_starts_with($dest, '/') && !str_starts_with($dest, '//')) {
+        header("Location: $dest");
+        ob_end_flush();
+        exit;
     }
-    header("Location: $dest");
-    ob_end_flush();
-    exit;
 }
 
-/* ===== Redireciona fixo para a RAIZ =====
-   Seu index está em /htdocs/index.php  -> URL: /index.php
-   Se tiver dashboard admin (/admin/index.php), descomente abaixo.
-*/
+/* ===== Redireciona para a raiz da aplicacao ===== */
 $base = '/skillconnect/';
 
 if ($_SESSION['perfil'] === 'admin') {

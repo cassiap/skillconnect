@@ -61,9 +61,8 @@ $stmt = $cx->prepare("INSERT INTO usuarios (nome, email, senha, cpf, telefone, c
 $stmt->bind_param("ssssssssss", $nome, $email, $hash, $cpfNull, $telefone, $cep, $logradouro, $bairro, $cidade, $estado);
 
 if (!$stmt->execute()) {
-    $err = $cx->error;
     $stmt->close();
-    $_SESSION['flash_error'] = "Erro ao salvar: $err";
+    $_SESSION['flash_error'] = "Nao foi possivel concluir o cadastro agora. Tente novamente.";
     header("Location: ../auth/register.php");
     exit;
 }
