@@ -2,7 +2,14 @@
 require_once __DIR__ . '/env.php';
 require_once __DIR__ . '/helpers.php';
 
-mysqli_report(MYSQLI_REPORT_ERROR | MYSQLI_REPORT_STRICT);
+if (!extension_loaded('mysqli') || !class_exists('mysqli')) {
+    http_response_code(500);
+    die("Erro DB: driver MySQL indisponivel no servidor.");
+}
+
+if (function_exists('mysqli_report') && defined('MYSQLI_REPORT_ERROR') && defined('MYSQLI_REPORT_STRICT')) {
+    mysqli_report(MYSQLI_REPORT_ERROR | MYSQLI_REPORT_STRICT);
+}
 
 $host = env('MYSQLHOST', env('DB_HOST', '127.0.0.1'));
 $user = env('MYSQLUSER', env('DB_USER', 'root'));

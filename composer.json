@@ -1,0 +1,10 @@
+{
+    "name": "skillconnect/app",
+    "description": "SkillConnect plataforma web em PHP",
+    "type": "project",
+    "require": {
+        "php": "^8.1",
+        "ext-mysqli": "*",
+        "ext-pdo_mysql": "*"
+    }
+}
