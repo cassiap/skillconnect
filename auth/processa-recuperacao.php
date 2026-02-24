@@ -36,7 +36,7 @@ if ($result->num_rows === 1) {
     $stmt2->bind_param("iss", $usuario['id'], $token, $expira);
 
     if ($stmt2->execute()) {
-        $link = "http://localhost/skillconnect/auth/redefinir-senha.php?token=" . $token;
+        $link = app_absolute_url('auth/redefinir-senha.php?token=' . $token);
 
         $assunto = "Recuperação de Senha - SkillConnect";
         $mensagem = "Olá! Clique no link abaixo para redefinir sua senha:\n\n$link\n\nEste link expira em 1 hora.\n\nSe não foi você, ignore este e-mail.";

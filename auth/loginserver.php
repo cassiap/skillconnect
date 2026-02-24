@@ -97,13 +97,10 @@ if (!empty($_SESSION['url_destino'])) {
     }
 }
 
-/* ===== Redireciona para a raiz da aplicacao ===== */
-$base = '/skillconnect/';
-
 if ($_SESSION['perfil'] === 'admin') {
-    header("Location: " . $base . "admin/admin.php");
+    header("Location: " . app_url('admin/admin.php'));
 } else {
-    header("Location: " . $base . "index.php");
+    header("Location: " . app_url('index.php'));
 }
 
 ob_end_flush();

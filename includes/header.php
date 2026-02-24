@@ -3,7 +3,7 @@ if (!function_exists('get_flash')) {
     require_once __DIR__ . '/../config/helpers.php';
 }
 
-$_base = '/' . basename(dirname(__DIR__));
+$_base = app_base_path();
 $isLogado = isset($_SESSION['logado']) && $_SESSION['logado'] === true;
 $nomeUsuario = $isLogado ? ($_SESSION['nome'] ?? '') : '';
 $perfil = $isLogado ? ($_SESSION['perfil'] ?? '') : '';

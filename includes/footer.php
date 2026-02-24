@@ -1,5 +1,8 @@
 <?php
-$_base = '/' . basename(dirname(__DIR__));
+if (!function_exists('app_base_path')) {
+    require_once __DIR__ . '/../config/helpers.php';
+}
+$_base = app_base_path();
 ?>
 <footer class="mt-5" style="background:#0f172a;color:#e2e8f0;border-top:1px solid #1e293b;">
     <div class="container py-4">
