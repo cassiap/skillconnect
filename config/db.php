@@ -8,12 +8,14 @@ $pass = getenv('MYSQLPASSWORD') ?: env('DB_PASS', '');
 $db   = getenv('MYSQLDATABASE') ?: env('DB_NAME', 'skillconnect');
 $port = getenv('MYSQLPORT') ?: env('DB_PORT', 3306);
 
-$cx = new mysqli(
-    $host,
-    $user,
-    $pass,
-    $db,
-    (int) $port
-);
+try {
+    $dsn = "mysql:host=$host;port=$port;dbname=$db;charset=utf8mb4";
 
-$cx->set_charset('utf8mb4');
+    $cx = new PDO($dsn, $user, $pass, [
+        PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
+        PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
+    ]);
+
+} catch (PDOException $e) {
+    die("Erro DB: " . $e->getMessage());
+}
