@@ -1,6 +1,6 @@
 # SkillConnect
 
-Skill Connect é uma plataforma web desenvolvida em PHP que tem como objetivo conectar pessoas a oportunidades de desenvolvimento profissional. O sistema reúne cursos profissionalizantes, divulgação de vagas de emprego e um assistente de inteligência artificial que auxilia os usuários com orientações de carreira e crescimento no mercado de trabalho.
+- Skill Connect é uma plataforma web desenvolvida em PHP que tem como objetivo conectar pessoas a oportunidades de desenvolvimento profissional. O sistema reúne cursos profissionalizantes, divulgação de vagas de emprego e um assistente de inteligência artificial que auxilia os usuários com orientações de carreira e crescimento no mercado de trabalho.
 
 ## Visao geral
 
@@ -11,7 +11,7 @@ O projeto possui dois perfis principais:
 
 ## Objetivo da Plataforma
 
-O objetivo do Skill Connect é facilitar o acesso à qualificação profissional e ao mercado de trabalho por meio de uma plataforma digital que reúne cursos profissionalizantes, oportunidades de emprego e um assistente de inteligência artificial voltado para orientação de carreira e desenvolvimento profissional.
+- O objetivo do Skill Connect é facilitar o acesso à qualificação profissional e ao mercado de trabalho por meio de uma plataforma digital que reúne cursos profissionalizantes, oportunidades de emprego e um assistente de inteligência artificial voltado para orientação de carreira e desenvolvimento profissional.
 
 ## Funcionalidades Gerais
 
