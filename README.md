@@ -9,6 +9,11 @@ O projeto possui dois perfis principais:
 - Usuario/aluno: cadastro, login, inscricao em cursos, candidatura em vagas, area de curriculo e area de aulas.
 - Admin: gerenciamento de dados da plataforma (vagas, cursos, candidaturas e usuarios).
 
+## Objetivo da Plataforma 
+
+O objetivo do Skill Connect é facilitar o acesso à qualificação profissional e ao mercado de trabalho por meio de uma plataforma digital que reúne cursos profissionalizantes, oportunidades de emprego e um assistente de inteligência artificial voltado para orientação de carreira e desenvolvimento profissional.
+
+
 ## Stack
 
 - PHP 8.2+
