@@ -1,6 +1,6 @@
 # SkillConnect
 
-Plataforma web em PHP para cursos profissionalizantes, vagas de emprego e assistente IA de carreira.
+Skill Conect é uma plataforma web desenvolvida em PHP que tem como objetivo conectar pessoas a oportunidades de desenvolvimento profissional. O sistema reúne cursos profissionalizantes, divulgação de vagas de emprego e um assistente de inteligência artificial que auxilia os usuários com orientações de carreira e crescimento no mercado de trabalho.
 
 ## Visao geral
 
