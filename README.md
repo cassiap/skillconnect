@@ -37,7 +37,8 @@ O projeto possui dois perfis principais:
 - `admin/`: paginas administrativas.
 - `includes/`: header/footer compartilhados.
 - `database/migrations/`: scripts SQL de schema/dados.
-
+- `models`: botões,cartões,gráficos,cores.
+- `uploads`: curriculo.
 ## Banco de dados (tabelas esperadas)
 
 - `usuarios`
