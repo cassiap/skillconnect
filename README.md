@@ -15,10 +15,10 @@ O objetivo do Skill Connect é facilitar o acesso à qualificação profissional
 
 ## Funcionalidades Gerais
 
--Acesso a curso profissionalizantes : tendo a liberdade de visualizar a modalidade ,  nível do curso , e custo total.
--Acesso a vagas de emprego/estágio: tipo de vagas de emprego, modalidade(Híbrido ou presencial), e sua localização .
--Plano de carreira 
--Assistente de IA para carreira e empregabilidade : plano prático para estudar melhor , melhorar currículo e buscar vagas alinhadas ao seu perfil.
+- Acesso a curso profissionalizantes : tendo a liberdade de visualizar a modalidade ,  nível do curso , e custo total.
+- Acesso a vagas de emprego/estágio: tipo de vagas de emprego, modalidade(Híbrido ou presencial), e sua localização .
+- Plano de carreira 
+- Assistente de IA para carreira e empregabilidade : plano prático para estudar melhor , melhorar currículo e buscar vagas alinhadas ao seu perfil.
 
 ## Tech Stack
 
