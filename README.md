@@ -63,27 +63,6 @@ O projeto possui dois perfis principais:
 C:\xampp\mysql\bin\mysql.exe -u root skillconnect < c:\xampp\htdocs\skillconnect\database\migrations\2026-02-24_railway_seed_utf8.sql
 ```
 
-4. Criar/ajustar `.env` na raiz:
-
-```env
-DB_HOST=127.0.0.1
-DB_USER=root
-DB_PASS=
-DB_NAME=skillconnect
-DB_PORT=3306
-
-OPENAI_API_KEY=
-OPENAI_MODEL=gpt-4o-mini
-
-# Opcional (usado em links absolutos de recuperacao de senha)
-APP_URL=http://localhost/skillconnect
-```
-
-5. Subir Apache + MySQL no XAMPP.
-6. Acessar:
-
-- `http://localhost/skillconnect/index.php`
-
 ## Deploy no Railway
 
 ### Requisitos importantes
