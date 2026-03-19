@@ -1,0 +1,46 @@
+name: Verificação de Segurança
+
+on:
+  push:
+    branches: [ main ]
+
+jobs:
+  seguranca:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Baixar o código
+        uses: actions/checkout@v4
+
+      - name: Verificar arquivos perigosos
+        run: |
+          echo "🔍 Procurando arquivos sensíveis..."
+          if find . -name ".env" | grep -q "."; then
+            echo "❌ ATENÇÃO: Arquivo .env encontrado! Não suba isso!"
+            exit 1
+          else
+            echo "✅ Nenhum arquivo .env encontrado"
+          fi
+
+      - name: Verificar senhas no código
+        run: |
+          echo "🔍 Procurando palavras sensíveis no código..."
+          if grep -r "password123\|senha123\|admin123" --include="*.php" .; then
+            echo "❌ ATENÇÃO: Senha fraca encontrada no código!"
+            exit 1
+          else
+            echo "✅ Nenhuma senha fraca encontrada"
+          fi
+
+      - name: Verificar chaves de API expostas
+        run: |
+          echo "🔍 Procurando chaves de API..."
+          if grep -r "api_key\s*=\s*['\"][a-zA-Z0-9]\{20,\}" --include="*.php" .; then
+            echo "❌ ATENÇÃO: Chave de API exposta no código!"
+            exit 1
+          else
+            echo "✅ Nenhuma chave de API exposta"
+          fi
+
+      - name: Resultado final
+        run: echo "🛡️ Verificação de segurança concluída com sucesso!"
