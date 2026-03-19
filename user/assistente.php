@@ -8,16 +8,15 @@ $resposta = '';
 $erro = '';
 $modeloUsado = '';
 
-if (!function_exists('openai_chat_with_fallback')) {
-    function openai_chat_with_fallback(string $apiKey, array $mensagens): array {
+if (!function_exists('anthropic_chat_with_fallback')) {
+    function anthropic_chat_with_fallback(string $apiKey, string $systemPrompt, array $mensagens): array {
         $modelos = [];
-        $preferido = trim((string) env('OPENAI_MODEL', 'gpt-4o-mini'));
+        $preferido = trim((string) env('ANTHROPIC_MODEL', 'claude-3-5-sonnet-latest'));
         if ($preferido !== '') {
             $modelos[] = $preferido;
         }
-        $modelos[] = 'gpt-4o-mini';
-        $modelos[] = 'gpt-4.1-mini';
-        $modelos[] = 'gpt-3.5-turbo';
+        $modelos[] = 'claude-3-5-sonnet-latest';
+        $modelos[] = 'claude-3-5-haiku-latest';
         $modelos = array_values(array_unique($modelos));
 
         $ultimoErro = 'Assistente indisponivel no momento. Tente novamente em instantes.';
@@ -25,7 +24,9 @@ if (!function_exists('openai_chat_with_fallback')) {
         foreach ($modelos as $modelo) {
             $payload = [
                 'model' => $modelo,
+                'system' => $systemPrompt,
                 'messages' => $mensagens,
+                'max_tokens' => 1200,
                 'temperature' => 0.7,
             ];
 
@@ -34,14 +35,15 @@ if (!function_exists('openai_chat_with_fallback')) {
                 return [false, '', 'Assistente indisponivel no momento. Tente novamente em instantes.', ''];
             }
 
-            $ch = curl_init("https://api.openai.com/v1/chat/completions");
+            $ch = curl_init("https://api.anthropic.com/v1/messages");
             curl_setopt_array($ch, [
                 CURLOPT_RETURNTRANSFER => true,
                 CURLOPT_CONNECTTIMEOUT => 10,
                 CURLOPT_TIMEOUT => 40,
                 CURLOPT_HTTPHEADER => [
                     "Content-Type: application/json",
-                    "Authorization: Bearer {$apiKey}",
+                    "x-api-key: {$apiKey}",
+                    "anthropic-version: 2023-06-01",
                 ],
                 CURLOPT_POST => true,
                 CURLOPT_POSTFIELDS => $jsonPayload,
@@ -85,7 +87,20 @@ if (!function_exists('openai_chat_with_fallback')) {
                 continue;
             }
 
-            $conteudo = trim((string) ($decoded['choices'][0]['message']['content'] ?? ''));
+            $conteudo = '';
+            $blocos = $decoded['content'] ?? [];
+            if (is_array($blocos)) {
+                foreach ($blocos as $bloco) {
+                    if (($bloco['type'] ?? '') !== 'text') {
+                        continue;
+                    }
+                    $textoBloco = trim((string) ($bloco['text'] ?? ''));
+                    if ($textoBloco === '') {
+                        continue;
+                    }
+                    $conteudo .= ($conteudo === '' ? '' : "\n") . $textoBloco;
+                }
+            }
             if ($conteudo === '') {
                 $ultimoErro = 'A IA respondeu sem conteudo.';
                 continue;
@@ -114,8 +129,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     } elseif ($prompt === '') {
         $erro = 'Descreva sua situacao para receber recomendacoes personalizadas.';
     } else {
-        $apiKey = env('OPENAI_API_KEY', '');
-        if (!str_starts_with($apiKey, 'sk-')) {
+        $apiKey = trim((string) env('ANTHROPIC_API_KEY', ''));
+        if (!str_starts_with($apiKey, 'sk-ant-')) {
             $erro = 'Assistente indisponivel no momento. Tente novamente em instantes.';
         } else {
             $contexto = "Voce e o Assistente de Carreira do SkillConnect. 
@@ -130,12 +145,11 @@ Estruture a resposta em:
 Nao invente dados pessoais do usuario.";
 
             $instrucaoObjetivo = "Objetivo principal do usuario: " . $objetivosPermitidos[$objetivo] . ".";
+            $systemPrompt = $contexto . "\n\n" . $instrucaoObjetivo;
             $mensagens = [
-                ['role' => 'system', 'content' => $contexto],
-                ['role' => 'system', 'content' => $instrucaoObjetivo],
                 ['role' => 'user', 'content' => $prompt],
             ];
-            [$ok, $conteudo, $erroApi, $modelo] = openai_chat_with_fallback($apiKey, $mensagens);
+            [$ok, $conteudo, $erroApi, $modelo] = anthropic_chat_with_fallback($apiKey, $systemPrompt, $mensagens);
             if ($ok) {
                 $resposta = $conteudo;
                 $modeloUsado = $modelo;
