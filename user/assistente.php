@@ -272,3 +272,4 @@ document.querySelectorAll('.js-shortcut').forEach(function(btn) {
 </body>
 </html>
 
+<?php echo "teste // falta fechar o php
