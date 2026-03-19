@@ -272,6 +272,4 @@ document.querySelectorAll('.js-shortcut').forEach(function(btn) {
 </body>
 </html>
 
-<?php
-function teste( {
-echo "erro aqui"
+
