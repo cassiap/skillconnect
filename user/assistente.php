@@ -134,6 +134,264 @@ if (!function_exists('anthropic_chat_with_fallback')) {
     }
 }
 
+if (!function_exists('ai_resume_texto')) {
+    function ai_resume_texto(string $texto, int $limite = 110): string {
+        $texto = trim(preg_replace('/\s+/', ' ', strip_tags($texto)) ?? '');
+        if ($texto === '') {
+            return '';
+        }
+        if (function_exists('mb_strlen') && function_exists('mb_substr')) {
+            if (mb_strlen($texto) <= $limite) {
+                return $texto;
+            }
+            return rtrim(mb_substr($texto, 0, $limite - 3)) . '...';
+        }
+        if (strlen($texto) <= $limite) {
+            return $texto;
+        }
+        return rtrim(substr($texto, 0, $limite - 3)) . '...';
+    }
+}
+
+if (!function_exists('ai_connect_db_optional')) {
+    function ai_connect_db_optional(): ?mysqli {
+        if (!extension_loaded('mysqli') || !class_exists('mysqli')) {
+            return null;
+        }
+
+        $host = env('MYSQLHOST', env('DB_HOST', '127.0.0.1'));
+        $user = env('MYSQLUSER', env('DB_USER', 'root'));
+        $pass = env('MYSQLPASSWORD', env('DB_PASS', ''));
+        $db   = env('MYSQLDATABASE', env('DB_NAME', 'skillconnect'));
+        $port = (int) env('MYSQLPORT', env('DB_PORT', 3306));
+
+        if ((!$host || !$user || !$db) && (env('MYSQL_URL') || env('DATABASE_URL'))) {
+            $dbUrl = env('MYSQL_URL', env('DATABASE_URL', ''));
+            $parts = parse_url($dbUrl);
+            if (is_array($parts)) {
+                $host = $parts['host'] ?? $host;
+                $port = isset($parts['port']) ? (int) $parts['port'] : $port;
+                $user = isset($parts['user']) ? rawurldecode((string) $parts['user']) : $user;
+                $pass = isset($parts['pass']) ? rawurldecode((string) $parts['pass']) : $pass;
+                $path = (string) ($parts['path'] ?? '');
+                $dbFromUrl = ltrim($path, '/');
+                if ($dbFromUrl !== '') {
+                    $db = $dbFromUrl;
+                }
+            }
+        }
+
+        try {
+            $cx = @new mysqli((string) $host, (string) $user, (string) $pass, (string) $db, $port);
+            if ($cx->connect_errno) {
+                return null;
+            }
+            $cx->set_charset('utf8mb4');
+            return $cx;
+        } catch (Throwable $e) {
+            return null;
+        }
+    }
+}
+
+if (!function_exists('ai_catalogo_site_contexto')) {
+    function ai_catalogo_site_contexto(): string {
+        $cx = ai_connect_db_optional();
+        if (!$cx) {
+            return "Catalogo do site indisponivel no momento.";
+        }
+
+        $linhasCursos = [];
+        $sqlCursos = "SELECT id, titulo, descricao, modalidade, nivel, carga_horaria, preco
+                      FROM cursos
+                      WHERE ativo = 1
+                      ORDER BY id DESC
+                      LIMIT 8";
+        if ($resCursos = $cx->query($sqlCursos)) {
+            while ($curso = $resCursos->fetch_assoc()) {
+                $titulo = trim((string) ($curso['titulo'] ?? 'Curso sem titulo'));
+                $modalidade = trim((string) ($curso['modalidade'] ?? ''));
+                $nivel = trim((string) ($curso['nivel'] ?? ''));
+                $carga = (int) ($curso['carga_horaria'] ?? 0);
+                $precoRaw = (float) ($curso['preco'] ?? 0);
+                $preco = $precoRaw > 0 ? 'R$ ' . number_format($precoRaw, 2, ',', '.') : 'Gratuito';
+                $descricao = ai_resume_texto((string) ($curso['descricao'] ?? ''));
+                $url = app_absolute_url('user/curso.php?id=' . (int) $curso['id']);
+
+                $partes = [];
+                if ($modalidade !== '') {
+                    $partes[] = 'modalidade: ' . $modalidade;
+                }
+                if ($nivel !== '') {
+                    $partes[] = 'nivel: ' . $nivel;
+                }
+                if ($carga > 0) {
+                    $partes[] = 'carga: ' . $carga . 'h';
+                }
+                $partes[] = 'preco: ' . $preco;
+                if ($descricao !== '') {
+                    $partes[] = 'resumo: ' . $descricao;
+                }
+                $partes[] = 'link: ' . $url;
+
+                $linhasCursos[] = '- ' . $titulo . ' | ' . implode(' | ', $partes);
+            }
+            $resCursos->close();
+        }
+
+        $linhasVagas = [];
+        $sqlVagas = "SELECT id, titulo, empresa, tipo, modalidade, cidade, estado, salario, descricao
+                     FROM vagas
+                     WHERE ativo = 1
+                     ORDER BY id DESC
+                     LIMIT 10";
+        if ($resVagas = $cx->query($sqlVagas)) {
+            while ($vaga = $resVagas->fetch_assoc()) {
+                $titulo = trim((string) ($vaga['titulo'] ?? 'Vaga sem titulo'));
+                $empresa = trim((string) ($vaga['empresa'] ?? 'Empresa nao informada'));
+                $tipo = trim((string) ($vaga['tipo'] ?? ''));
+                $modalidade = trim((string) ($vaga['modalidade'] ?? ''));
+                $cidade = trim((string) ($vaga['cidade'] ?? ''));
+                $estado = trim((string) ($vaga['estado'] ?? ''));
+                $salario = trim((string) ($vaga['salario'] ?? ''));
+                $descricao = ai_resume_texto((string) ($vaga['descricao'] ?? ''));
+                $url = app_absolute_url('user/vaga.php?id=' . (int) $vaga['id']);
+
+                $local = trim($cidade . ' / ' . $estado, ' /');
+                $partes = ['empresa: ' . $empresa];
+                if ($tipo !== '') {
+                    $partes[] = 'tipo: ' . $tipo;
+                }
+                if ($modalidade !== '') {
+                    $partes[] = 'modalidade: ' . $modalidade;
+                }
+                if ($local !== '') {
+                    $partes[] = 'local: ' . $local;
+                }
+                if ($salario !== '') {
+                    $partes[] = 'salario: ' . $salario;
+                }
+                if ($descricao !== '') {
+                    $partes[] = 'resumo: ' . $descricao;
+                }
+                $partes[] = 'link: ' . $url;
+
+                $linhasVagas[] = '- ' . $titulo . ' | ' . implode(' | ', $partes);
+            }
+            $resVagas->close();
+        }
+
+        $cx->close();
+
+        $txtCursos = $linhasCursos !== [] ? implode("\n", $linhasCursos) : '- Nenhum curso ativo encontrado.';
+        $txtVagas = $linhasVagas !== [] ? implode("\n", $linhasVagas) : '- Nenhuma vaga ativa encontrada.';
+
+        return "CATALOGO REAL DO SKILLCONNECT (use somente estes itens):\n"
+            . "Cursos:\n{$txtCursos}\n\n"
+            . "Vagas:\n{$txtVagas}";
+    }
+}
+
+if (!function_exists('ai_format_inline')) {
+    function ai_format_inline(string $text): string {
+        $safe = htmlspecialchars($text, ENT_QUOTES, 'UTF-8');
+        $safe = preg_replace('/\[(.+?)\]\((https?:\/\/[^\s)]+)\)/', '<a href="$2" target="_blank" rel="noopener noreferrer">$1</a>', $safe);
+        $safe = preg_replace('/\*\*(.+?)\*\*/s', '<strong>$1</strong>', $safe);
+        $safe = preg_replace('/`([^`]+)`/', '<code>$1</code>', $safe);
+        return $safe ?? '';
+    }
+}
+
+if (!function_exists('ai_render_response_html')) {
+    function ai_render_response_html(string $markdown): string {
+        $markdown = trim($markdown);
+        if ($markdown === '') {
+            return '';
+        }
+
+        $lines = preg_split('/\r\n|\r|\n/', $markdown) ?: [];
+        $htmlParts = [];
+        $paragraph = [];
+        $inUl = false;
+        $inOl = false;
+
+        $flushParagraph = function () use (&$paragraph, &$htmlParts): void {
+            if ($paragraph === []) {
+                return;
+            }
+            $joined = trim(implode(' ', $paragraph));
+            if ($joined !== '') {
+                $htmlParts[] = '<p>' . ai_format_inline($joined) . '</p>';
+            }
+            $paragraph = [];
+        };
+
+        $closeLists = function () use (&$inUl, &$inOl, &$htmlParts): void {
+            if ($inUl) {
+                $htmlParts[] = '</ul>';
+                $inUl = false;
+            }
+            if ($inOl) {
+                $htmlParts[] = '</ol>';
+                $inOl = false;
+            }
+        };
+
+        foreach ($lines as $line) {
+            $trimmed = trim((string) $line);
+
+            if ($trimmed === '') {
+                $flushParagraph();
+                $closeLists();
+                continue;
+            }
+
+            if (preg_match('/^(#{1,3})\s+(.+)$/', $trimmed, $m)) {
+                $flushParagraph();
+                $closeLists();
+                $level = min(5, 2 + strlen($m[1])); // # => h3, ## => h4, ### => h5
+                $htmlParts[] = '<h' . $level . '>' . ai_format_inline($m[2]) . '</h' . $level . '>';
+                continue;
+            }
+
+            if (preg_match('/^[-*]\s+(.+)$/', $trimmed, $m)) {
+                $flushParagraph();
+                if ($inOl) {
+                    $htmlParts[] = '</ol>';
+                    $inOl = false;
+                }
+                if (!$inUl) {
+                    $htmlParts[] = '<ul>';
+                    $inUl = true;
+                }
+                $htmlParts[] = '<li>' . ai_format_inline($m[1]) . '</li>';
+                continue;
+            }
+
+            if (preg_match('/^\d+\.\s+(.+)$/', $trimmed, $m)) {
+                $flushParagraph();
+                if ($inUl) {
+                    $htmlParts[] = '</ul>';
+                    $inUl = false;
+                }
+                if (!$inOl) {
+                    $htmlParts[] = '<ol>';
+                    $inOl = true;
+                }
+                $htmlParts[] = '<li>' . ai_format_inline($m[1]) . '</li>';
+                continue;
+            }
+
+            $paragraph[] = $trimmed;
+        }
+
+        $flushParagraph();
+        $closeLists();
+
+        return implode("\n", $htmlParts);
+    }
+}
+
 $objetivosPermitidos = [
     'plano_carreira' => 'Plano de carreira',
     'curriculo' => 'Melhorar curriculo',
@@ -165,8 +423,15 @@ Estruture a resposta em:
 5) Proxima acao para hoje
 Nao invente dados pessoais do usuario.";
 
+            $catalogoSite = ai_catalogo_site_contexto();
+            $regraCatalogo = "Regras obrigatorias de recomendacao:
+- Use apenas cursos e vagas da lista 'CATALOGO REAL DO SKILLCONNECT'.
+- Recomende de 2 a 4 cursos e de 2 a 4 vagas quando houver aderencia.
+- Sempre inclua links clicaveis em markdown no formato [texto](url).
+- Se nao houver aderencia, diga claramente que nenhum item atual encaixa bem e sugira refinamento.";
+
             $instrucaoObjetivo = "Objetivo principal do usuario: " . $objetivosPermitidos[$objetivo] . ".";
-            $systemPrompt = $contexto . "\n\n" . $instrucaoObjetivo;
+            $systemPrompt = $contexto . "\n\n" . $instrucaoObjetivo . "\n\n" . $regraCatalogo . "\n\n" . $catalogoSite;
             $mensagens = [
                 ['role' => 'user', 'content' => $prompt],
             ];
@@ -204,8 +469,37 @@ Nao invente dados pessoais do usuario.";
             margin: 0 8px 8px 0;
         }
         .response-box {
-            white-space: pre-wrap;
-            line-height: 1.55;
+            background: #f8fafc;
+            border: 1px solid #e2e8f0;
+            border-radius: 12px;
+            padding: 18px;
+            line-height: 1.7;
+            color: #0f172a;
+        }
+        .response-box h3,
+        .response-box h4,
+        .response-box h5 {
+            margin-top: 0;
+            margin-bottom: 12px;
+            color: #0f766e;
+            font-weight: 700;
+        }
+        .response-box p {
+            margin-bottom: 12px;
+        }
+        .response-box ul,
+        .response-box ol {
+            margin-bottom: 14px;
+            padding-left: 20px;
+        }
+        .response-box li {
+            margin-bottom: 8px;
+        }
+        .response-box code {
+            background: #e2e8f0;
+            border-radius: 6px;
+            padding: 1px 6px;
+            font-size: 0.92em;
         }
     </style>
 </head>
@@ -283,7 +577,7 @@ Nao invente dados pessoais do usuario.";
                 <?php endif; ?>
             </div>
             <div class="card-body">
-                <div class="response-box"><?php echo nl2br(htmlspecialchars($resposta)); ?></div>
+                <div class="response-box"><?php echo ai_render_response_html($resposta); ?></div>
             </div>
         </div>
     <?php endif; ?>
