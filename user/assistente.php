@@ -11,12 +11,18 @@ $modeloUsado = '';
 if (!function_exists('anthropic_chat_with_fallback')) {
     function anthropic_chat_with_fallback(string $apiKey, string $systemPrompt, array $mensagens): array {
         $modelos = [];
-        $preferido = trim((string) env('ANTHROPIC_MODEL', 'claude-3-5-sonnet-latest'));
-        if ($preferido !== '') {
-            $modelos[] = $preferido;
+        $preferidosRaw = trim((string) env('ANTHROPIC_MODEL', ''));
+        if ($preferidosRaw !== '') {
+            foreach (explode(',', $preferidosRaw) as $modeloEnv) {
+                $modeloEnv = trim($modeloEnv);
+                if ($modeloEnv !== '') {
+                    $modelos[] = $modeloEnv;
+                }
+            }
         }
-        $modelos[] = 'claude-3-5-sonnet-latest';
-        $modelos[] = 'claude-3-5-haiku-latest';
+        if ($modelos === []) {
+            $modelos[] = 'claude-3-5-sonnet-latest';
+        }
         $modelos = array_values(array_unique($modelos));
 
         $ultimoErro = 'Assistente indisponivel no momento. Tente novamente em instantes.';
@@ -74,10 +80,13 @@ if (!function_exists('anthropic_chat_with_fallback')) {
                         || strpos($msgLow, 'does not exist') !== false
                         || strpos($msgLow, 'not have access') !== false
                         || strpos($msgLow, 'permission') !== false
+                        || strpos($msgLow, 'invalid model') !== false
+                        || strpos($msgLow, 'model:') !== false
+                        || $httpCode === 404
                     );
 
                 if ($isModelError) {
-                    $ultimoErro = "Modelo '{$modelo}' indisponivel para esta chave.";
+                    $ultimoErro = "Modelo '{$modelo}' indisponivel. Ajuste ANTHROPIC_MODEL no Railway para um modelo habilitado na sua conta.";
                     continue;
                 }
 

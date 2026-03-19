@@ -22,7 +22,11 @@ if (is_file($envFile)) {
             $value = substr($value, 1, -1);
         }
 
-        if (!array_key_exists($key, $_ENV)) {
+        $alreadySet = array_key_exists($key, $_ENV);
+        $currentValue = $alreadySet ? trim((string) $_ENV[$key]) : '';
+        // Prioriza valor do .env quando a variavel nao existe
+        // ou quando veio vazia do ambiente do servidor.
+        if (!$alreadySet || $currentValue === '') {
             $_ENV[$key] = $value;
             putenv("$key=$value");
         }
