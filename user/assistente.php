@@ -55,7 +55,9 @@ if (!function_exists('anthropic_chat_with_fallback')) {
             curl_close($ch);
 
             if ($raw === false || $curlError !== '') {
-                $ultimoErro = 'Assistente indisponivel no momento. Tente novamente em instantes.';
+                $ultimoErro = $curlError !== ''
+                    ? 'Erro de conexao com Anthropic: ' . $curlError
+                    : 'Assistente indisponivel no momento. Tente novamente em instantes.';
                 continue;
             }
 
@@ -79,11 +81,21 @@ if (!function_exists('anthropic_chat_with_fallback')) {
                     continue;
                 }
 
-                if ($httpCode === 401 || $httpCode === 403 || $httpCode === 429) {
-                    return [false, '', 'Assistente indisponivel no momento. Tente novamente em instantes.', ''];
+                if ($httpCode === 401) {
+                    return [false, '', 'Chave da Anthropic invalida ou sem permissao. Confira ANTHROPIC_API_KEY no .env.', ''];
                 }
 
-                $ultimoErro = 'Assistente indisponivel no momento. Tente novamente em instantes.';
+                if ($httpCode === 403) {
+                    return [false, '', 'Acesso negado pela Anthropic para este projeto/chave.', ''];
+                }
+
+                if ($httpCode === 429) {
+                    return [false, '', 'Limite de uso da Anthropic atingido. Tente novamente em instantes.', ''];
+                }
+
+                $ultimoErro = $apiErrorMsg !== ''
+                    ? "Falha na Anthropic (HTTP {$httpCode}): {$apiErrorMsg}"
+                    : "Falha na Anthropic (HTTP {$httpCode}).";
                 continue;
             }
 
@@ -130,8 +142,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $erro = 'Descreva sua situacao para receber recomendacoes personalizadas.';
     } else {
         $apiKey = trim((string) env('ANTHROPIC_API_KEY', ''));
-        if (!str_starts_with($apiKey, 'sk-ant-')) {
-            $erro = 'Assistente indisponivel no momento. Tente novamente em instantes.';
+        if ($apiKey === '') {
+            $erro = 'Configure ANTHROPIC_API_KEY no arquivo .env.';
         } else {
             $contexto = "Voce e o Assistente de Carreira do SkillConnect. 
 Seu papel: orientar alunos em cursos profissionalizantes e busca de vagas.
