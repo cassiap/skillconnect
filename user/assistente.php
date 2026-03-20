@@ -600,5 +600,5 @@ document.querySelectorAll('.js-shortcut').forEach(function(btn) {
 
 </body>
 </html>
-
+// $password = "senha123";
 
