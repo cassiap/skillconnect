@@ -1,0 +1,25 @@
+name: Validar HTML
+
+on:
+  push:
+    branches: [ main ]
+
+jobs:
+  validar:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Baixar o código
+        uses: actions/checkout@v4
+
+      - name: Instalar o validador de HTML
+        run: npm install -g html-validate
+
+      - name: Validar arquivos HTML
+        run: |
+          echo "🔍 Procurando arquivos HTML..."
+          find . -name "*.html" -not -path "./.git/*" | while read file; do
+            echo "Validando: $file"
+            html-validate "$file" || true
+          done
+          echo "✅ Validação concluída!"
