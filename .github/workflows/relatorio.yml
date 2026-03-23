@@ -1,0 +1,47 @@
+name: Relatório do Projeto
+
+on:
+  push:
+    branches: [ main ]
+
+jobs:
+  relatorio:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Baixar o código
+        uses: actions/checkout@v4
+
+      - name: Gerar relatório
+        run: |
+          echo "================================================"
+          echo "        📊 RELATÓRIO DO PROJETO"
+          echo "================================================"
+          echo ""
+          echo "📅 Data: $(date)"
+          echo "👤 Último commit: ${{ github.actor }}"
+          echo "📝 Mensagem: ${{ github.event.head_commit.message }}"
+          echo ""
+          echo "------------------------------------------------"
+          echo "📁 CONTAGEM DE ARQUIVOS"
+          echo "------------------------------------------------"
+          echo "🐘 Arquivos PHP: $(find . -name '*.php' | wc -l)"
+          echo "🌐 Arquivos HTML: $(find . -name '*.html' | wc -l)"
+          echo "🎨 Arquivos CSS: $(find . -name '*.css' | wc -l)"
+          echo "📜 Arquivos JS: $(find . -name '*.js' | wc -l)"
+          echo ""
+          echo "------------------------------------------------"
+          echo "📏 LINHAS DE CÓDIGO"
+          echo "------------------------------------------------"
+          echo "🐘 Linhas PHP: $(find . -name '*.php' | xargs wc -l 2>/dev/null | tail -1)"
+          echo "🌐 Linhas HTML: $(find . -name '*.html' | xargs wc -l 2>/dev/null | tail -1)"
+          echo "🎨 Linhas CSS: $(find . -name '*.css' | xargs wc -l 2>/dev/null | tail -1)"
+          echo ""
+          echo "------------------------------------------------"
+          echo "💾 TAMANHO TOTAL DO PROJETO"
+          echo "------------------------------------------------"
+          du -sh . 2>/dev/null
+          echo ""
+          echo "================================================"
+          echo "✅ Relatório concluído com sucesso!"
+          echo "================================================"
