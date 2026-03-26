@@ -1,0 +1,43 @@
+name: Gerar Documentação
+
+on:
+  push:
+    branches: [ main ]
+
+permissions:
+  contents: write
+
+jobs:
+  documentacao:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Baixar o código
+        uses: actions/checkout@v4
+
+      - name: Instalar PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.2'
+
+      - name: Baixar phpDocumentor
+        run: |
+          curl -L https://github.com/phpDocumentor/phpDocumentor/releases/latest/download/phpDocumentor.phar \
+            -o phpDocumentor.phar
+          chmod +x phpDocumentor.phar
+
+      - name: Gerar documentação
+        run: |
+          php phpDocumentor.phar \
+            --directory=. \
+            --target=docs \
+            --title="SkillConnect" \
+            --ignore="vendor/,templates/,css/,scss/,uploads/" \
+            --visibility=public
+
+      - name: Publicar no GitHub Pages
+        uses: peaceiris/actions-gh-pages@v4
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./docs
+          commit_message: "docs: atualiza documentação automática"
