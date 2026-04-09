@@ -1,0 +1,46 @@
+name: SkillConnect - Verificar PHP
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  verificar-php:
+    name: Verificar PHP e Segurança
+    runs-on: ubuntu-latest
+
+    services:
+      mysql:
+        image: mysql:8.0
+        env:
+          MYSQL_ROOT_PASSWORD: root
+          MYSQL_DATABASE: skillconnect
+        ports:
+          - 3306:3306
+        options: --health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=5s --health-retries=3
+
+    steps:
+      - name: Baixar o código
+        uses: actions/checkout@v4
+
+      - name: Instalar PHP 8.2 com extensões MySQL
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.2'
+          extensions: mysqli, pdo_mysql
+
+      - name: Instalar dependências
+        run: composer install --no-progress --prefer-dist
+
+      - name: Verificar sintaxe PHP
+        run: find . -name "*.php" -not -path "./vendor/*" -exec php -l {} \;
+
+      - name: Verificar segurança das dependências
+        run: composer audit
+
+      - name: Rodar migrations do banco
+        run: |
+          mysql -h 127.0.0.1 -u root -proot skillconnect < database/migrations/2026-02-24_mvp_aluno.sql
+          mysql -h 127.0.0.1 -u root -proot skillconnect < database/migrations/2026-02-24_railway_seed_utf8.sql
