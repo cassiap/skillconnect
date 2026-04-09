@@ -150,4 +150,51 @@ Exemplo:
 ```powershell
 C:\xampp\php\php.exe -l config\db.php
 ```
+---
+
+## Automação com GitHub Actions
+
+O projeto utiliza GitHub Actions para automatizar tarefas a cada push na branch `main`.
+
+### Workflows disponíveis
+
+| Workflow | Arquivo | O que faz |
+|---|---|---|
+| Verificar PHP | `main.yml` | Checa sintaxe de todos os arquivos `.php` |
+| Relatório do Projeto | `relatorio.yml` | Gera relatório com contagem de arquivos e linhas de código |
+| Verificação de Segurança | `segurança.yml` | Verifica `.env` exposto e senhas fracas no código |
+| Validar HTML | `validar-html.yml` | Valida os arquivos `.html` do projeto |
+| Gerar Documentação | `documentacao.yml` | Gera documentação PHP e publica no GitHub Pages |
+
+### Documentação automática
+
+A cada push na `main`, o workflow `documentacao.yml` executa o phpDocumentor e publica a documentação gerada automaticamente em:
+
+**https://cassiap.github.io/skillconnect/**
+
+A documentação lista todas as funções, parâmetros e descrições extraídas dos docblocks `/** */` presentes nos arquivos PHP.
+
+### Script de docblocks
+
+Para enriquecer a documentação gerada, o projeto inclui o script `adicionar_docblocks.py` que utiliza a API do Claude (Anthropic) para adicionar docblocks automaticamente em todos os arquivos PHP.
+
+**Requisitos:**
+```bash
+pip install anthropic
+```
+
+**Configuração:**
+
+Edite o script e preencha sua API key:
+```python
+API_KEY = "sua-api-key-aqui"
+```
+
+**Uso:**
+```bash
+# Na raiz do projeto
+python adicionar_docblocks.py
+```
+
+Após rodar, faça commit e push normalmente — a Action de documentação atualiza o GitHub Pages automaticamente.
 
