@@ -152,6 +152,10 @@ C:\xampp\php\php.exe -l config\db.php
 ```
 ---
 
+---
+
+---
+
 ## Automação com GitHub Actions
 
 O projeto utiliza GitHub Actions para automatizar tarefas a cada push na branch `main`.
@@ -174,27 +178,10 @@ A cada push na `main`, o workflow `documentacao.yml` executa o phpDocumentor e p
 
 A documentação lista todas as funções, parâmetros e descrições extraídas dos docblocks `/** */` presentes nos arquivos PHP.
 
-### Script de docblocks
+### Docblocks
 
-Para enriquecer a documentação gerada, o projeto inclui o script `adicionar_docblocks.py` que utiliza a API do Claude (Anthropic) para adicionar docblocks automaticamente em todos os arquivos PHP.
+Durante o desenvolvimento, identificamos que a documentação gerada pelo phpDocumentor ficava incompleta: as funções apareciam listadas mas sem descrição, parâmetros ou contexto, o que tornava a doc pouco útil na prática.
 
-**Requisitos:**
-```bash
-pip install anthropic
-```
+Para resolver isso, adicionamos docblocks no padrão PHPDoc em todos os arquivos PHP do projeto. Cada docblock descreve o propósito da função, seus parâmetros (`@param`), o valor de retorno (`@return`) e possíveis exceções (`@throws`), servindo como base para a documentação gerada automaticamente pelo phpDocumentor a cada push.
 
-**Configuração:**
-
-Edite o script e preencha sua API key:
-```python
-API_KEY = "sua-api-key-aqui"
-```
-
-**Uso:**
-```bash
-# Na raiz do projeto
-python adicionar_docblocks.py
-```
-
-Após rodar, faça commit e push normalmente — a Action de documentação atualiza o GitHub Pages automaticamente.
-
+Os docblocks foram adicionados utilizando uma API da Anthropic e um script Python que realizou a atualização em todos eles de forma automática. 
