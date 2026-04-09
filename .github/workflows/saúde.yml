@@ -1,0 +1,85 @@
+name: Saúde do Projeto
+
+on:
+  push:
+    branches: [ main ]
+
+jobs:
+  saude:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Baixar o código
+        uses: actions/checkout@v4
+
+      - name: Instalar PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.1'
+
+      - name: Verificar saúde do projeto
+        run: |
+          echo "╔══════════════════════════════════════╗"
+          echo "║   🏥 PLACAR DE SAÚDE DO PROJETO      ║"
+          echo "╚══════════════════════════════════════╝"
+          echo ""
+          SCORE=0
+          TOTAL=5
+
+          # Teste 1 - Tem arquivo index?
+          echo "🔎 Teste 1: Arquivo index.php ou index.html..."
+          if find . -name "index.php" -o -name "index.html" | grep -q .; then
+            echo "   ✅ PASSOU — Arquivo index encontrado!"
+            SCORE=$((SCORE+1))
+          else
+            echo "   ❌ FALHOU — Nenhum arquivo index encontrado!"
+          fi
+
+          # Teste 2 - Tem CSS?
+          echo "🔎 Teste 2: Arquivos CSS..."
+          if find . -name "*.css" | grep -q .; then
+            echo "   ✅ PASSOU — Arquivos CSS encontrados!"
+            SCORE=$((SCORE+1))
+          else
+            echo "   ❌ FALHOU — Nenhum arquivo CSS encontrado!"
+          fi
+
+          # Teste 3 - Sintaxe PHP ok?
+          echo "🔎 Teste 3: Sintaxe dos arquivos PHP..."
+          ERRORS=$(find . -name "*.php" -exec php -l {} \; 2>&1 | grep -c "Error" || true)
+          if [ "$ERRORS" -eq "0" ]; then
+            echo "   ✅ PASSOU — Nenhum erro de sintaxe PHP!"
+            SCORE=$((SCORE+1))
+          else
+            echo "   ❌ FALHOU — $ERRORS erro(s) de sintaxe encontrado(s)!"
+          fi
+
+          # Teste 4 - Tem README?
+          echo "🔎 Teste 4: Arquivo README..."
+          if find . -name "README*" | grep -q .; then
+            echo "   ✅ PASSOU — README encontrado!"
+            SCORE=$((SCORE+1))
+          else
+            echo "   ❌ FALHOU — Nenhum README encontrado!"
+          fi
+
+          # Teste 5 - Tem senha fraca?
+          echo "🔎 Teste 5: Senhas fracas no código..."
+          if grep -r "senha123\|password123\|admin123" --include="*.php" . 2>/dev/null | grep -q .; then
+            echo "   ❌ FALHOU — Senha fraca encontrada no código!"
+          else
+            echo "   ✅ PASSOU — Nenhuma senha fraca encontrada!"
+            SCORE=$((SCORE+1))
+          fi
+
+          echo ""
+          echo "╔══════════════════════════════════════╗"
+          echo "║   📊 RESULTADO FINAL: $SCORE/$TOTAL          ║"
+          if [ "$SCORE" -eq "$TOTAL" ]; then
+            echo "║   🏆 PROJETO SAUDÁVEL!               ║"
+          elif [ "$SCORE" -ge "3" ]; then
+            echo "║   ⚠️  PROJETO PRECISA DE ATENÇÃO!     ║"
+          else
+            echo "║   🚨 PROJETO COM PROBLEMAS!           ║"
+          fi
+          echo "╚══════════════════════════════════════╝"
