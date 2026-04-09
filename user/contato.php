@@ -1,4 +1,14 @@
 <?php
+/**
+ * Página de contato do sistema SkillConnect
+ * 
+ * Esta página permite aos usuários enviar mensagens de contato através de um formulário.
+ * Processa o envio das mensagens, realiza validações e armazena os dados no banco.
+ * 
+ * @author SkillConnect
+ * @version 1.0
+ */
+
 require_once __DIR__ . '/../config/db.php';
 
 $erroLocal = '';

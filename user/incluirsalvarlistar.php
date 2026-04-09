@@ -1,4 +1,14 @@
 <?php
+/**
+ * Script de processamento de registro de usuário
+ * 
+ * Este arquivo processa o formulário de registro de usuários, realizando validações,
+ * verificação de duplicidade, inserção no banco de dados e login automático.
+ * 
+ * @author Sistema
+ * @version 1.0
+ */
+
 require_once __DIR__ . '/../config/db.php';
 
 // Dados do POST

@@ -1,4 +1,14 @@
 <?php
+/**
+ * API de Lookup para consulta de informações de CPF e CNPJ
+ * 
+ * Este arquivo implementa uma API REST para consultar informações básicas
+ * de CPF (simulado) e CNPJ (através da BrasilAPI).
+ * 
+ * @author Sistema
+ * @version 1.0
+ */
+
 // api_lookup.php
 header('Content-Type: application/json; charset=utf-8');
 
@@ -22,6 +32,12 @@ if ($type === 'cnpj' && strlen($doc) !== 14) {
   exit;
 }
 
+/**
+ * Valida um número de CPF através do algoritmo de dígitos verificadores
+ * 
+ * @param string $cpf Número do CPF com 11 dígitos
+ * @return bool Retorna true se o CPF for válido, false caso contrário
+ */
 function validaCPF($cpf) {
   // validação básica de CPF (dígitos verificadores)
   if (preg_match('/^(\d)\1{10}$/', $cpf)) return false;

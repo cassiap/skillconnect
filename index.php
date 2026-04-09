@@ -1,4 +1,14 @@
 <?php
+/**
+ * Página inicial da plataforma SkillConnect
+ * 
+ * Esta página exibe a home da plataforma, incluindo cursos em destaque,
+ * vagas em destaque e seções de apresentação dos recursos disponíveis.
+ * 
+ * @author SkillConnect Team
+ * @version 1.0
+ */
+
 require_once __DIR__ . '/config/db.php';
 
 $cursosDestaque = [];
@@ -13,6 +23,16 @@ while ($rv && $v = $rv->fetch_assoc()) {
     $vagasDestaque[] = $v;
 }
 
+/**
+ * Cria um resumo do texto para exibição na página inicial
+ * 
+ * Remove tags HTML, limita o tamanho do texto e adiciona reticências
+ * quando necessário. Utiliza funções multibyte quando disponíveis.
+ * 
+ * @param string $texto O texto original a ser resumido
+ * @param int $limite O número máximo de caracteres do resumo (padrão: 110)
+ * @return string O texto resumido com ou sem reticências
+ */
 function resumo_home(string $texto, int $limite = 110): string {
     $texto = trim(strip_tags($texto));
     if ($texto === '') {

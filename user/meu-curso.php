@@ -1,4 +1,15 @@
 <?php
+/**
+ * Página de visualização de curso inscrito pelo usuário
+ *
+ * Este arquivo gerencia a visualização de cursos em que o usuário está inscrito,
+ * permitindo navegar entre aulas, marcar progresso e visualizar conteúdo das aulas.
+ *
+ * @package SkillConnect
+ * @author Sistema SkillConnect
+ * @version 1.0
+ */
+
 require_once __DIR__ . '/../config/db.php';
 
 auth_check();
@@ -169,6 +180,15 @@ if ($aulaSelecionada === null) {
     $aulaSelecionada = $primeiraAula;
 }
 
+/**
+ * Valida e retorna uma URL HTTP/HTTPS segura
+ *
+ * Verifica se a URL fornecida é válida e utiliza protocolo HTTP ou HTTPS.
+ * Retorna string vazia se a URL for inválida ou não usar protocolo seguro.
+ *
+ * @param mixed $url A URL a ser validada
+ * @return string A URL validada ou string vazia se inválida
+ */
 function safe_http_url($url) {
     $url = trim((string) $url);
     if ($url === '') {
@@ -315,59 +335,4 @@ function safe_http_url($url) {
     <?php if (count($modulos) === 0): ?>
         <div class="card shadow-sm">
             <div class="card-body">
-                <p class="mb-0">Este curso ainda nao possui aulas cadastradas.</p>
-            </div>
-        </div>
-    <?php else: ?>
-        <?php foreach ($modulos as $mod): ?>
-            <div class="card shadow-sm mb-3">
-                <div class="card-header bg-white">
-                    <strong>Modulo <?php echo (int) $mod['ordem']; ?>:</strong> <?php echo htmlspecialchars($mod['titulo']); ?>
-                </div>
-                <div class="card-body">
-                    <?php if (count($mod['aulas']) === 0): ?>
-                        <p class="text-muted mb-0">Sem aulas neste modulo.</p>
-                    <?php else: ?>
-                        <?php foreach ($mod['aulas'] as $aula): ?>
-                            <div class="lesson-card <?php echo $aula['concluida'] ? 'lesson-done' : ''; ?> <?php echo ($aulaSelecionada && (int) $aulaSelecionada['id'] === (int) $aula['id']) ? 'lesson-selected' : ''; ?> p-3">
-                                <div class="d-flex justify-content-between align-items-start flex-wrap">
-                                    <div class="pr-3">
-                                        <div class="font-weight-bold"><?php echo htmlspecialchars($aula['titulo']); ?></div>
-                                        <?php if ($aula['duracao_min'] > 0): ?>
-                                            <small class="text-muted"><i class="far fa-clock"></i> <?php echo $aula['duracao_min']; ?> min</small>
-                                        <?php endif; ?>
-                                        <?php if (trim($aula['conteudo']) !== ''): ?>
-                                            <p class="mb-0 mt-2 text-muted"><?php echo nl2br(htmlspecialchars($aula['conteudo'])); ?></p>
-                                        <?php endif; ?>
-                                    </div>
-                                    <div class="mt-2 mt-md-0 text-right">
-                                        <a class="btn btn-sm btn-outline-primary mb-2 mb-md-0 mr-md-2" href="meu-curso.php?curso_id=<?php echo $cursoId; ?>&aula=<?php echo (int) $aula['id']; ?>">
-                                            Abrir aula
-                                        </a>
-                                        <form method="POST" class="d-inline-block">
-                                            <?php echo csrf_field(); ?>
-                                            <input type="hidden" name="curso_id" value="<?php echo $cursoId; ?>">
-                                            <input type="hidden" name="aula_atual" value="<?php echo (int) $aula['id']; ?>">
-                                            <input type="hidden" name="aula_id" value="<?php echo (int) $aula['id']; ?>">
-                                            <?php if ($aula['concluida']): ?>
-                                                <input type="hidden" name="acao" value="desfazer">
-                                                <button class="btn btn-sm btn-outline-secondary">Desmarcar</button>
-                                            <?php else: ?>
-                                                <input type="hidden" name="acao" value="concluir">
-                                                <button class="btn btn-sm btn-success">Marcar concluida</button>
-                                            <?php endif; ?>
-                                        </form>
-                                    </div>
-                                </div>
-                            </div>
-                        <?php endforeach; ?>
-                    <?php endif; ?>
-                </div>
-            </div>
-        <?php endforeach; ?>
-    <?php endif; ?>
-</div>
-
-<?php include('../includes/footer.php'); ?>
-</body>
-</html>
+                <p class="mb-0">Este curso ainda nao possui aulas cadastradas

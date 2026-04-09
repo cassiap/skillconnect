@@ -1,4 +1,14 @@
 <?php
+/**
+ * Arquivo responsável pelo processamento do login de usuários
+ * 
+ * Este script processa as credenciais de login enviadas via POST,
+ * autentica o usuário, migra senhas antigas se necessário e estabelece
+ * a sessão do usuário autenticado.
+ * 
+ * @author Sistema
+ * @version 1.0
+ */
 ob_start();
 require_once __DIR__ . '/../config/db.php';
 

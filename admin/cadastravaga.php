@@ -1,4 +1,15 @@
 <?php
+/**
+ * Página de cadastro de vagas de emprego
+ * 
+ * Este arquivo permite que administradores cadastrem novas vagas de emprego
+ * no sistema, incluindo informações como título, empresa, descrição, requisitos,
+ * tipo de contratação, modalidade, salário e localização.
+ * 
+ * @author Sistema de Vagas
+ * @version 1.0
+ */
+
 require_once __DIR__ . '/../config/db.php';
 
 admin_check();

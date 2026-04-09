@@ -22,6 +22,11 @@ if (session_status() === PHP_SESSION_NONE) {
 
 // ===== CSRF =====
 
+/**
+ * Gera ou retorna o token CSRF atual da sessão
+ *
+ * @return string O token CSRF em formato hexadecimal
+ */
 function csrf_token(): string {
     if (empty($_SESSION['csrf_token'])) {
         $_SESSION['csrf_token'] = bin2hex(random_bytes(32));
@@ -29,10 +34,20 @@ function csrf_token(): string {
     return $_SESSION['csrf_token'];
 }
 
+/**
+ * Gera um campo HTML oculto com o token CSRF
+ *
+ * @return string Campo input hidden com o token CSRF
+ */
 function csrf_field(): string {
     return '<input type="hidden" name="csrf_token" value="' . htmlspecialchars(csrf_token()) . '">';
 }
 
+/**
+ * Valida se o token CSRF enviado via POST é válido
+ *
+ * @return bool True se o token for válido, false caso contrário
+ */
 function csrf_validate(): bool {
     if (empty($_POST['csrf_token']) || empty($_SESSION['csrf_token'])) {
         return false;
@@ -42,10 +57,23 @@ function csrf_validate(): bool {
 
 // ===== FLASH MESSAGES =====
 
+/**
+ * Define uma mensagem flash na sessão
+ *
+ * @param string $type Tipo da mensagem (success, error, info, etc)
+ * @param string $msg Conteúdo da mensagem
+ * @return void
+ */
 function flash(string $type, string $msg): void {
     $_SESSION["flash_{$type}"] = $msg;
 }
 
+/**
+ * Recupera e remove uma mensagem flash da sessão
+ *
+ * @param string $type Tipo da mensagem a ser recuperada
+ * @return string|null A mensagem flash ou null se não existir
+ */
 function get_flash(string $type): ?string {
     $msg = $_SESSION["flash_{$type}"] ?? null;
     unset($_SESSION["flash_{$type}"]);
@@ -54,6 +82,11 @@ function get_flash(string $type): ?string {
 
 // ===== APP URL =====
 
+/**
+ * Determina o caminho base da aplicação
+ *
+ * @return string O caminho base da aplicação sem barra final
+ */
 function app_base_path(): string {
     $projectRoot = realpath(__DIR__ . '/..');
     $documentRoot = isset($_SERVER['DOCUMENT_ROOT']) ? realpath((string) $_SERVER['DOCUMENT_ROOT']) : false;
@@ -87,6 +120,12 @@ function app_base_path(): string {
     return $dir;
 }
 
+/**
+ * Gera uma URL relativa da aplicação
+ *
+ * @param string $path Caminho a ser adicionado à URL base
+ * @return string A URL completa relativa
+ */
 function app_url(string $path = ''): string {
     $base = app_base_path();
     $path = ltrim($path, '/');
@@ -98,6 +137,12 @@ function app_url(string $path = ''): string {
     return $base === '' ? '/' . $path : $base . '/' . $path;
 }
 
+/**
+ * Gera uma URL absoluta da aplicação
+ *
+ * @param string $path Caminho a ser adicionado à URL base
+ * @return string A URL completa absoluta com protocolo e domínio
+ */
 function app_absolute_url(string $path = ''): string {
     if (function_exists('env')) {
         $configured = rtrim((string) env('APP_URL', ''), '/');
@@ -116,6 +161,11 @@ function app_absolute_url(string $path = ''): string {
 
 // ===== AUTH =====
 
+/**
+ * Verifica se o usuário está autenticado, redirecionando para login se não estiver
+ *
+ * @return void
+ */
 function auth_check(): void {
     if (empty($_SESSION['logado'])) {
         $_SESSION['url_destino'] = $_SERVER['REQUEST_URI'];
@@ -123,6 +173,11 @@ function auth_check(): void {
     }
 }
 
+/**
+ * Verifica se o usuário é administrador, redirecionando para login se não for
+ *
+ * @return void
+ */
 function admin_check(): void {
     if (empty($_SESSION['logado']) || ($_SESSION['perfil'] ?? '') !== 'admin') {
         redirect(app_url('auth/login.php'));
@@ -131,6 +186,12 @@ function admin_check(): void {
 
 // ===== REDIRECT =====
 
+/**
+ * Redireciona o usuário para a URL especificada e encerra a execução
+ *
+ * @param string $url A URL de destino do redirecionamento
+ * @return void
+ */
 function redirect(string $url): void {
     header("Location: $url");
     exit;

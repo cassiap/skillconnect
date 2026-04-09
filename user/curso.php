@@ -1,4 +1,15 @@
 <?php
+/**
+ * Arquivo responsável por exibir os detalhes de um curso específico
+ * 
+ * Este arquivo busca as informações de um curso no banco de dados
+ * baseado no ID fornecido via URL e exibe seus detalhes completos,
+ * incluindo título, modalidade, nível, carga horária, vagas, preço e descrição.
+ * 
+ * @author Sistema SkillConnect
+ * @version 1.0
+ */
+
 require_once __DIR__ . '/../config/db.php';
 
 // Verifica se o ID foi passado via URL

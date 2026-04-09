@@ -1,4 +1,14 @@
 <?php
+/**
+ * Script para download de currículo
+ * 
+ * Este arquivo permite que usuários autenticados façam download dos seus próprios currículos
+ * enviados nas candidaturas. Inclui validações de segurança para prevenir acesso não autorizado.
+ * 
+ * @author Sistema de Vagas
+ * @version 1.0
+ */
+
 require_once __DIR__ . '/../config/db.php';
 
 auth_check();

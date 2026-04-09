@@ -1,4 +1,15 @@
 <?php
+/**
+ * Página de listagem e busca de cursos profissionalizantes
+ * 
+ * Este arquivo exibe uma página com filtros de busca, ordenação e listagem
+ * dos cursos ativos cadastrados no sistema. Permite filtrar por modalidade,
+ * nível e busca textual, além de diferentes opções de ordenação.
+ * 
+ * @author Sistema SkillConnect
+ * @version 1.0
+ */
+
 require_once __DIR__ . '/../config/db.php';
 
 $q = trim($_GET['q'] ?? '');
@@ -48,6 +59,17 @@ while ($r2 && $n = $r2->fetch_assoc()) {
     $niveis[] = $n['nivel'];
 }
 
+/**
+ * Cria um resumo truncado de um texto para exibição em cards de curso
+ * 
+ * Remove tags HTML, limita o comprimento do texto e adiciona reticências
+ * quando necessário. Utiliza funções multibyte quando disponíveis.
+ * 
+ * @param string $texto O texto original a ser resumido
+ * @param int $limite Número máximo de caracteres para o resumo (padrão: 135)
+ * 
+ * @return string O texto resumido com reticências se truncado, ou mensagem padrão se vazio
+ */
 function resumo_curso(string $texto, int $limite = 135): string {
     $texto = trim(strip_tags($texto));
     if ($texto === '') {

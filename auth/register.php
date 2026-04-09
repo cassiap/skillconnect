@@ -1,4 +1,16 @@
 <?php
+/**
+ * Arquivo de registro de usuários do sistema SkillConnect
+ * 
+ * Este arquivo contém o formulário de cadastro de novos usuários,
+ * incluindo funcionalidades de consulta de CPF/CNPJ e validação
+ * de dados em tempo real.
+ * 
+ * @package SkillConnect
+ * @author Sistema SkillConnect
+ * @version 1.0
+ */
+
 require_once __DIR__ . '/../config/helpers.php';
 
 if (!empty($_SESSION['logado'])) {
@@ -186,10 +198,21 @@ const docInput = document.getElementById('doc');
 const tipoDoc = document.getElementById('tipoDoc');
 const statusLookup = document.getElementById('lookupStatus');
 
+/**
+ * Remove todos os caracteres não numéricos de uma string
+ * @param {string} value - String a ser processada
+ * @returns {string} String contendo apenas dígitos
+ */
 function onlyDigits(value) {
     return (value || '').replace(/\D/g, '');
 }
 
+/**
+ * Preenche um campo do formulário com destaque visual
+ * @param {string} id - ID do elemento HTML
+ * @param {string} value - Valor a ser preenchido
+ * @returns {void}
+ */
 function fill(id, value) {
     const el = document.getElementById(id);
     if (!el) return;
@@ -252,6 +275,10 @@ const senha = document.getElementById('senha');
 const confirmar = document.getElementById('confirmar_senha');
 const senhaStatus = document.getElementById('senhaStatus');
 
+/**
+ * Valida se as senhas atendem aos critérios estabelecidos
+ * @returns {boolean} True se as senhas são válidas, false caso contrário
+ */
 function validarSenhaClient() {
     if (!senha.value && !confirmar.value) {
         senhaStatus.textContent = '';

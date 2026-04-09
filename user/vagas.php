@@ -1,4 +1,14 @@
 <?php
+/**
+ * Página de listagem e busca de vagas de emprego
+ * 
+ * Este arquivo gerencia a exibição das vagas disponíveis, permitindo filtros
+ * por busca textual, tipo, modalidade, cidade e ordenação dos resultados.
+ * 
+ * @author Sistema SkillConnect
+ * @version 1.0
+ */
+
 require_once __DIR__ . '/../config/db.php';
 
 $q = trim($_GET['q'] ?? '');
@@ -50,6 +60,16 @@ while ($r2 && $m = $r2->fetch_assoc()) {
     $modalidades[] = $m['modalidade'];
 }
 
+/**
+ * Gera um resumo truncado do texto da vaga
+ * 
+ * Remove tags HTML e limita o texto ao número de caracteres especificado,
+ * adicionando reticências quando necessário. Suporta multibyte strings.
+ * 
+ * @param string $texto O texto completo a ser resumido
+ * @param int $limite O número máximo de caracteres no resumo
+ * @return string O texto resumido com ou sem reticências
+ */
 function resumo_vaga(string $texto, int $limite = 125): string {
     $texto = trim(strip_tags($texto));
     if ($texto === '') {

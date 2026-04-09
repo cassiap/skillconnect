@@ -1,4 +1,12 @@
 <?php
+/**
+ * Página de gerenciamento de currículo profissional
+ * 
+ * Este arquivo permite que usuários autenticados criem e editem seu currículo profissional,
+ * visualizem um preview das informações e consultem o histórico de currículos enviados
+ * em candidaturas para vagas.
+ */
+
 require_once __DIR__ . '/../config/db.php';
 
 auth_check();
@@ -99,6 +107,12 @@ $statusLabel = [
     'reprovado' => 'Reprovado',
 ];
 
+/**
+ * Divide um texto em linhas não vazias
+ * 
+ * @param string $text O texto a ser dividido
+ * @return array Array com as linhas não vazias após remoção de espaços
+ */
 function split_lines(string $text): array {
     $lines = preg_split('/\r\n|\r|\n/', $text);
     $out = [];

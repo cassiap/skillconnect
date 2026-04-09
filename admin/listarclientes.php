@@ -1,4 +1,15 @@
 <?php
+/**
+ * Página de listagem de usuários cadastrados no sistema
+ * 
+ * Este arquivo exibe uma tabela com todos os usuários cadastrados,
+ * permitindo visualizar informações básicas e realizar edições.
+ * Requer privilégios de administrador para acesso.
+ * 
+ * @author Sistema SkillConnect
+ * @version 1.0
+ */
+
 require_once __DIR__ . '/../config/db.php';
 
 admin_check();

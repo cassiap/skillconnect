@@ -1,4 +1,14 @@
 <?php
+/**
+ * Página de visualização detalhada de uma vaga específica
+ * 
+ * Este arquivo exibe os detalhes completos de uma vaga de emprego,
+ * incluindo título, empresa, descrição, requisitos e opção de candidatura.
+ * 
+ * @author Sistema SkillConnect
+ * @version 1.0
+ */
+
 require_once __DIR__ . '/../config/db.php';
 
 // Valida o ID da vaga

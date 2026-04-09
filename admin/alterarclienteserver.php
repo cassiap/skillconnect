@@ -1,4 +1,15 @@
 <?php
+/**
+ * Arquivo responsável por processar a alteração de dados de clientes
+ * 
+ * Este arquivo processa as requisições POST para atualizar informações
+ * de clientes no banco de dados, incluindo validações de segurança
+ * e controle de acesso administrativo.
+ * 
+ * @author Sistema
+ * @version 1.0
+ */
+
 require_once __DIR__ . '/../config/db.php';
 
 admin_check();

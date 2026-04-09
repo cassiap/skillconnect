@@ -1,5 +1,15 @@
 <?php
 /**
+ * Carregador de variáveis de ambiente
+ * 
+ * Este arquivo é responsável por carregar variáveis de ambiente do arquivo .env
+ * e disponibilizar uma função helper para acessá-las no sistema.
+ * 
+ * @author Sistema
+ * @version 1.0
+ */
+
+/**
  * Carrega variaveis do arquivo .env
  */
 $envFile = __DIR__ . '/../.env';
@@ -35,6 +45,10 @@ if (is_file($envFile)) {
 
 /**
  * Retorna variavel de ambiente ou valor padrao
+ * 
+ * @param string $key A chave da variável de ambiente a ser recuperada
+ * @param mixed $default O valor padrão a ser retornado caso a variável não exista
+ * @return mixed O valor da variável de ambiente ou o valor padrão
  */
 function env(string $key, $default = null) {
     return $_ENV[$key] ?? (getenv($key) ?: $default);

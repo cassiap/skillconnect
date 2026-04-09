@@ -1,4 +1,14 @@
 <?php
+/**
+ * Script de logout do sistema
+ * 
+ * Este arquivo é responsável por encerrar a sessão do usuário,
+ * limpar os dados de sessão e redirecionar para a página de login.
+ * 
+ * @author Sistema
+ * @version 1.0
+ */
+
 require_once __DIR__ . '/../config/helpers.php';
 
 $_SESSION = [];

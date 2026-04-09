@@ -1,4 +1,14 @@
 <?php
+/**
+ * Sistema de conexão com banco de dados MySQL
+ * 
+ * Este arquivo estabelece uma conexão com o banco de dados MySQL utilizando
+ * configurações de ambiente e fornece fallback para URL única de conexão.
+ * 
+ * @author Sistema SkillConnect
+ * @version 1.0
+ */
+
 require_once __DIR__ . '/env.php';
 require_once __DIR__ . '/helpers.php';
 

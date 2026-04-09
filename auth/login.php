@@ -1,4 +1,15 @@
 <?php
+/**
+ * Página de login do sistema SkillConnect
+ * 
+ * Esta página apresenta o formulário de login para os usuários acessarem o sistema.
+ * Inclui validações de CSRF, exibição de mensagens flash e funcionalidades como
+ * lembrar e-mail e visualização de senha.
+ * 
+ * @author Sistema SkillConnect
+ * @version 1.0
+ */
+
 require_once __DIR__ . '/../config/helpers.php';
 
 if (!empty($_SESSION['logado'])) {

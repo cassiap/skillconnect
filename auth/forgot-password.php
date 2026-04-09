@@ -1,4 +1,15 @@
 <?php
+/**
+ * Página de recuperação de senha do sistema SkillConnect
+ * 
+ * Esta página permite que os usuários solicitem a redefinição de suas senhas
+ * através do e-mail cadastrado. Inclui interface responsiva com sidebar informativo
+ * e formulário de recuperação.
+ * 
+ * @author Sistema SkillConnect
+ * @version 1.0
+ */
+
 require_once __DIR__ . '/../config/helpers.php';
 $_flash_error   = get_flash('error');
 $_flash_info    = get_flash('info');

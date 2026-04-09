@@ -1,4 +1,14 @@
 <?php
+/**
+ * Página de edição de usuário - SkillConnect
+ * 
+ * Este arquivo contém o formulário para edição de dados de usuários do sistema.
+ * Requer permissões de administrador e valida a existência do usuário antes de exibir o formulário.
+ * 
+ * @author SkillConnect
+ * @version 1.0
+ */
+
 require_once __DIR__ . '/../config/db.php';
 
 admin_check();

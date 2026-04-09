@@ -1,4 +1,15 @@
 <?php
+/**
+ * Página de candidatura a vagas de emprego
+ * 
+ * Este arquivo permite que usuários autenticados se candidatem a vagas ativas
+ * através do upload de currículo em formato PDF. Verifica se o usuário já se
+ * candidatou anteriormente e gerencia o processo completo de candidatura.
+ * 
+ * @author Sistema SkillConnect
+ * @version 1.0
+ */
+
 require_once __DIR__ . '/../config/db.php';
 
 auth_check();

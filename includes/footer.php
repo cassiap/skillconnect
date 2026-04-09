@@ -1,4 +1,15 @@
 <?php
+/**
+ * Template do rodapé da aplicação SkillConnect
+ * 
+ * Este arquivo contém o HTML do rodapé padrão utilizado em todas as páginas
+ * da plataforma SkillConnect, incluindo informações sobre a empresa, navegação
+ * e contato.
+ * 
+ * @package SkillConnect
+ * @version 1.0
+ */
+
 if (!function_exists('app_base_path')) {
     require_once __DIR__ . '/../config/helpers.php';
 }

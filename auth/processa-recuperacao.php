@@ -1,4 +1,12 @@
 <?php
+/**
+ * Arquivo responsável por processar solicitações de recuperação de senha
+ * 
+ * Este arquivo processa o formulário de recuperação de senha, validando
+ * o e-mail informado, gerando token de recuperação e enviando por e-mail.
+ * Também realiza limpeza de tokens expirados ou já utilizados.
+ */
+
 require_once __DIR__ . '/../config/db.php';
 
 // Limpeza de tokens expirados ou ja usados

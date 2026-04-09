@@ -1,4 +1,15 @@
 <?php
+/**
+ * Arquivo de cabeçalho da aplicação SkillConnect
+ * 
+ * Este arquivo contém a estrutura HTML do cabeçalho da aplicação, incluindo
+ * navegação, autenticação de usuário, exibição de mensagens flash e estilos CSS.
+ * Responsável por exibir a barra de navegação e verificar o status de login do usuário.
+ * 
+ * @author SkillConnect
+ * @version 1.0
+ */
+
 if (!function_exists('get_flash')) {
     require_once __DIR__ . '/../config/helpers.php';
 }

@@ -1,4 +1,14 @@
 <?php
+/**
+ * Página de Minhas Candidaturas
+ * 
+ * Esta página exibe todas as candidaturas do usuário logado,
+ * mostrando o status de cada candidatura e informações das vagas.
+ * 
+ * @author Sistema SkillConnect
+ * @version 1.0
+ */
+
 require_once __DIR__ . '/../config/db.php';
 
 auth_check();

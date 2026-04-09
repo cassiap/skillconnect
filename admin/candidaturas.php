@@ -1,8 +1,26 @@
 <?php
+/**
+ * Sistema de gerenciamento de candidaturas para administradores
+ * 
+ * Este arquivo permite aos administradores visualizar, filtrar e atualizar
+ * o status das candidaturas submetidas pelos usuários do sistema.
+ * 
+ * @author Sistema SkillConnect
+ * @version 1.0
+ */
+
 require_once __DIR__ . '/../config/db.php';
 
 admin_check();
 
+/**
+ * Vincula parâmetros dinamicamente a uma declaração preparada
+ * 
+ * @param mysqli_stmt $stmt A declaração preparada do MySQLi
+ * @param string $types String contendo os tipos dos parâmetros (s, i, d, b)
+ * @param array $params Array de parâmetros a serem vinculados por referência
+ * @return void
+ */
 if (!function_exists('bind_params_dynamic')) {
     function bind_params_dynamic(mysqli_stmt $stmt, string $types, array &$params): void {
         if ($types === '') {
@@ -289,16 +307,3 @@ $stmt->close();
                                         <i class="fas fa-check"></i>
                                     </button>
                                 </form>
-                            </td>
-                        </tr>
-                    <?php endforeach; ?>
-                </tbody>
-            </table>
-        </div>
-    <?php endif; ?>
-</div>
-
-<?php include('../includes/footer.php'); ?>
-
-</body>
-</html>

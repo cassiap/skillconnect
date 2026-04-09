@@ -1,4 +1,15 @@
 <?php
+/**
+ * Página de listagem de cursos do usuário
+ * 
+ * Este arquivo exibe todos os cursos em que o usuário está inscrito,
+ * mostrando o status da inscrição, progresso nas aulas e informações
+ * detalhadas de cada curso.
+ * 
+ * @author Sistema SkillConnect
+ * @version 1.0
+ */
+
 require_once __DIR__ . '/../config/db.php';
 
 auth_check();

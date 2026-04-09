@@ -1,4 +1,15 @@
 <?php
+/**
+ * Script para download seguro de currículos de candidaturas
+ * 
+ * Este arquivo permite que administradores façam download dos currículos
+ * enviados pelos candidatos, com validações de segurança para prevenir
+ * acesso não autorizado a arquivos do sistema.
+ * 
+ * @author Sistema de RH
+ * @version 1.0
+ */
+
 require_once __DIR__ . '/../config/db.php';
 
 admin_check();

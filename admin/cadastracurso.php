@@ -1,4 +1,14 @@
 <?php
+/**
+ * Cadastro de Cursos
+ * 
+ * Este arquivo é responsável por exibir o formulário de cadastro de novos cursos
+ * e processar os dados enviados pelo administrador, salvando-os no banco de dados.
+ * 
+ * @author Sistema de Cursos
+ * @version 1.0
+ */
+
 require_once __DIR__ . '/../config/db.php';
 
 admin_check();

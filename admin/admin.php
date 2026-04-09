@@ -1,4 +1,14 @@
 <?php
+/**
+ * Painel Administrativo
+ * 
+ * Página principal do painel de administração que exibe as principais
+ * funcionalidades disponíveis para administradores do sistema.
+ * 
+ * @author Sistema de Gestão
+ * @version 1.0
+ */
+
 require_once __DIR__ . '/../config/helpers.php';
 admin_check();
 ?>

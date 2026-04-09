@@ -1,4 +1,15 @@
 <?php
+/**
+ * Arquivo responsável pela redefinição de senha de usuários através de token
+ * 
+ * Este arquivo processa tokens de recuperação de senha enviados por email,
+ * valida sua autenticidade e permite que o usuário defina uma nova senha.
+ * Inclui validação de token, verificação de expiração e atualização segura da senha.
+ * 
+ * @author Sistema
+ * @version 1.0
+ */
+
 require_once __DIR__ . '/../config/db.php';
 
 $token = $_GET['token'] ?? '';

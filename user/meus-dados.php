@@ -1,4 +1,14 @@
 <?php
+/**
+ * Página para gerenciamento dos dados pessoais do usuário
+ * 
+ * Esta página permite ao usuário visualizar e editar seus dados pessoais,
+ * incluindo informações de contato e endereço. Requer autenticação.
+ * 
+ * @author Sistema SkillConnect
+ * @version 1.0
+ */
+
 require_once __DIR__ . '/../config/db.php';
 
 auth_check();

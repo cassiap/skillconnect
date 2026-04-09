@@ -1,4 +1,15 @@
 <?php
+/**
+ * Página de inscrição em cursos
+ * 
+ * Este arquivo gerencia o processo de inscrição de usuários em cursos,
+ * incluindo validações, verificação de inscrições existentes e processamento
+ * do formulário de confirmação de inscrição.
+ * 
+ * @author Sistema SkillConnect
+ * @version 1.0
+ */
+
 require_once __DIR__ . '/../config/db.php';
 
 auth_check();
