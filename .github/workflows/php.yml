@@ -40,7 +40,7 @@ jobs:
       - name: Verificar segurança das dependências
         run: composer audit
 
-      - - name: Rodar migrations do banco
+      - name: Rodar migrations do banco
         run: |
           mysql -h 127.0.0.1 -u root -proot skillconnect < database/migrations/2026-02-24_railway_seed_utf8.sql
           mysql -h 127.0.0.1 -u root -proot skillconnect < database/migrations/2026-02-24_mvp_aluno.sql
