@@ -60,6 +60,10 @@
     <a href="packages/Application.html" class="">Application</a>
 </h4>
 
+                                    <h4 class="phpdocumentor-sidebar__root-namespace">
+    <a href="packages/SkillConnect.html" class="">SkillConnect</a>
+</h4>
+
                         </section>
             
     <section class="phpdocumentor-sidebar__category -reports">
@@ -120,66 +124,77 @@ Este arquivo e incluido automaticamente via config/db.php</p>
     <span>
                                 &nbsp;: string    </span>
 </dt>
+<dd>Gera ou retorna o token CSRF atual da sessão</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -function -">
     <a class="" href="namespaces/default.html#function_csrf_field">csrf_field()</a>
     <span>
                                 &nbsp;: string    </span>
 </dt>
+<dd>Gera um campo HTML oculto com o token CSRF</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -function -">
     <a class="" href="namespaces/default.html#function_csrf_validate">csrf_validate()</a>
     <span>
                                 &nbsp;: bool    </span>
 </dt>
+<dd>Valida se o token CSRF enviado via POST é válido</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -function -">
     <a class="" href="namespaces/default.html#function_flash">flash()</a>
     <span>
                                 &nbsp;: void    </span>
 </dt>
+<dd>Define uma mensagem flash na sessão</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -function -">
     <a class="" href="namespaces/default.html#function_get_flash">get_flash()</a>
     <span>
                                 &nbsp;: string|null    </span>
 </dt>
+<dd>Recupera e remove uma mensagem flash da sessão</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -function -">
     <a class="" href="namespaces/default.html#function_app_base_path">app_base_path()</a>
     <span>
                                 &nbsp;: string    </span>
 </dt>
+<dd>Determina o caminho base da aplicação</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -function -">
     <a class="" href="namespaces/default.html#function_app_url">app_url()</a>
     <span>
                                 &nbsp;: string    </span>
 </dt>
+<dd>Gera uma URL relativa da aplicação</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -function -">
     <a class="" href="namespaces/default.html#function_app_absolute_url">app_absolute_url()</a>
     <span>
                                 &nbsp;: string    </span>
 </dt>
+<dd>Gera uma URL absoluta da aplicação</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -function -">
     <a class="" href="namespaces/default.html#function_auth_check">auth_check()</a>
     <span>
                                 &nbsp;: void    </span>
 </dt>
+<dd>Verifica se o usuário está autenticado, redirecionando para login se não estiver</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -function -">
     <a class="" href="namespaces/default.html#function_admin_check">admin_check()</a>
     <span>
                                 &nbsp;: void    </span>
 </dt>
+<dd>Verifica se o usuário é administrador, redirecionando para login se não for</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -function -">
     <a class="" href="namespaces/default.html#function_redirect">redirect()</a>
     <span>
                                 &nbsp;: void    </span>
 </dt>
+<dd>Redireciona o usuário para a URL especificada e encerra a execução</dd>
 
     </dl>
 
@@ -201,11 +216,12 @@ Este arquivo e incluido automaticamente via config/db.php</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="config/helpers.php"><a href="files/config-helpers.html"><abbr title="config/helpers.php">helpers.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">25</span>
+    <span class="phpdocumentor-element-found-in__line">30</span>
 
     </aside>
 
-    
+        <p class="phpdocumentor-summary">Gera ou retorna o token CSRF atual da sessão</p>
+
     
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility"></span>
@@ -218,6 +234,10 @@ Este arquivo e incluido automaticamente via config/db.php</p>
             <section>
         <h5 class="phpdocumentor-return-value__heading">Return values</h5>
         <span class="phpdocumentor-signature__response_type">string</span>
+                    &mdash;
+                <section class="phpdocumentor-description"><p>O token CSRF em formato hexadecimal</p>
+</section>
+
             </section>
 
 </article>
@@ -230,11 +250,12 @@ Este arquivo e incluido automaticamente via config/db.php</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="config/helpers.php"><a href="files/config-helpers.html"><abbr title="config/helpers.php">helpers.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">32</span>
+    <span class="phpdocumentor-element-found-in__line">42</span>
 
     </aside>
 
-    
+        <p class="phpdocumentor-summary">Gera um campo HTML oculto com o token CSRF</p>
+
     
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility"></span>
@@ -247,6 +268,10 @@ Este arquivo e incluido automaticamente via config/db.php</p>
             <section>
         <h5 class="phpdocumentor-return-value__heading">Return values</h5>
         <span class="phpdocumentor-signature__response_type">string</span>
+                    &mdash;
+                <section class="phpdocumentor-description"><p>Campo input hidden com o token CSRF</p>
+</section>
+
             </section>
 
 </article>
@@ -259,11 +284,12 @@ Este arquivo e incluido automaticamente via config/db.php</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="config/helpers.php"><a href="files/config-helpers.html"><abbr title="config/helpers.php">helpers.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">36</span>
+    <span class="phpdocumentor-element-found-in__line">51</span>
 
     </aside>
 
-    
+        <p class="phpdocumentor-summary">Valida se o token CSRF enviado via POST é válido</p>
+
     
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility"></span>
@@ -276,6 +302,10 @@ Este arquivo e incluido automaticamente via config/db.php</p>
             <section>
         <h5 class="phpdocumentor-return-value__heading">Return values</h5>
         <span class="phpdocumentor-signature__response_type">bool</span>
+                    &mdash;
+                <section class="phpdocumentor-description"><p>True se o token for válido, false caso contrário</p>
+</section>
+
             </section>
 
 </article>
@@ -288,11 +318,12 @@ Este arquivo e incluido automaticamente via config/db.php</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="config/helpers.php"><a href="files/config-helpers.html"><abbr title="config/helpers.php">helpers.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">45</span>
+    <span class="phpdocumentor-element-found-in__line">67</span>
 
     </aside>
 
-    
+        <p class="phpdocumentor-summary">Define uma mensagem flash na sessão</p>
+
     
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility"></span>
@@ -306,14 +337,18 @@ Este arquivo e incluido automaticamente via config/db.php</p>
                 : <span class="phpdocumentor-argument-list__argument__type">string</span>
                             </dt>
             <dd class="phpdocumentor-argument-list__definition">
-                
+                    <section class="phpdocumentor-description"><p>Tipo da mensagem (success, error, info, etc)</p>
+</section>
+
             </dd>
                     <dt class="phpdocumentor-argument-list__entry">
                 <span class="phpdocumentor-argument-list__argument__name">$msg</span>
                 : <span class="phpdocumentor-argument-list__argument__type">string</span>
                             </dt>
             <dd class="phpdocumentor-argument-list__definition">
-                
+                    <section class="phpdocumentor-description"><p>Conteúdo da mensagem</p>
+</section>
+
             </dd>
             </dl>
 
@@ -330,11 +365,12 @@ Este arquivo e incluido automaticamente via config/db.php</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="config/helpers.php"><a href="files/config-helpers.html"><abbr title="config/helpers.php">helpers.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">49</span>
+    <span class="phpdocumentor-element-found-in__line">77</span>
 
     </aside>
 
-    
+        <p class="phpdocumentor-summary">Recupera e remove uma mensagem flash da sessão</p>
+
     
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility"></span>
@@ -348,7 +384,9 @@ Este arquivo e incluido automaticamente via config/db.php</p>
                 : <span class="phpdocumentor-argument-list__argument__type">string</span>
                             </dt>
             <dd class="phpdocumentor-argument-list__definition">
-                
+                    <section class="phpdocumentor-description"><p>Tipo da mensagem a ser recuperada</p>
+</section>
+
             </dd>
             </dl>
 
@@ -357,6 +395,10 @@ Este arquivo e incluido automaticamente via config/db.php</p>
             <section>
         <h5 class="phpdocumentor-return-value__heading">Return values</h5>
         <span class="phpdocumentor-signature__response_type">string|null</span>
+                    &mdash;
+                <section class="phpdocumentor-description"><p>A mensagem flash ou null se não existir</p>
+</section>
+
             </section>
 
 </article>
@@ -369,11 +411,12 @@ Este arquivo e incluido automaticamente via config/db.php</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="config/helpers.php"><a href="files/config-helpers.html"><abbr title="config/helpers.php">helpers.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">57</span>
+    <span class="phpdocumentor-element-found-in__line">90</span>
 
     </aside>
 
-    
+        <p class="phpdocumentor-summary">Determina o caminho base da aplicação</p>
+
     
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility"></span>
@@ -386,6 +429,10 @@ Este arquivo e incluido automaticamente via config/db.php</p>
             <section>
         <h5 class="phpdocumentor-return-value__heading">Return values</h5>
         <span class="phpdocumentor-signature__response_type">string</span>
+                    &mdash;
+                <section class="phpdocumentor-description"><p>O caminho base da aplicação sem barra final</p>
+</section>
+
             </section>
 
 </article>
@@ -398,11 +445,12 @@ Este arquivo e incluido automaticamente via config/db.php</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="config/helpers.php"><a href="files/config-helpers.html"><abbr title="config/helpers.php">helpers.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">90</span>
+    <span class="phpdocumentor-element-found-in__line">129</span>
 
     </aside>
 
-    
+        <p class="phpdocumentor-summary">Gera uma URL relativa da aplicação</p>
+
     
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility"></span>
@@ -416,7 +464,9 @@ Este arquivo e incluido automaticamente via config/db.php</p>
                 : <span class="phpdocumentor-argument-list__argument__type">string</span>
                  = <span class="phpdocumentor-argument-list__argument__default-value">''</span>            </dt>
             <dd class="phpdocumentor-argument-list__definition">
-                
+                    <section class="phpdocumentor-description"><p>Caminho a ser adicionado à URL base</p>
+</section>
+
             </dd>
             </dl>
 
@@ -425,6 +475,10 @@ Este arquivo e incluido automaticamente via config/db.php</p>
             <section>
         <h5 class="phpdocumentor-return-value__heading">Return values</h5>
         <span class="phpdocumentor-signature__response_type">string</span>
+                    &mdash;
+                <section class="phpdocumentor-description"><p>A URL completa relativa</p>
+</section>
+
             </section>
 
 </article>
@@ -437,11 +491,12 @@ Este arquivo e incluido automaticamente via config/db.php</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="config/helpers.php"><a href="files/config-helpers.html"><abbr title="config/helpers.php">helpers.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">101</span>
+    <span class="phpdocumentor-element-found-in__line">146</span>
 
     </aside>
 
-    
+        <p class="phpdocumentor-summary">Gera uma URL absoluta da aplicação</p>
+
     
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility"></span>
@@ -455,7 +510,9 @@ Este arquivo e incluido automaticamente via config/db.php</p>
                 : <span class="phpdocumentor-argument-list__argument__type">string</span>
                  = <span class="phpdocumentor-argument-list__argument__default-value">''</span>            </dt>
             <dd class="phpdocumentor-argument-list__definition">
-                
+                    <section class="phpdocumentor-description"><p>Caminho a ser adicionado à URL base</p>
+</section>
+
             </dd>
             </dl>
 
@@ -464,6 +521,10 @@ Este arquivo e incluido automaticamente via config/db.php</p>
             <section>
         <h5 class="phpdocumentor-return-value__heading">Return values</h5>
         <span class="phpdocumentor-signature__response_type">string</span>
+                    &mdash;
+                <section class="phpdocumentor-description"><p>A URL completa absoluta com protocolo e domínio</p>
+</section>
+
             </section>
 
 </article>
@@ -476,11 +537,12 @@ Este arquivo e incluido automaticamente via config/db.php</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="config/helpers.php"><a href="files/config-helpers.html"><abbr title="config/helpers.php">helpers.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">119</span>
+    <span class="phpdocumentor-element-found-in__line">169</span>
 
     </aside>
 
-    
+        <p class="phpdocumentor-summary">Verifica se o usuário está autenticado, redirecionando para login se não estiver</p>
+
     
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility"></span>
@@ -501,11 +563,12 @@ Este arquivo e incluido automaticamente via config/db.php</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="config/helpers.php"><a href="files/config-helpers.html"><abbr title="config/helpers.php">helpers.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">126</span>
+    <span class="phpdocumentor-element-found-in__line">181</span>
 
     </aside>
 
-    
+        <p class="phpdocumentor-summary">Verifica se o usuário é administrador, redirecionando para login se não for</p>
+
     
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility"></span>
@@ -526,11 +589,12 @@ Este arquivo e incluido automaticamente via config/db.php</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="config/helpers.php"><a href="files/config-helpers.html"><abbr title="config/helpers.php">helpers.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">134</span>
+    <span class="phpdocumentor-element-found-in__line">195</span>
 
     </aside>
 
-    
+        <p class="phpdocumentor-summary">Redireciona o usuário para a URL especificada e encerra a execução</p>
+
     
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility"></span>
@@ -544,7 +608,9 @@ Este arquivo e incluido automaticamente via config/db.php</p>
                 : <span class="phpdocumentor-argument-list__argument__type">string</span>
                             </dt>
             <dd class="phpdocumentor-argument-list__definition">
-                
+                    <section class="phpdocumentor-description"><p>A URL de destino do redirecionamento</p>
+</section>
+
             </dd>
             </dl>
 

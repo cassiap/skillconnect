@@ -1,14 +1,9 @@
 Search.appendIndex(
     [
                 {
-            "fqsen": "\\bind_params_dynamic\u0028\u0029",
-            "name": "bind_params_dynamic",
-            "summary": "",
-            "url": "namespaces/default.html#function_bind_params_dynamic"
-        },                {
             "fqsen": "\\validaCPF\u0028\u0029",
             "name": "validaCPF",
-            "summary": "",
+            "summary": "Valida\u0020um\u0020n\u00FAmero\u0020de\u0020CPF\u0020atrav\u00E9s\u0020do\u0020algoritmo\u0020de\u0020d\u00EDgitos\u0020verificadores",
             "url": "namespaces/default.html#function_validaCPF"
         },                {
             "fqsen": "\\env\u0028\u0029",
@@ -18,112 +13,77 @@ Search.appendIndex(
         },                {
             "fqsen": "\\csrf_token\u0028\u0029",
             "name": "csrf_token",
-            "summary": "",
+            "summary": "Gera\u0020ou\u0020retorna\u0020o\u0020token\u0020CSRF\u0020atual\u0020da\u0020sess\u00E3o",
             "url": "namespaces/default.html#function_csrf_token"
         },                {
             "fqsen": "\\csrf_field\u0028\u0029",
             "name": "csrf_field",
-            "summary": "",
+            "summary": "Gera\u0020um\u0020campo\u0020HTML\u0020oculto\u0020com\u0020o\u0020token\u0020CSRF",
             "url": "namespaces/default.html#function_csrf_field"
         },                {
             "fqsen": "\\csrf_validate\u0028\u0029",
             "name": "csrf_validate",
-            "summary": "",
+            "summary": "Valida\u0020se\u0020o\u0020token\u0020CSRF\u0020enviado\u0020via\u0020POST\u0020\u00E9\u0020v\u00E1lido",
             "url": "namespaces/default.html#function_csrf_validate"
         },                {
             "fqsen": "\\flash\u0028\u0029",
             "name": "flash",
-            "summary": "",
+            "summary": "Define\u0020uma\u0020mensagem\u0020flash\u0020na\u0020sess\u00E3o",
             "url": "namespaces/default.html#function_flash"
         },                {
             "fqsen": "\\get_flash\u0028\u0029",
             "name": "get_flash",
-            "summary": "",
+            "summary": "Recupera\u0020e\u0020remove\u0020uma\u0020mensagem\u0020flash\u0020da\u0020sess\u00E3o",
             "url": "namespaces/default.html#function_get_flash"
         },                {
             "fqsen": "\\app_base_path\u0028\u0029",
             "name": "app_base_path",
-            "summary": "",
+            "summary": "Determina\u0020o\u0020caminho\u0020base\u0020da\u0020aplica\u00E7\u00E3o",
             "url": "namespaces/default.html#function_app_base_path"
         },                {
             "fqsen": "\\app_url\u0028\u0029",
             "name": "app_url",
-            "summary": "",
+            "summary": "Gera\u0020uma\u0020URL\u0020relativa\u0020da\u0020aplica\u00E7\u00E3o",
             "url": "namespaces/default.html#function_app_url"
         },                {
             "fqsen": "\\app_absolute_url\u0028\u0029",
             "name": "app_absolute_url",
-            "summary": "",
+            "summary": "Gera\u0020uma\u0020URL\u0020absoluta\u0020da\u0020aplica\u00E7\u00E3o",
             "url": "namespaces/default.html#function_app_absolute_url"
         },                {
             "fqsen": "\\auth_check\u0028\u0029",
             "name": "auth_check",
-            "summary": "",
+            "summary": "Verifica\u0020se\u0020o\u0020usu\u00E1rio\u0020est\u00E1\u0020autenticado,\u0020redirecionando\u0020para\u0020login\u0020se\u0020n\u00E3o\u0020estiver",
             "url": "namespaces/default.html#function_auth_check"
         },                {
             "fqsen": "\\admin_check\u0028\u0029",
             "name": "admin_check",
-            "summary": "",
+            "summary": "Verifica\u0020se\u0020o\u0020usu\u00E1rio\u0020\u00E9\u0020administrador,\u0020redirecionando\u0020para\u0020login\u0020se\u0020n\u00E3o\u0020for",
             "url": "namespaces/default.html#function_admin_check"
         },                {
             "fqsen": "\\redirect\u0028\u0029",
             "name": "redirect",
-            "summary": "",
+            "summary": "Redireciona\u0020o\u0020usu\u00E1rio\u0020para\u0020a\u0020URL\u0020especificada\u0020e\u0020encerra\u0020a\u0020execu\u00E7\u00E3o",
             "url": "namespaces/default.html#function_redirect"
         },                {
             "fqsen": "\\resumo_home\u0028\u0029",
             "name": "resumo_home",
-            "summary": "",
+            "summary": "Cria\u0020um\u0020resumo\u0020do\u0020texto\u0020para\u0020exibi\u00E7\u00E3o\u0020na\u0020p\u00E1gina\u0020inicial",
             "url": "namespaces/default.html#function_resumo_home"
-        },                {
-            "fqsen": "\\anthropic_chat_with_fallback\u0028\u0029",
-            "name": "anthropic_chat_with_fallback",
-            "summary": "",
-            "url": "namespaces/default.html#function_anthropic_chat_with_fallback"
-        },                {
-            "fqsen": "\\ai_resume_texto\u0028\u0029",
-            "name": "ai_resume_texto",
-            "summary": "",
-            "url": "namespaces/default.html#function_ai_resume_texto"
-        },                {
-            "fqsen": "\\ai_connect_db_optional\u0028\u0029",
-            "name": "ai_connect_db_optional",
-            "summary": "",
-            "url": "namespaces/default.html#function_ai_connect_db_optional"
-        },                {
-            "fqsen": "\\ai_catalogo_site_contexto\u0028\u0029",
-            "name": "ai_catalogo_site_contexto",
-            "summary": "",
-            "url": "namespaces/default.html#function_ai_catalogo_site_contexto"
-        },                {
-            "fqsen": "\\ai_format_inline\u0028\u0029",
-            "name": "ai_format_inline",
-            "summary": "",
-            "url": "namespaces/default.html#function_ai_format_inline"
-        },                {
-            "fqsen": "\\ai_render_response_html\u0028\u0029",
-            "name": "ai_render_response_html",
-            "summary": "",
-            "url": "namespaces/default.html#function_ai_render_response_html"
         },                {
             "fqsen": "\\resumo_curso\u0028\u0029",
             "name": "resumo_curso",
-            "summary": "",
+            "summary": "Cria\u0020um\u0020resumo\u0020truncado\u0020de\u0020um\u0020texto\u0020para\u0020exibi\u00E7\u00E3o\u0020em\u0020cards\u0020de\u0020curso",
             "url": "namespaces/default.html#function_resumo_curso"
         },                {
             "fqsen": "\\split_lines\u0028\u0029",
             "name": "split_lines",
-            "summary": "",
+            "summary": "Divide\u0020um\u0020texto\u0020em\u0020linhas\u0020n\u00E3o\u0020vazias",
             "url": "namespaces/default.html#function_split_lines"
-        },                {
-            "fqsen": "\\safe_http_url\u0028\u0029",
-            "name": "safe_http_url",
-            "summary": "",
-            "url": "namespaces/default.html#function_safe_http_url"
         },                {
             "fqsen": "\\resumo_vaga\u0028\u0029",
             "name": "resumo_vaga",
-            "summary": "",
+            "summary": "Gera\u0020um\u0020resumo\u0020truncado\u0020do\u0020texto\u0020da\u0020vaga",
             "url": "namespaces/default.html#function_resumo_vaga"
         },                {
             "fqsen": "\\",

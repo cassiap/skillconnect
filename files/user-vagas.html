@@ -60,6 +60,10 @@
     <a href="packages/Application.html" class="">Application</a>
 </h4>
 
+                                    <h4 class="phpdocumentor-sidebar__root-namespace">
+    <a href="packages/SkillConnect.html" class="">SkillConnect</a>
+</h4>
+
                         </section>
             
     <section class="phpdocumentor-sidebar__category -reports">
@@ -84,10 +88,38 @@
     <article class="phpdocumentor-element -file">
         <h2 class="phpdocumentor-content__title">vagas.php</h2>
 
+            <p class="phpdocumentor-summary">Página de listagem e busca de vagas de emprego</p>
+
         
+            <section class="phpdocumentor-description"><p>Este arquivo gerencia a exibição das vagas disponíveis, permitindo filtros
+por busca textual, tipo, modalidade, cidade e ordenação dos resultados.</p>
+</section>
+
         
-        
-        
+    <h5 class="phpdocumentor-tag-list__heading" id="tags">
+        Tags
+        <a href="files/user-vagas.html#tags" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h5>
+    <dl class="phpdocumentor-tag-list">
+                                    <dt class="phpdocumentor-tag-list__entry">
+                    <span class="phpdocumentor-tag__name">author</span>
+                </dt>
+                <dd class="phpdocumentor-tag-list__definition">
+                                                                                
+                                                 <section class="phpdocumentor-description"><p>Sistema SkillConnect</p>
+</section>
+
+                                    </dd>
+                                                <dt class="phpdocumentor-tag-list__entry">
+                    <span class="phpdocumentor-tag__name">version</span>
+                </dt>
+                <dd class="phpdocumentor-tag-list__definition">
+                                            <span class="phpdocumentor-tag-link">1.0</span>
+                                                                                
+                                             
+                                    </dd>
+                        </dl>
 
 
         
@@ -118,6 +150,7 @@
     <span>
                                 &nbsp;: string    </span>
 </dt>
+<dd>Gera um resumo truncado do texto da vaga</dd>
 
     </dl>
 
@@ -139,17 +172,21 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="user/vagas.php"><a href="files/user-vagas.html"><abbr title="user/vagas.php">vagas.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">53</span>
+    <span class="phpdocumentor-element-found-in__line">73</span>
 
     </aside>
 
-    
+        <p class="phpdocumentor-summary">Gera um resumo truncado do texto da vaga</p>
+
     
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility"></span>
                     <span class="phpdocumentor-signature__name">resumo_vaga</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__type">string&nbsp;</span><span class="phpdocumentor-signature__argument__name">$texto</span></span><span class="phpdocumentor-signature__argument"><span>[</span><span>, </span><span class="phpdocumentor-signature__argument__type">int&nbsp;</span><span class="phpdocumentor-signature__argument__name">$limite</span><span> = </span><span class="phpdocumentor-signature__argument__default-value">125</span><span> ]</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">string</span></code>
 
-    
+        <section class="phpdocumentor-description"><p>Remove tags HTML e limita o texto ao número de caracteres especificado,
+adicionando reticências quando necessário. Suporta multibyte strings.</p>
+</section>
+
         <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
     <dl class="phpdocumentor-argument-list">
                     <dt class="phpdocumentor-argument-list__entry">
@@ -157,14 +194,18 @@
                 : <span class="phpdocumentor-argument-list__argument__type">string</span>
                             </dt>
             <dd class="phpdocumentor-argument-list__definition">
-                
+                    <section class="phpdocumentor-description"><p>O texto completo a ser resumido</p>
+</section>
+
             </dd>
                     <dt class="phpdocumentor-argument-list__entry">
                 <span class="phpdocumentor-argument-list__argument__name">$limite</span>
                 : <span class="phpdocumentor-argument-list__argument__type">int</span>
                  = <span class="phpdocumentor-argument-list__argument__default-value">125</span>            </dt>
             <dd class="phpdocumentor-argument-list__definition">
-                
+                    <section class="phpdocumentor-description"><p>O número máximo de caracteres no resumo</p>
+</section>
+
             </dd>
             </dl>
 
@@ -173,6 +214,10 @@
             <section>
         <h5 class="phpdocumentor-return-value__heading">Return values</h5>
         <span class="phpdocumentor-signature__response_type">string</span>
+                    &mdash;
+                <section class="phpdocumentor-description"><p>O texto resumido com ou sem reticências</p>
+</section>
+
             </section>
 
 </article>
