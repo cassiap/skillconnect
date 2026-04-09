@@ -152,10 +152,6 @@ C:\xampp\php\php.exe -l config\db.php
 ```
 ---
 
----
-
----
-
 ## Automação com GitHub Actions
 
 O projeto utiliza GitHub Actions para automatizar tarefas a cada push na branch `main`.
