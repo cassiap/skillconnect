@@ -33,8 +33,9 @@ admin_check();
             <div class="card shadow h-100">
                 <div class="card-body text-center">
                     <i class="fas fa-plus-circle fa-2x text-success mb-3"></i>
-                    <h5 class="card-title">Cadastrar Vaga</h5>
-                    <a href="cadastravaga.php" class="btn btn-outline-success btn-sm mt-2">Acessar</a>
+                    <h5 class="card-title">Vagas</h5>
+                    <a href="cadastravaga.php" class="btn btn-outline-success btn-sm mt-2 mr-1">Cadastrar</a>
+                    <a href="../user/vagas.php" class="btn btn-outline-primary btn-sm mt-2">Gerenciar</a>
                 </div>
             </div>
         </div>

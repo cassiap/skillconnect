@@ -1,14 +1,4 @@
 <?php
-/**
- * Assistente de Carreira SkillConnect
- * 
- * Sistema de assistente virtual para orientação profissional e de carreira,
- * integrado com IA da Anthropic para fornecer recomendações personalizadas
- * sobre cursos, vagas e planejamento de carreira.
- * 
- * @author SkillConnect
- * @version 1.0
- */
 require_once __DIR__ . '/../config/helpers.php';
 require_once __DIR__ . '/../config/env.php';
 
@@ -17,16 +7,9 @@ $objetivo = trim($_POST['objetivo'] ?? 'plano_carreira');
 $resposta = '';
 $erro = '';
 $modeloUsado = '';
+$usuarioLogado = !empty($_SESSION['logado']);
 
 if (!function_exists('anthropic_chat_with_fallback')) {
-    /**
-     * Realiza chat com a API da Anthropic usando fallback entre múltiplos modelos
-     * 
-     * @param string $apiKey Chave da API da Anthropic
-     * @param string $systemPrompt Prompt do sistema para contexto da IA
-     * @param array $mensagens Array de mensagens do diálogo
-     * @return array Array com [sucesso, conteudo, erro, modelo_usado]
-     */
     function anthropic_chat_with_fallback(string $apiKey, string $systemPrompt, array $mensagens): array {
         $modelos = [];
         $preferidosRaw = trim((string) env('ANTHROPIC_MODEL', ''));
@@ -153,13 +136,6 @@ if (!function_exists('anthropic_chat_with_fallback')) {
 }
 
 if (!function_exists('ai_resume_texto')) {
-    /**
-     * Resume um texto para um limite de caracteres
-     * 
-     * @param string $texto Texto a ser resumido
-     * @param int $limite Limite máximo de caracteres
-     * @return string Texto resumido com reticências se necessário
-     */
     function ai_resume_texto(string $texto, int $limite = 110): string {
         $texto = trim(preg_replace('/\s+/', ' ', strip_tags($texto)) ?? '');
         if ($texto === '') {
@@ -179,11 +155,6 @@ if (!function_exists('ai_resume_texto')) {
 }
 
 if (!function_exists('ai_connect_db_optional')) {
-    /**
-     * Conecta ao banco de dados MySQL de forma opcional
-     * 
-     * @return mysqli|null Conexão MySQLi ou null em caso de falha
-     */
     function ai_connect_db_optional(): ?mysqli {
         if (!extension_loaded('mysqli') || !class_exists('mysqli')) {
             return null;
@@ -225,11 +196,6 @@ if (!function_exists('ai_connect_db_optional')) {
 }
 
 if (!function_exists('ai_catalogo_site_contexto')) {
-    /**
-     * Obtém o catálogo atual de cursos e vagas do site para contexto da IA
-     * 
-     * @return string String formatada com informações de cursos e vagas disponíveis
-     */
     function ai_catalogo_site_contexto(): string {
         $cx = ai_connect_db_optional();
         if (!$cx) {
@@ -328,12 +294,326 @@ if (!function_exists('ai_catalogo_site_contexto')) {
 }
 
 if (!function_exists('ai_format_inline')) {
-    /**
-     * Formata elementos inline do markdown para HTML
-     * 
-     * @param string $text Texto em markdown para formatação
-     * @return string Texto formatado com HTML inline
-     */
     function ai_format_inline(string $text): string {
         $safe = htmlspecialchars($text, ENT_QUOTES, 'UTF-8');
-        $safe = preg_replace('/\[(.+?)\]\((https?:\/\/[^\s)]+)\)/', '<a href="$
+        $safe = preg_replace('/\[(.+?)\]\((https?:\/\/[^\s)]+)\)/', '<a href="$2" target="_blank" rel="noopener noreferrer">$1</a>', $safe);
+        $safe = preg_replace('/\*\*(.+?)\*\*/s', '<strong>$1</strong>', $safe);
+        $safe = preg_replace('/`([^`]+)`/', '<code>$1</code>', $safe);
+        return $safe ?? '';
+    }
+}
+
+if (!function_exists('ai_render_response_html')) {
+    function ai_render_response_html(string $markdown): string {
+        $markdown = trim($markdown);
+        if ($markdown === '') {
+            return '';
+        }
+
+        $lines = preg_split('/\r\n|\r|\n/', $markdown) ?: [];
+        $htmlParts = [];
+        $paragraph = [];
+        $inUl = false;
+        $inOl = false;
+
+        $flushParagraph = function () use (&$paragraph, &$htmlParts): void {
+            if ($paragraph === []) {
+                return;
+            }
+            $joined = trim(implode(' ', $paragraph));
+            if ($joined !== '') {
+                $htmlParts[] = '<p>' . ai_format_inline($joined) . '</p>';
+            }
+            $paragraph = [];
+        };
+
+        $closeLists = function () use (&$inUl, &$inOl, &$htmlParts): void {
+            if ($inUl) {
+                $htmlParts[] = '</ul>';
+                $inUl = false;
+            }
+            if ($inOl) {
+                $htmlParts[] = '</ol>';
+                $inOl = false;
+            }
+        };
+
+        foreach ($lines as $line) {
+            $trimmed = trim((string) $line);
+
+            if ($trimmed === '') {
+                $flushParagraph();
+                $closeLists();
+                continue;
+            }
+
+            if (preg_match('/^(#{1,3})\s+(.+)$/', $trimmed, $m)) {
+                $flushParagraph();
+                $closeLists();
+                $level = min(5, 2 + strlen($m[1])); // # => h3, ## => h4, ### => h5
+                $htmlParts[] = '<h' . $level . '>' . ai_format_inline($m[2]) . '</h' . $level . '>';
+                continue;
+            }
+
+            if (preg_match('/^[-*]\s+(.+)$/', $trimmed, $m)) {
+                $flushParagraph();
+                if ($inOl) {
+                    $htmlParts[] = '</ol>';
+                    $inOl = false;
+                }
+                if (!$inUl) {
+                    $htmlParts[] = '<ul>';
+                    $inUl = true;
+                }
+                $htmlParts[] = '<li>' . ai_format_inline($m[1]) . '</li>';
+                continue;
+            }
+
+            if (preg_match('/^\d+\.\s+(.+)$/', $trimmed, $m)) {
+                $flushParagraph();
+                if ($inUl) {
+                    $htmlParts[] = '</ul>';
+                    $inUl = false;
+                }
+                if (!$inOl) {
+                    $htmlParts[] = '<ol>';
+                    $inOl = true;
+                }
+                $htmlParts[] = '<li>' . ai_format_inline($m[1]) . '</li>';
+                continue;
+            }
+
+            $paragraph[] = $trimmed;
+        }
+
+        $flushParagraph();
+        $closeLists();
+
+        return implode("\n", $htmlParts);
+    }
+}
+
+$objetivosPermitidos = [
+    'plano_carreira' => 'Plano de carreira',
+    'curriculo' => 'Melhorar curriculo',
+    'entrevista' => 'Treino de entrevista',
+    'trilha_estudo' => 'Trilha de estudo',
+];
+if (!array_key_exists($objetivo, $objetivosPermitidos)) {
+    $objetivo = 'plano_carreira';
+}
+
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    if (!$usuarioLogado) {
+        $erro = 'Cadastre-se ou faca login para usar o Assistente de Carreira.';
+    } elseif (!csrf_validate()) {
+        $erro = 'Sessao expirada. Recarregue a pagina e tente novamente.';
+    } elseif ($prompt === '') {
+        $erro = 'Descreva sua situacao para receber recomendacoes personalizadas.';
+    } else {
+        $apiKey = trim((string) env('ANTHROPIC_API_KEY', ''));
+        if ($apiKey === '') {
+            $erro = 'Configure ANTHROPIC_API_KEY no arquivo .env.';
+        } else {
+            $contexto = "Voce e o Assistente de Carreira do SkillConnect. 
+Seu papel: orientar alunos em cursos profissionalizantes e busca de vagas.
+Responda em portugues do Brasil, com linguagem pratica e objetiva.
+Estruture a resposta em:
+1) Diagnostico rapido
+2) Plano de acao em passos
+3) Cursos recomendados (perfil geral)
+4) Vagas-alvo e palavras-chave para busca
+5) Proxima acao para hoje
+Nao invente dados pessoais do usuario.";
+
+            $catalogoSite = ai_catalogo_site_contexto();
+            $regraCatalogo = "Regras obrigatorias de recomendacao:
+- Use apenas cursos e vagas da lista 'CATALOGO REAL DO SKILLCONNECT'.
+- Recomende de 2 a 4 cursos e de 2 a 4 vagas quando houver aderencia.
+- Sempre inclua links clicaveis em markdown no formato [texto](url).
+- Se nao houver aderencia, diga claramente que nenhum item atual encaixa bem e sugira refinamento.";
+
+            $instrucaoObjetivo = "Objetivo principal do usuario: " . $objetivosPermitidos[$objetivo] . ".";
+            $systemPrompt = $contexto . "\n\n" . $instrucaoObjetivo . "\n\n" . $regraCatalogo . "\n\n" . $catalogoSite;
+            $mensagens = [
+                ['role' => 'user', 'content' => $prompt],
+            ];
+            [$ok, $conteudo, $erroApi, $modelo] = anthropic_chat_with_fallback($apiKey, $systemPrompt, $mensagens);
+            if ($ok) {
+                $resposta = $conteudo;
+                $modeloUsado = $modelo;
+            } else {
+                $erro = $erroApi;
+            }
+        }
+    }
+}
+?>
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Assistente de Carreira - SkillConnect</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta2/css/all.min.css" rel="stylesheet">
+    <style>
+        .hero-ai {
+            background: radial-gradient(circle at 10% 10%, #7dd3fc 0%, #0ea5a4 35%, #155e75 100%);
+            color: #fff;
+            border-radius: 18px;
+            padding: 30px;
+        }
+        .panel-card {
+            border-radius: 14px;
+            border: 1px solid #e2e8f0;
+        }
+        .shortcut-btn {
+            margin: 0 8px 8px 0;
+        }
+        .response-box {
+            background: #f8fafc;
+            border: 1px solid #e2e8f0;
+            border-radius: 12px;
+            padding: 18px;
+            line-height: 1.7;
+            color: #0f172a;
+        }
+        .response-box h3,
+        .response-box h4,
+        .response-box h5 {
+            margin-top: 0;
+            margin-bottom: 12px;
+            color: #0f766e;
+            font-weight: 700;
+        }
+        .response-box p {
+            margin-bottom: 12px;
+        }
+        .response-box ul,
+        .response-box ol {
+            margin-bottom: 14px;
+            padding-left: 20px;
+        }
+        .response-box li {
+            margin-bottom: 8px;
+        }
+        .response-box code {
+            background: #e2e8f0;
+            border-radius: 6px;
+            padding: 1px 6px;
+            font-size: 0.92em;
+        }
+    </style>
+</head>
+<body class="bg-light">
+
+<?php include('../includes/header.php'); ?>
+
+<div class="container py-4">
+    <div class="hero-ai mb-4">
+        <h1 class="h3 mb-2"><i class="fas fa-robot"></i> Assistente de Carreira SkillConnect</h1>
+        <p class="mb-0">Receba um plano pratico para cursos, vagas e proximos passos com base no seu momento profissional.</p>
+    </div>
+
+    <div class="row">
+        <div class="col-lg-7 mb-4">
+            <div class="card panel-card">
+                <div class="card-body">
+                    <?php if ($usuarioLogado): ?>
+                        <h2 class="h5 mb-3">Descreva seu objetivo</h2>
+                        <form method="POST">
+                            <?php echo csrf_field(); ?>
+                            <div class="form-group">
+                                <label class="small text-muted mb-1">Foco da conversa</label>
+                                <select name="objetivo" class="form-control">
+                                    <?php foreach ($objetivosPermitidos as $key => $label): ?>
+                                        <option value="<?php echo htmlspecialchars($key); ?>" <?php echo $objetivo === $key ? 'selected' : ''; ?>>
+                                            <?php echo htmlspecialchars($label); ?>
+                                        </option>
+                                    <?php endforeach; ?>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label class="small text-muted mb-1">Contexto</label>
+                                <textarea name="prompt" rows="8" class="form-control" placeholder="Ex.: Sou iniciante em TI, tenho 2 horas por dia para estudar e quero uma vaga de suporte em ate 4 meses."><?php echo htmlspecialchars($prompt); ?></textarea>
+                            </div>
+                            <button type="submit" class="btn btn-primary">
+                                <i class="fas fa-paper-plane"></i> Gerar plano com IA
+                            </button>
+                        </form>
+
+                        <hr>
+                        <div class="small text-muted mb-2">Atalhos de prompt:</div>
+                        <button type="button" class="btn btn-sm btn-outline-secondary shortcut-btn js-shortcut" data-text="Monte um plano de 8 semanas para eu conseguir uma vaga junior em TI estudando 2 horas por dia.">Plano 8 semanas</button>
+                        <button type="button" class="btn btn-sm btn-outline-secondary shortcut-btn js-shortcut" data-text="Revise meu posicionamento profissional para curriculo e LinkedIn de forma objetiva.">Curriculo e LinkedIn</button>
+                        <button type="button" class="btn btn-sm btn-outline-secondary shortcut-btn js-shortcut" data-text="Crie um roteiro de estudo focado em Excel e atendimento para vaga administrativa.">Roteiro administrativo</button>
+                    <?php else: ?>
+                        <h2 class="h5 mb-3"><i class="fas fa-lock text-warning"></i> Assistente exclusivo para usuarios cadastrados</h2>
+                        <p class="text-muted mb-3">Para usar o Assistente de Carreira, crie sua conta gratuita ou faca login.</p>
+                        <div class="alert alert-info mb-3">
+                            Cadastre-se para liberar planos personalizados com cursos e vagas do SkillConnect.
+                        </div>
+                        <a href="<?php echo app_url('auth/register.php'); ?>" class="btn btn-primary mr-2 mb-2">
+                            <i class="fas fa-user-plus"></i> Criar conta
+                        </a>
+                        <a href="<?php echo app_url('auth/login.php'); ?>" class="btn btn-outline-secondary mb-2">
+                            <i class="fas fa-sign-in-alt"></i> Ja tenho conta
+                        </a>
+                    <?php endif; ?>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-lg-5 mb-4">
+            <div class="card panel-card h-100">
+                <div class="card-body">
+                    <h3 class="h6 text-primary">Como usar melhor</h3>
+                    <ul class="small mb-3">
+                        <li>Inclua nivel atual, area de interesse e prazo.</li>
+                        <li>Informe disponibilidade semanal real.</li>
+                        <li>Peça plano em etapas com metas curtas.</li>
+                    </ul>
+                    <h3 class="h6 text-primary">Exemplo de prompt forte</h3>
+                    <p class="small text-muted mb-0">"Tenho experiencia em vendas, quero migrar para suporte de TI em 6 meses e estudar 10h por semana. Monte trilha, cursos e palavras-chave de vagas."</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <?php if ($erro !== ''): ?>
+        <div class="alert alert-danger"><?php echo htmlspecialchars($erro); ?></div>
+    <?php endif; ?>
+
+    <?php if ($usuarioLogado && $resposta !== ''): ?>
+        <div class="card panel-card mb-4">
+            <div class="card-header bg-white">
+                <strong><i class="fas fa-lightbulb text-warning"></i> Plano sugerido pela IA</strong>
+                <?php if ($modeloUsado !== ''): ?>
+                    <small class="text-muted ml-2">(modelo: <?php echo htmlspecialchars($modeloUsado); ?>)</small>
+                <?php endif; ?>
+            </div>
+            <div class="card-body">
+                <div class="response-box"><?php echo ai_render_response_html($resposta); ?></div>
+            </div>
+        </div>
+    <?php endif; ?>
+</div>
+
+<?php include('../includes/footer.php'); ?>
+
+<script>
+document.querySelectorAll('.js-shortcut').forEach(function(btn) {
+    btn.addEventListener('click', function() {
+        var texto = btn.getAttribute('data-text') || '';
+        var area = document.querySelector('textarea[name="prompt"]');
+        if (area) {
+            area.value = texto;
+            area.focus();
+        }
+    });
+});
+</script>
+
+</body>
+</html>

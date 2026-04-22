@@ -11,11 +11,49 @@
 
 require_once __DIR__ . '/../config/db.php';
 
+$isAdmin = isset($_SESSION['perfil']) && $_SESSION['perfil'] === 'admin';
 $q = trim($_GET['q'] ?? '');
 $tipo = trim($_GET['tipo'] ?? '');
 $modalidade = trim($_GET['modalidade'] ?? '');
 $cidade = trim($_GET['cidade'] ?? '');
 $ord = trim($_GET['ord'] ?? 'recentes');
+$statusFiltro = trim($_GET['status'] ?? 'ativas');
+
+if (!$isAdmin) {
+    $statusFiltro = 'ativas';
+}
+$statusPermitidos = ['ativas', 'inativas', 'todas'];
+if (!in_array($statusFiltro, $statusPermitidos, true)) {
+    $statusFiltro = 'ativas';
+}
+
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    if (!$isAdmin) {
+        flash('error', 'Apenas administradores podem alterar o status de vagas.');
+    } elseif (!csrf_validate()) {
+        flash('error', 'Sessao expirada. Tente novamente.');
+    } else {
+        $acao = trim((string) ($_POST['acao'] ?? ''));
+        $vagaId = (int) ($_POST['vaga_id'] ?? 0);
+
+        if ($vagaId <= 0 || !in_array($acao, ['desativar', 'reativar'], true)) {
+            flash('error', 'Acao invalida para vaga.');
+        } else {
+            $novoAtivo = $acao === 'reativar' ? 1 : 0;
+            $stmtToggle = $cx->prepare("UPDATE vagas SET ativo = ?, atualizado_em = NOW() WHERE id = ?");
+            $stmtToggle->bind_param("ii", $novoAtivo, $vagaId);
+            if ($stmtToggle->execute()) {
+                flash('success', $novoAtivo === 1 ? 'Vaga reativada com sucesso.' : 'Vaga desativada com sucesso.');
+            } else {
+                flash('error', 'Nao foi possivel atualizar o status da vaga.');
+            }
+            $stmtToggle->close();
+        }
+    }
+
+    $queryAtual = $_SERVER['QUERY_STRING'] ?? '';
+    redirect('vagas.php' . ($queryAtual !== '' ? '?' . $queryAtual : ''));
+}
 
 $ordensPermitidas = [
     'recentes' => 'v.id DESC',
@@ -24,17 +62,23 @@ $ordensPermitidas = [
     'cidade' => 'v.cidade ASC',
 ];
 $orderBy = $ordensPermitidas[$ord] ?? $ordensPermitidas['recentes'];
+$filtroAtivoSql = '';
+if ($statusFiltro === 'ativas') {
+    $filtroAtivoSql = ' AND v.ativo = 1';
+} elseif ($statusFiltro === 'inativas') {
+    $filtroAtivoSql = ' AND v.ativo = 0';
+}
 
 $qLike = '%' . $q . '%';
 $cidadeLike = '%' . $cidade . '%';
 
-$sql = "SELECT v.id, v.titulo, v.empresa, v.tipo, v.modalidade, v.salario, v.cidade, v.estado, v.descricao, v.requisitos
+$sql = "SELECT v.id, v.titulo, v.empresa, v.tipo, v.modalidade, v.salario, v.cidade, v.estado, v.descricao, v.requisitos, v.ativo
         FROM vagas v
-        WHERE v.ativo = 1
-          AND (? = '' OR v.titulo LIKE ? OR v.empresa LIKE ? OR v.descricao LIKE ? OR v.requisitos LIKE ?)
+        WHERE (? = '' OR v.titulo LIKE ? OR v.empresa LIKE ? OR v.descricao LIKE ? OR v.requisitos LIKE ?)
           AND (? = '' OR v.tipo = ?)
           AND (? = '' OR v.modalidade = ?)
           AND (? = '' OR v.cidade LIKE ?)
+          {$filtroAtivoSql}
         ORDER BY {$orderBy}";
 
 $stmt = $cx->prepare($sql);
@@ -49,13 +93,13 @@ while ($row = $resultado->fetch_assoc()) {
 $stmt->close();
 
 $tipos = [];
-$r1 = $cx->query("SELECT DISTINCT tipo FROM vagas WHERE ativo = 1 AND tipo IS NOT NULL AND tipo <> '' ORDER BY tipo ASC");
+$r1 = $cx->query("SELECT DISTINCT tipo FROM vagas WHERE tipo IS NOT NULL AND tipo <> '' ORDER BY tipo ASC");
 while ($r1 && $t = $r1->fetch_assoc()) {
     $tipos[] = $t['tipo'];
 }
 
 $modalidades = [];
-$r2 = $cx->query("SELECT DISTINCT modalidade FROM vagas WHERE ativo = 1 AND modalidade IS NOT NULL AND modalidade <> '' ORDER BY modalidade ASC");
+$r2 = $cx->query("SELECT DISTINCT modalidade FROM vagas WHERE modalidade IS NOT NULL AND modalidade <> '' ORDER BY modalidade ASC");
 while ($r2 && $m = $r2->fetch_assoc()) {
     $modalidades[] = $m['modalidade'];
 }
@@ -188,6 +232,16 @@ function resumo_vaga(string $texto, int $limite = 125): string {
                     <option value="cidade" <?php echo $ord === 'cidade' ? 'selected' : ''; ?>>Cidade A-Z</option>
                 </select>
             </div>
+            <?php if ($isAdmin): ?>
+                <div class="col-md-2 mb-2">
+                    <label class="small text-muted mb-1">Status</label>
+                    <select name="status" class="form-control">
+                        <option value="ativas" <?php echo $statusFiltro === 'ativas' ? 'selected' : ''; ?>>Ativas</option>
+                        <option value="inativas" <?php echo $statusFiltro === 'inativas' ? 'selected' : ''; ?>>Inativas</option>
+                        <option value="todas" <?php echo $statusFiltro === 'todas' ? 'selected' : ''; ?>>Todas</option>
+                    </select>
+                </div>
+            <?php endif; ?>
             <div class="col-md-1 mb-2 d-flex align-items-end">
                 <button class="btn btn-primary btn-block" type="submit">OK</button>
             </div>
@@ -213,6 +267,9 @@ function resumo_vaga(string $texto, int $limite = 125): string {
                             <div class="mb-2">
                                 <span class="chip"><?php echo htmlspecialchars($vaga['tipo'] ?: 'Tipo livre'); ?></span>
                                 <span class="chip"><?php echo htmlspecialchars(ucfirst($vaga['modalidade'] ?: 'geral')); ?></span>
+                                <?php if ($isAdmin): ?>
+                                    <span class="chip"><?php echo ((int) $vaga['ativo'] === 1) ? 'Ativa' : 'Inativa'; ?></span>
+                                <?php endif; ?>
                             </div>
                             <h5 class="mb-1"><?php echo htmlspecialchars($vaga['titulo']); ?></h5>
                             <p class="text-muted mb-2"><?php echo htmlspecialchars($vaga['empresa'] ?: 'Empresa nao informada'); ?></p>
@@ -224,6 +281,23 @@ function resumo_vaga(string $texto, int $limite = 125): string {
                             <a href="vaga.php?id=<?php echo (int) $vaga['id']; ?>" class="btn btn-outline-primary mt-auto">
                                 Ver detalhes
                             </a>
+                            <?php if ($isAdmin): ?>
+                                <form method="POST" class="mt-2">
+                                    <?php echo csrf_field(); ?>
+                                    <input type="hidden" name="vaga_id" value="<?php echo (int) $vaga['id']; ?>">
+                                    <?php if ((int) $vaga['ativo'] === 1): ?>
+                                        <input type="hidden" name="acao" value="desativar">
+                                        <button type="submit" class="btn btn-sm btn-outline-danger btn-block" onclick="return confirm('Deseja desativar esta vaga?');">
+                                            <i class="fas fa-trash-alt"></i> Desativar vaga
+                                        </button>
+                                    <?php else: ?>
+                                        <input type="hidden" name="acao" value="reativar">
+                                        <button type="submit" class="btn btn-sm btn-outline-success btn-block">
+                                            <i class="fas fa-undo"></i> Reativar vaga
+                                        </button>
+                                    <?php endif; ?>
+                                </form>
+                            <?php endif; ?>
                         </div>
                     </div>
                 </div>
