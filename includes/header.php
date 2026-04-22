@@ -21,6 +21,7 @@ $perfil = $isLogado ? ($_SESSION['perfil'] ?? '') : '';
 $currentPath = str_replace('\\', '/', $_SERVER['SCRIPT_NAME'] ?? '');
 
 $isHome = (strpos($currentPath, '/index.php') !== false);
+$isPainel = (strpos($currentPath, '/user/painel.php') !== false);
 $isCursos = (strpos($currentPath, '/user/cursos.php') !== false
     || strpos($currentPath, '/user/curso.php') !== false
     || strpos($currentPath, '/user/meus-cursos.php') !== false
@@ -109,6 +110,9 @@ $_flash_info = get_flash('info');
         <div class="collapse navbar-collapse justify-content-between" id="navbarNav">
             <ul class="navbar-nav">
                 <li class="nav-item"><a class="nav-link sc-nav-link <?php echo $isHome ? 'active' : ''; ?>" href="<?= $_base ?>/index.php">Inicio</a></li>
+                <?php if ($isLogado && $perfil !== 'admin'): ?>
+                    <li class="nav-item"><a class="nav-link sc-nav-link <?php echo $isPainel ? 'active' : ''; ?>" href="<?= $_base ?>/user/painel.php">Meu painel</a></li>
+                <?php endif; ?>
                 <li class="nav-item"><a class="nav-link sc-nav-link <?php echo $isCursos ? 'active' : ''; ?>" href="<?= $_base ?>/user/cursos.php">Cursos</a></li>
                 <li class="nav-item"><a class="nav-link sc-nav-link <?php echo $isVagas ? 'active' : ''; ?>" href="<?= $_base ?>/user/vagas.php">Vagas</a></li>
                 <li class="nav-item"><a class="nav-link sc-nav-link <?php echo $isAssistente ? 'active' : ''; ?>" href="<?= $_base ?>/user/assistente.php">Assistente IA</a></li>
@@ -134,7 +138,7 @@ $_flash_info = get_flash('info');
                             <i class="fas fa-user-circle"></i> <?php echo htmlspecialchars($nomeUsuario); ?>
                         </a>
                         <div class="dropdown-menu dropdown-menu-right" aria-labelledby="perfilDropdown">
-                            <a class="dropdown-item" href="<?= $_base ?>/user/meus-dados.php"><i class="fas fa-id-card"></i> Meus dados</a>
+                        <a class="dropdown-item" href="<?= $_base ?>/user/meus-dados.php"><i class="fas fa-id-card"></i> Meus dados</a>
                             <?php if ($perfil === 'admin'): ?>
                                 <div class="dropdown-divider"></div>
                                 <a class="dropdown-item" href="<?= $_base ?>/admin/admin.php"><i class="fas fa-cogs"></i> Painel admin</a>
@@ -143,9 +147,10 @@ $_flash_info = get_flash('info');
                                 <a class="dropdown-item" href="<?= $_base ?>/admin/candidaturas.php"><i class="fas fa-users"></i> Candidaturas</a>
                                 <a class="dropdown-item" href="<?= $_base ?>/admin/listarclientes.php"><i class="fas fa-user-friends"></i> Usuarios</a>
                             <?php else: ?>
-                            <a class="dropdown-item" href="<?= $_base ?>/user/meus-cursos.php"><i class="fas fa-book-open"></i> Meus cursos</a>
-                            <a class="dropdown-item" href="<?= $_base ?>/user/minhas-candidaturas.php"><i class="fas fa-briefcase"></i> Minhas vagas</a>
-                            <a class="dropdown-item" href="<?= $_base ?>/user/meu-curriculo.php"><i class="fas fa-file-pdf"></i> Meu currÃ­culo</a>
+                                <a class="dropdown-item" href="<?= $_base ?>/user/painel.php"><i class="fas fa-chart-line"></i> Painel do aluno</a>
+                                <a class="dropdown-item" href="<?= $_base ?>/user/meus-cursos.php"><i class="fas fa-book-open"></i> Meus cursos</a>
+                                <a class="dropdown-item" href="<?= $_base ?>/user/minhas-candidaturas.php"><i class="fas fa-briefcase"></i> Minhas vagas</a>
+                                <a class="dropdown-item" href="<?= $_base ?>/user/meu-curriculo.php"><i class="fas fa-file-pdf"></i> Meu curriculo</a>
                             <?php endif; ?>
                             <div class="dropdown-divider"></div>
                             <a class="dropdown-item text-danger" href="<?= $_base ?>/auth/logout.php"><i class="fas fa-sign-out-alt"></i> Sair</a>

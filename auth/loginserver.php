@@ -110,7 +110,7 @@ if (!empty($_SESSION['url_destino'])) {
 if ($_SESSION['perfil'] === 'admin') {
     header("Location: " . app_url('admin/admin.php'));
 } else {
-    header("Location: " . app_url('index.php'));
+    header("Location: " . app_url('user/painel.php'));
 }
 
 ob_end_flush();

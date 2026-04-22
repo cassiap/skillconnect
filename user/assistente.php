@@ -2,12 +2,18 @@
 require_once __DIR__ . '/../config/helpers.php';
 require_once __DIR__ . '/../config/env.php';
 
+auth_check();
+
+if (($_SESSION['perfil'] ?? '') === 'admin') {
+    flash('info', 'Area exclusiva para alunos.');
+    redirect(app_url('admin/admin.php'));
+}
+
 $prompt = trim($_POST['prompt'] ?? '');
 $objetivo = trim($_POST['objetivo'] ?? 'plano_carreira');
 $resposta = '';
 $erro = '';
 $modeloUsado = '';
-$usuarioLogado = !empty($_SESSION['logado']);
 
 if (!function_exists('anthropic_chat_with_fallback')) {
     function anthropic_chat_with_fallback(string $apiKey, string $systemPrompt, array $mensagens): array {
@@ -404,9 +410,7 @@ if (!array_key_exists($objetivo, $objetivosPermitidos)) {
 }
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    if (!$usuarioLogado) {
-        $erro = 'Cadastre-se ou faca login para usar o Assistente de Carreira.';
-    } elseif (!csrf_validate()) {
+    if (!csrf_validate()) {
         $erro = 'Sessao expirada. Recarregue a pagina e tente novamente.';
     } elseif ($prompt === '') {
         $erro = 'Descreva sua situacao para receber recomendacoes personalizadas.';
@@ -520,47 +524,33 @@ Nao invente dados pessoais do usuario.";
         <div class="col-lg-7 mb-4">
             <div class="card panel-card">
                 <div class="card-body">
-                    <?php if ($usuarioLogado): ?>
-                        <h2 class="h5 mb-3">Descreva seu objetivo</h2>
-                        <form method="POST">
-                            <?php echo csrf_field(); ?>
-                            <div class="form-group">
-                                <label class="small text-muted mb-1">Foco da conversa</label>
-                                <select name="objetivo" class="form-control">
-                                    <?php foreach ($objetivosPermitidos as $key => $label): ?>
-                                        <option value="<?php echo htmlspecialchars($key); ?>" <?php echo $objetivo === $key ? 'selected' : ''; ?>>
-                                            <?php echo htmlspecialchars($label); ?>
-                                        </option>
-                                    <?php endforeach; ?>
-                                </select>
-                            </div>
-                            <div class="form-group">
-                                <label class="small text-muted mb-1">Contexto</label>
-                                <textarea name="prompt" rows="8" class="form-control" placeholder="Ex.: Sou iniciante em TI, tenho 2 horas por dia para estudar e quero uma vaga de suporte em ate 4 meses."><?php echo htmlspecialchars($prompt); ?></textarea>
-                            </div>
-                            <button type="submit" class="btn btn-primary">
-                                <i class="fas fa-paper-plane"></i> Gerar plano com IA
-                            </button>
-                        </form>
-
-                        <hr>
-                        <div class="small text-muted mb-2">Atalhos de prompt:</div>
-                        <button type="button" class="btn btn-sm btn-outline-secondary shortcut-btn js-shortcut" data-text="Monte um plano de 8 semanas para eu conseguir uma vaga junior em TI estudando 2 horas por dia.">Plano 8 semanas</button>
-                        <button type="button" class="btn btn-sm btn-outline-secondary shortcut-btn js-shortcut" data-text="Revise meu posicionamento profissional para curriculo e LinkedIn de forma objetiva.">Curriculo e LinkedIn</button>
-                        <button type="button" class="btn btn-sm btn-outline-secondary shortcut-btn js-shortcut" data-text="Crie um roteiro de estudo focado em Excel e atendimento para vaga administrativa.">Roteiro administrativo</button>
-                    <?php else: ?>
-                        <h2 class="h5 mb-3"><i class="fas fa-lock text-warning"></i> Assistente exclusivo para usuarios cadastrados</h2>
-                        <p class="text-muted mb-3">Para usar o Assistente de Carreira, crie sua conta gratuita ou faca login.</p>
-                        <div class="alert alert-info mb-3">
-                            Cadastre-se para liberar planos personalizados com cursos e vagas do SkillConnect.
+                    <h2 class="h5 mb-3">Descreva seu objetivo</h2>
+                    <form method="POST">
+                        <?php echo csrf_field(); ?>
+                        <div class="form-group">
+                            <label class="small text-muted mb-1">Foco da conversa</label>
+                            <select name="objetivo" class="form-control">
+                                <?php foreach ($objetivosPermitidos as $key => $label): ?>
+                                    <option value="<?php echo htmlspecialchars($key); ?>" <?php echo $objetivo === $key ? 'selected' : ''; ?>>
+                                        <?php echo htmlspecialchars($label); ?>
+                                    </option>
+                                <?php endforeach; ?>
+                            </select>
                         </div>
-                        <a href="<?php echo app_url('auth/register.php'); ?>" class="btn btn-primary mr-2 mb-2">
-                            <i class="fas fa-user-plus"></i> Criar conta
-                        </a>
-                        <a href="<?php echo app_url('auth/login.php'); ?>" class="btn btn-outline-secondary mb-2">
-                            <i class="fas fa-sign-in-alt"></i> Ja tenho conta
-                        </a>
-                    <?php endif; ?>
+                        <div class="form-group">
+                            <label class="small text-muted mb-1">Contexto</label>
+                            <textarea name="prompt" rows="8" class="form-control" placeholder="Ex.: Sou iniciante em TI, tenho 2 horas por dia para estudar e quero uma vaga de suporte em ate 4 meses."><?php echo htmlspecialchars($prompt); ?></textarea>
+                        </div>
+                        <button type="submit" class="btn btn-primary">
+                            <i class="fas fa-paper-plane"></i> Gerar plano com IA
+                        </button>
+                    </form>
+
+                    <hr>
+                    <div class="small text-muted mb-2">Atalhos de prompt:</div>
+                    <button type="button" class="btn btn-sm btn-outline-secondary shortcut-btn js-shortcut" data-text="Monte um plano de 8 semanas para eu conseguir uma vaga junior em TI estudando 2 horas por dia.">Plano 8 semanas</button>
+                    <button type="button" class="btn btn-sm btn-outline-secondary shortcut-btn js-shortcut" data-text="Revise meu posicionamento profissional para curriculo e LinkedIn de forma objetiva.">Curriculo e LinkedIn</button>
+                    <button type="button" class="btn btn-sm btn-outline-secondary shortcut-btn js-shortcut" data-text="Crie um roteiro de estudo focado em Excel e atendimento para vaga administrativa.">Roteiro administrativo</button>
                 </div>
             </div>
         </div>
@@ -572,7 +562,7 @@ Nao invente dados pessoais do usuario.";
                     <ul class="small mb-3">
                         <li>Inclua nivel atual, area de interesse e prazo.</li>
                         <li>Informe disponibilidade semanal real.</li>
-                        <li>Peça plano em etapas com metas curtas.</li>
+                        <li>Peca plano em etapas com metas curtas.</li>
                     </ul>
                     <h3 class="h6 text-primary">Exemplo de prompt forte</h3>
                     <p class="small text-muted mb-0">"Tenho experiencia em vendas, quero migrar para suporte de TI em 6 meses e estudar 10h por semana. Monte trilha, cursos e palavras-chave de vagas."</p>
@@ -585,7 +575,7 @@ Nao invente dados pessoais do usuario.";
         <div class="alert alert-danger"><?php echo htmlspecialchars($erro); ?></div>
     <?php endif; ?>
 
-    <?php if ($usuarioLogado && $resposta !== ''): ?>
+    <?php if ($resposta !== ''): ?>
         <div class="card panel-card mb-4">
             <div class="card-header bg-white">
                 <strong><i class="fas fa-lightbulb text-warning"></i> Plano sugerido pela IA</strong>

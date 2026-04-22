@@ -42,7 +42,7 @@ $flash = ['ok' => null, 'err' => null];
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if (!hash_equals($CSRF, $_POST['csrf_token'] ?? '')) {
-        $flash['err'] = 'SessÃ£o expirada. Recarregue a pÃ¡gina.';
+        $flash['err'] = 'Sessao expirada. Recarregue a pagina.';
     } else {
         $in = [
             'nome'       => trim($_POST['nome'] ?? ''),
@@ -110,7 +110,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                             <p class="mb-1"><strong>Telefone</strong><br><?php echo htmlspecialchars($dados['telefone']); ?></p>
                         <?php endif; ?>
                         <?php if ($dados['logradouro'] || $dados['bairro'] || $dados['cidade']): ?>
-                            <p class="mb-0"><strong>EndereÃ§o</strong><br>
+                            <p class="mb-0"><strong>Endereco</strong><br>
                                 <?php echo htmlspecialchars($dados['logradouro']); ?>
                                 <?php echo $dados['bairro'] ? ' - ' . htmlspecialchars($dados['bairro']) : ''; ?>
                                 <?php echo $dados['cidade'] ? ' - ' . htmlspecialchars($dados['cidade']) : ''; ?>
@@ -134,6 +134,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                             <a class="d-block small mb-1" href="../admin/candidaturas.php"><i class="fas fa-users"></i> Candidaturas</a>
                             <a class="d-block small" href="../admin/listarclientes.php"><i class="fas fa-user-friends"></i> Usuarios</a>
                         <?php else: ?>
+                            <a class="d-block small mb-1" href="painel.php"><i class="fas fa-chart-line"></i> Painel do aluno</a>
                             <a class="d-block small mb-1" href="meus-cursos.php"><i class="fas fa-book-open"></i> Meus cursos</a>
                             <a class="d-block small mb-1" href="minhas-candidaturas.php"><i class="fas fa-briefcase"></i> Minhas vagas</a>
                             <a class="d-block small" href="meu-curriculo.php"><i class="fas fa-file-pdf"></i> Meu curriculo</a>
@@ -166,7 +167,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                         </div>
 
                         <div class="form-group">
-                            <label for="email_display">E-mail (nÃ£o editÃ¡vel)</label>
+                            <label for="email_display">E-mail (nao editavel)</label>
                             <input type="email" class="form-control" id="email_display"
                                    value="<?php echo htmlspecialchars($dados['email']); ?>" disabled>
                         </div>
@@ -208,7 +209,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                                    value="<?php echo htmlspecialchars($dados['bairro']); ?>">
                         </div>
 
-                        <button type="submit" class="btn btn-primary">Salvar alteraÃ§Ãµes</button>
+                        <button type="submit" class="btn btn-primary">Salvar alteracoes</button>
                     </form>
                 </div>
             </div>

@@ -11,6 +11,9 @@
 
 require_once __DIR__ . '/config/db.php';
 
+$isLogado = !empty($_SESSION['logado']);
+$perfilSessao = trim((string) ($_SESSION['perfil'] ?? ''));
+
 $cursosDestaque = [];
 $rc = $cx->query("SELECT id, titulo, descricao, modalidade, nivel FROM cursos WHERE ativo = 1 ORDER BY id DESC LIMIT 3");
 while ($rc && $c = $rc->fetch_assoc()) {
@@ -99,6 +102,9 @@ function resumo_home(string $texto, int $limite = 110): string {
         <h1 class="display-5 font-weight-bold">Conecte formação profissional a oportunidades reais</h1>
         <p class="lead mb-4">Explore cursos, acompanhe vagas e use o Assistente IA para montar seu proximo passo de carreira.</p>
         <div class="d-flex flex-wrap">
+            <?php if ($isLogado && $perfilSessao !== 'admin'): ?>
+                <a href="user/painel.php" class="btn btn-light mr-2 mb-2"><i class="fas fa-chart-line"></i> Meu painel</a>
+            <?php endif; ?>
             <a href="user/cursos.php" class="btn btn-light mr-2 mb-2"><i class="fas fa-book"></i> Ver cursos</a>
             <a href="user/vagas.php" class="btn btn-outline-light mr-2 mb-2"><i class="fas fa-briefcase"></i> Ver vagas</a>
             <a href="user/assistente.php" class="btn btn-warning mb-2"><i class="fas fa-robot"></i> Abrir assistente IA</a>
