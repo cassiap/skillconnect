@@ -42,7 +42,7 @@ O SkillConnect é uma plataforma web desenvolvida em PHP que conecta pessoas a o
 3. [Público-Alvo](#3-público-alvo)
 4. [Protótipo Visual](#4-protótipo-visual)
 5. [Considerações Finais](#5-considerações-finais)
-- [Referências](#referências)
+6. [Referências](#referências)
 
 ---
 
