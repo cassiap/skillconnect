@@ -1,6 +1,11 @@
 Search.appendIndex(
     [
                 {
+            "fqsen": "\\admin_scalar\u0028\u0029",
+            "name": "admin_scalar",
+            "summary": "",
+            "url": "namespaces/default.html#function_admin_scalar"
+        },                {
             "fqsen": "\\bind_params_dynamic\u0028\u0029",
             "name": "bind_params_dynamic",
             "summary": "",
@@ -120,6 +125,16 @@ Search.appendIndex(
             "name": "safe_http_url",
             "summary": "",
             "url": "namespaces/default.html#function_safe_http_url"
+        },                {
+            "fqsen": "\\painel_scalar\u0028\u0029",
+            "name": "painel_scalar",
+            "summary": "",
+            "url": "namespaces/default.html#function_painel_scalar"
+        },                {
+            "fqsen": "\\painel_fetch_all\u0028\u0029",
+            "name": "painel_fetch_all",
+            "summary": "",
+            "url": "namespaces/default.html#function_painel_fetch_all"
         },                {
             "fqsen": "\\resumo_vaga\u0028\u0029",
             "name": "resumo_vaga",
