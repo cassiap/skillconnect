@@ -1,183 +1,103 @@
 # SkillConnect
 
-- Skill Connect é uma plataforma web desenvolvida em PHP que tem como objetivo conectar pessoas a oportunidades de desenvolvimento profissional. O sistema reúne cursos profissionalizantes, divulgação de vagas de emprego e um assistente de inteligência artificial que auxilia os usuários com orientações de carreira e crescimento no mercado de trabalho.
+SkillConnect é uma plataforma web desenvolvida em PHP que conecta pessoas a oportunidades de desenvolvimento profissional. O sistema reúne cursos profissionalizantes, vagas de emprego e estágio, e um assistente de inteligência artificial para orientação de carreira.
 
-## Visao geral
+---
 
-O projeto possui dois perfis principais:
+## Integrantes do Grupo
 
-- Usuario/aluno: cadastro, login, inscricao em cursos, candidatura em vagas, area de curriculo e area de aulas.
-- Admin: gerenciamento de dados da plataforma (vagas, cursos, candidaturas e usuarios).
+| Nome | Matrícula |
+|------|-----------|
+| Cássia Gabriela | 22252157 |
+| Arthur Gomes Figueira | 22250160 |
+| Brenno Jonas Brito de Miranda Queiros | 22205163|
 
-## Objetivo da Plataforma
+**Orientador:** Prof. Tiago Leite
+**Instituição:** Centro Universitário de Brasília (CEUB)
+**Curso:** Ciência da Computação, 8º Semestre
+**Data:** Abril de 2026
 
-- O objetivo do Skill Connect é facilitar o acesso à qualificação profissional e ao mercado de trabalho por meio de uma plataforma digital que reúne cursos profissionalizantes, oportunidades de emprego e um assistente de inteligência artificial voltado para orientação de carreira e desenvolvimento profissional.
+---
 
-## Funcionalidades Gerais
+## Descrição Geral
 
-- Acesso a curso profissionalizantes : tendo a liberdade de visualizar a modalidade ,  nível do curso , e custo total.
-- Acesso a vagas de emprego/estágio: tipo de vagas de emprego, modalidade(Híbrido ou presencial), e sua localização .
-- Plano de carreira 
-- Assistente de IA para carreira e empregabilidade : plano prático para estudar melhor , melhorar currículo e buscar vagas alinhadas ao seu perfil.
+O sistema tem dois perfis: **aluno** (cadastro, inscrição em cursos, candidatura a vagas, currículo digital) e **administrador** (gestão de cursos, vagas, candidaturas e usuários).
 
-## Tech Stack
+Funcionalidades principais:
 
-- PHP 8.2+
-- MySQL/MariaDB
-- mysqli (obrigatorio)
-- Bootstrap 4
-- cURL (assistente IA)
+- Catálogo de cursos profissionalizantes com informações de modalidade, nível e custo
+- Catálogo de vagas de emprego e estágio com filtros por tipo e localização
+- Currículo digital com exportação em PDF
+- Assistente de IA para orientação de carreira e empregabilidade
+- Painel administrativo completo
 
-## Estrutura principal
+---
 
-- `index.php`: landing/home.
-- `config/`: conexao, env e helpers globais.
-- `auth/`: login, cadastro, recuperacao de senha.
-- `user/`: paginas do aluno (cursos, vagas, assistente, curriculo, etc).
-- `admin/`: paginas administrativas.
-- `includes/`: header/footer compartilhados.
-- `database/migrations/`: scripts SQL de schema/dados.
-- `models`: botões,cartões,gráficos,cores.
-- `uploads`: curriculo.
-## Banco de dados (tabelas esperadas)
+## Documentação
 
-- `usuarios`
-- `cursos`
-- `vagas`
-- `candidaturas`
-- `inscricoes_cursos`
-- `recuperacao_senha`
-- `contatos`
-- `modulos`
-- `aulas`
-- `progresso_aulas`
-- `curriculos`
+Toda a documentação do projeto está na pasta [`docs/`](./docs/):
 
-## Setup local (XAMPP)
+- [`docs/RESUMO_EXECUTIVO.md`](./docs/RESUMO_EXECUTIVO.md)
+- [`docs/DOCUMENTACAO_TECNICA.md`](./docs/DOCUMENTACAO_TECNICA.md)
+- [`docs/DOCUMENTACAO_NEGOCIAL.md`](./docs/DOCUMENTACAO_NEGOCIAL.md)
 
-1. Clonar projeto em `c:\xampp\htdocs\skillconnect`.
-2. Criar banco (ex.: `skillconnect`) no MySQL local.
-3. Importar o seed UTF-8:
+Documentação PHP gerada automaticamente:
+🔗 https://cassiap.github.io/skillconnect/
+
+---
+
+## Como Executar (XAMPP local)
+
+1. Clonar o repositório em `c:\xampp\htdocs\skillconnect`
+2. Criar o banco de dados `skillconnect` no MySQL
+3. Importar o seed:
 
 ```powershell
 C:\xampp\mysql\bin\mysql.exe -u root skillconnect < c:\xampp\htdocs\skillconnect\database\migrations\2026-02-24_railway_seed_utf8.sql
 ```
 
-## Deploy no Railway
+4. Copiar `.env.example` para `.env` e ajustar as variáveis de conexão
+5. Acessar `http://localhost/skillconnect`
 
-### Requisitos importantes
+### Deploy no Railway
 
-- `composer.json` deve manter `php` em `^8.2` (ou superior suportado).
-- Servico MySQL precisa estar criado e conectado ao servico web.
+O projeto está configurado para Railway com variáveis de ambiente automáticas (`MYSQLHOST`, `MYSQLUSER`, `MYSQLPASSWORD`, `MYSQLDATABASE`, `MYSQLPORT`). Para o assistente de IA, configurar `OPENAI_API_KEY`.
 
-### Variaveis de ambiente
-
-O projeto aceita automaticamente variaveis do Railway:
-
-- `MYSQLHOST`
-- `MYSQLUSER`
-- `MYSQLPASSWORD`
-- `MYSQLDATABASE`
-- `MYSQLPORT`
-
-Tambem suporta fallback por URL:
-
-- `MYSQL_URL` ou `DATABASE_URL`
-
-E para assistente IA:
-
-- `OPENAI_API_KEY`
-- `OPENAI_MODEL` (opcional)
-
-Recomendado em producao:
-
-- `APP_URL=https://seu-dominio`
-
-### Importar banco no Railway
-
-Use o arquivo:
-
-- `database/migrations/2026-02-24_railway_seed_utf8.sql`
-
-Observacao: `mysql.railway.internal` funciona apenas dentro da infra da Railway.
-Para importar do seu PC, use host/porta de **Public Networking**.
-
-## Troubleshooting
-
-### 1) `No version available for php 8.1`
-
-Causa: `composer.json` pedindo PHP 8.1 em ambiente sem essa versao.
-
-Correcao: usar `^8.2` em `composer.json`.
-
-### 2) `Call to undefined function mysqli_report()`
-
-Causa: runtime sem extensao MySQL/mysqli.
-
-Correcao:
-
-- garantir extensao `mysqli` no ambiente de deploy;
-- manter `ext-mysqli` no `composer.json`.
-
-### 3) `Table '...cursos' doesn't exist`
-
-Causa: banco remoto sem schema/dados.
-
-Correcao: importar `2026-02-24_railway_seed_utf8.sql`.
-
-### 4) `Unknown MySQL server host 'mysql.railway.internal'`
-
-Causa: tentativa de conectar ao host interno da Railway a partir da maquina local.
-
-Correcao: usar host/porta de **Public Networking** no cliente local.
-
-### 5) `Plugin caching_sha2_password could not be loaded`
-
-Causa: cliente MySQL local antigo/incompativel.
-
-Correcao: usar cliente compativel (MySQL 8+) ou importar via PHP/codigo.
-
-## Comandos uteis
-
-Validar sintaxe PHP de um arquivo:
-
-```powershell
-C:\xampp\php\php.exe -l caminho\arquivo.php
-```
-
-Exemplo:
-
-```powershell
-C:\xampp\php\php.exe -l config\db.php
-```
 ---
 
-## Automação com GitHub Actions
+## Tech Stack
 
-O projeto utiliza GitHub Actions para automatizar tarefas a cada push na branch `main`.
+- PHP 8.2+
+- MySQL/MariaDB via `mysqli`
+- Bootstrap 4
+- cURL para integração com a API OpenAI
+- GitHub Actions para CI/CD e documentação automática
 
-### Workflows disponíveis
+---
+
+## Estrutura do Projeto
+
+```
+skillconnect/
+├── index.php                  # Landing page
+├── config/                    # Conexão, env e helpers
+├── auth/                      # Login, cadastro, recuperação de senha
+├── user/                      # Páginas do aluno
+├── admin/                     # Painel administrativo
+├── includes/                  # Header e footer compartilhados
+├── database/migrations/       # Scripts SQL
+├── docs/                      # Documentação técnica e negocial
+└── .github/workflows/         # GitHub Actions
+```
+
+---
+
+## GitHub Actions
 
 | Workflow | Arquivo | O que faz |
-|---|---|---|
-| Verificar PHP | `main.yml` | Checa sintaxe de todos os arquivos `.php` |
-| Relatório do Projeto | `relatorio.yml` | Gera relatório com contagem de arquivos e linhas de código |
-| Verificação de Segurança | `segurança.yml` | Verifica `.env` exposto e senhas fracas no código |
-| Validar HTML | `validar-html.yml` | Valida os arquivos `.html` do projeto |
-| Gerar Documentação | `documentacao.yml` | Gera documentação PHP e publica no GitHub Pages |
-
-### Documentação automática
-
-A cada push na `main`, o workflow `documentacao.yml` executa o phpDocumentor e publica a documentação gerada automaticamente em:
-
-**https://cassiap.github.io/skillconnect/**
-
-A documentação lista todas as funções, parâmetros e descrições extraídas dos docblocks `/** */` presentes nos arquivos PHP.
-
-### Docblocks
-
-Durante o desenvolvimento, identificamos que a documentação gerada pelo phpDocumentor ficava incompleta: as funções apareciam listadas mas sem descrição, parâmetros ou contexto, o que tornava a doc pouco útil na prática.
-
-Para resolver isso, adicionamos docblocks no padrão PHPDoc em todos os arquivos PHP do projeto. Cada docblock descreve o propósito da função, seus parâmetros (`@param`), o valor de retorno (`@return`) e possíveis exceções (`@throws`), servindo como base para a documentação gerada automaticamente pelo phpDocumentor a cada push.
-
-Os docblocks foram adicionados utilizando uma API da Anthropic e um script Python que realizou a atualização em todos eles de forma automática. 
+|----------|---------|-----------|
+| Verificar PHP | `main.yml` | Checa sintaxe de todos os `.php` |
+| Relatório do Projeto | `relatorio.yml` | Conta arquivos e linhas de código |
+| Verificação de Segurança | `segurança.yml` | Verifica `.env` exposto e senhas hardcoded |
+| Validar HTML | `validar-html.yml` | Valida arquivos `.html` |
+| Gerar Documentação | `documentacao.yml` | Publica doc PHP no GitHub Pages |
