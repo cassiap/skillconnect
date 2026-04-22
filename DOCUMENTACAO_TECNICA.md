@@ -7,10 +7,10 @@ O SkillConnect é uma aplicação web monolítica em PHP, sem framework MVC form
 ```
 [Navegador] -> [Apache/PHP] -> [MySQL]
                     |
-               [API OpenAI]   (assistente de IA via cURL)
+               [API Anthropic]   (assistente de IA via cURL)
 ```
 
-O fluxo é simples: o usuário acessa pelo navegador, o PHP processa a requisição e consulta o banco via `mysqli`, e o HTML é retornado. Para o assistente de IA, o backend faz uma chamada à API OpenAI via cURL e devolve a resposta ao usuário.
+O fluxo é simples: o usuário acessa pelo navegador, o PHP processa a requisição e consulta o banco via `mysqli`, e o HTML é retornado. Para o assistente de IA, o backend faz uma chamada à API Anthropic via cURL e devolve a resposta ao usuário.
 
 ---
 
@@ -21,7 +21,7 @@ O fluxo é simples: o usuário acessa pelo navegador, o PHP processa a requisiç
 | PHP | 8.2+ | Backend e renderização |
 | MySQL/MariaDB | 8.0+ | Banco de dados |
 | Bootstrap | 4.6 | Interface responsiva |
-| cURL (PHP) | nativo | Integração OpenAI |
+| cURL (PHP) | nativo | Integração Anthropic |
 | GitHub Actions | - | CI/CD e automação |
 | phpDocumentor | latest | Documentação automática |
 | Railway | - | Deploy em nuvem |
