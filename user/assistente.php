@@ -4,11 +4,6 @@ require_once __DIR__ . '/../config/env.php';
 
 auth_check();
 
-if (($_SESSION['perfil'] ?? '') === 'admin') {
-    flash('info', 'Area exclusiva para alunos.');
-    redirect(app_url('admin/admin.php'));
-}
-
 $prompt = trim($_POST['prompt'] ?? '');
 $objetivo = trim($_POST['objetivo'] ?? 'plano_carreira');
 $resposta = '';
