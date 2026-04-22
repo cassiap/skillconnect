@@ -12,10 +12,48 @@
 
 require_once __DIR__ . '/../config/db.php';
 
+$isAdmin = isset($_SESSION['perfil']) && $_SESSION['perfil'] === 'admin';
 $q = trim($_GET['q'] ?? '');
 $modalidade = trim($_GET['modalidade'] ?? '');
 $nivel = trim($_GET['nivel'] ?? '');
 $ord = trim($_GET['ord'] ?? 'recentes');
+$statusFiltro = trim($_GET['status'] ?? 'ativos');
+
+if (!$isAdmin) {
+    $statusFiltro = 'ativos';
+}
+$statusPermitidos = ['ativos', 'inativos', 'todos'];
+if (!in_array($statusFiltro, $statusPermitidos, true)) {
+    $statusFiltro = 'ativos';
+}
+
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    if (!$isAdmin) {
+        flash('error', 'Apenas administradores podem alterar o status de cursos.');
+    } elseif (!csrf_validate()) {
+        flash('error', 'Sessao expirada. Tente novamente.');
+    } else {
+        $acao = trim((string) ($_POST['acao'] ?? ''));
+        $cursoId = (int) ($_POST['curso_id'] ?? 0);
+
+        if ($cursoId <= 0 || !in_array($acao, ['desativar', 'reativar'], true)) {
+            flash('error', 'Acao invalida para curso.');
+        } else {
+            $novoAtivo = $acao === 'reativar' ? 1 : 0;
+            $stmtToggle = $cx->prepare("UPDATE cursos SET ativo = ?, atualizado_em = NOW() WHERE id = ?");
+            $stmtToggle->bind_param("ii", $novoAtivo, $cursoId);
+            if ($stmtToggle->execute()) {
+                flash('success', $novoAtivo === 1 ? 'Curso reativado com sucesso.' : 'Curso desativado com sucesso.');
+            } else {
+                flash('error', 'Nao foi possivel atualizar o status do curso.');
+            }
+            $stmtToggle->close();
+        }
+    }
+
+    $queryAtual = $_SERVER['QUERY_STRING'] ?? '';
+    redirect('cursos.php' . ($queryAtual !== '' ? '?' . $queryAtual : ''));
+}
 
 $ordensPermitidas = [
     'recentes' => 'c.id DESC',
@@ -25,15 +63,21 @@ $ordensPermitidas = [
     'preco_desc' => 'c.preco DESC',
 ];
 $orderBy = $ordensPermitidas[$ord] ?? $ordensPermitidas['recentes'];
+$filtroAtivoSql = '';
+if ($statusFiltro === 'ativos') {
+    $filtroAtivoSql = ' AND c.ativo = 1';
+} elseif ($statusFiltro === 'inativos') {
+    $filtroAtivoSql = ' AND c.ativo = 0';
+}
 
 $qLike = '%' . $q . '%';
 
-$sql = "SELECT c.id, c.titulo, c.descricao, c.carga_horaria, c.modalidade, c.nivel, c.preco, c.vagas
+$sql = "SELECT c.id, c.titulo, c.descricao, c.carga_horaria, c.modalidade, c.nivel, c.preco, c.vagas, c.ativo
         FROM cursos c
-        WHERE c.ativo = 1
-          AND (? = '' OR c.titulo LIKE ? OR c.descricao LIKE ?)
+        WHERE (? = '' OR c.titulo LIKE ? OR c.descricao LIKE ?)
           AND (? = '' OR c.modalidade = ?)
           AND (? = '' OR c.nivel = ?)
+          {$filtroAtivoSql}
         ORDER BY {$orderBy}";
 
 $stmt = $cx->prepare($sql);
@@ -48,13 +92,13 @@ while ($row = $resultado->fetch_assoc()) {
 $stmt->close();
 
 $modalidades = [];
-$r1 = $cx->query("SELECT DISTINCT modalidade FROM cursos WHERE ativo = 1 AND modalidade IS NOT NULL AND modalidade <> '' ORDER BY modalidade ASC");
+$r1 = $cx->query("SELECT DISTINCT modalidade FROM cursos WHERE modalidade IS NOT NULL AND modalidade <> '' ORDER BY modalidade ASC");
 while ($r1 && $m = $r1->fetch_assoc()) {
     $modalidades[] = $m['modalidade'];
 }
 
 $niveis = [];
-$r2 = $cx->query("SELECT DISTINCT nivel FROM cursos WHERE ativo = 1 AND nivel IS NOT NULL AND nivel <> '' ORDER BY nivel ASC");
+$r2 = $cx->query("SELECT DISTINCT nivel FROM cursos WHERE nivel IS NOT NULL AND nivel <> '' ORDER BY nivel ASC");
 while ($r2 && $n = $r2->fetch_assoc()) {
     $niveis[] = $n['nivel'];
 }
@@ -185,6 +229,16 @@ function resumo_curso(string $texto, int $limite = 135): string {
                     <option value="preco_desc" <?php echo $ord === 'preco_desc' ? 'selected' : ''; ?>>Preco decrescente</option>
                 </select>
             </div>
+            <?php if ($isAdmin): ?>
+                <div class="col-md-2 mb-2">
+                    <label class="small text-muted mb-1">Status</label>
+                    <select name="status" class="form-control">
+                        <option value="ativos" <?php echo $statusFiltro === 'ativos' ? 'selected' : ''; ?>>Ativos</option>
+                        <option value="inativos" <?php echo $statusFiltro === 'inativos' ? 'selected' : ''; ?>>Inativos</option>
+                        <option value="todos" <?php echo $statusFiltro === 'todos' ? 'selected' : ''; ?>>Todos</option>
+                    </select>
+                </div>
+            <?php endif; ?>
             <div class="col-md-2 mb-2 d-flex align-items-end">
                 <button class="btn btn-primary btn-block" type="submit">Filtrar</button>
             </div>
@@ -210,6 +264,9 @@ function resumo_curso(string $texto, int $limite = 135): string {
                             <div class="mb-2">
                                 <span class="badge-soft"><?php echo htmlspecialchars(ucfirst($curso['modalidade'] ?: 'geral')); ?></span>
                                 <span class="badge-soft"><?php echo htmlspecialchars(ucfirst($curso['nivel'] ?: 'nivel livre')); ?></span>
+                                <?php if ($isAdmin): ?>
+                                    <span class="badge-soft"><?php echo ((int) $curso['ativo'] === 1) ? 'Ativo' : 'Inativo'; ?></span>
+                                <?php endif; ?>
                             </div>
                             <h5 class="text-dark"><?php echo htmlspecialchars($curso['titulo']); ?></h5>
                             <p class="text-muted small mb-3"><?php echo htmlspecialchars(resumo_curso((string) ($curso['descricao'] ?? ''))); ?></p>
@@ -221,6 +278,23 @@ function resumo_curso(string $texto, int $limite = 135): string {
                             <a href="curso.php?id=<?php echo (int) $curso['id']; ?>" class="btn btn-outline-primary mt-auto">
                                 Ver detalhes
                             </a>
+                            <?php if ($isAdmin): ?>
+                                <form method="POST" class="mt-2">
+                                    <?php echo csrf_field(); ?>
+                                    <input type="hidden" name="curso_id" value="<?php echo (int) $curso['id']; ?>">
+                                    <?php if ((int) $curso['ativo'] === 1): ?>
+                                        <input type="hidden" name="acao" value="desativar">
+                                        <button type="submit" class="btn btn-sm btn-outline-danger btn-block" onclick="return confirm('Deseja desativar este curso?');">
+                                            <i class="fas fa-trash-alt"></i> Desativar curso
+                                        </button>
+                                    <?php else: ?>
+                                        <input type="hidden" name="acao" value="reativar">
+                                        <button type="submit" class="btn btn-sm btn-outline-success btn-block">
+                                            <i class="fas fa-undo"></i> Reativar curso
+                                        </button>
+                                    <?php endif; ?>
+                                </form>
+                            <?php endif; ?>
                         </div>
                     </div>
                 </div>

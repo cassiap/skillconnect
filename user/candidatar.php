@@ -16,7 +16,13 @@ auth_check();
 
 $vaga_id = (int) ($_GET['vaga_id'] ?? $_POST['vaga_id'] ?? 0);
 $usuario_id = (int) ($_SESSION['user_id'] ?? 0);
+$perfil = trim((string) ($_SESSION['perfil'] ?? ''));
 $error = '';
+
+if ($perfil === 'admin') {
+    flash('info', 'Administradores nao realizam candidaturas em vagas.');
+    redirect('vagas.php');
+}
 
 if ($vaga_id <= 0) {
     flash('error', 'Vaga invalida.');

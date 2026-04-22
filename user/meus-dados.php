@@ -1,9 +1,9 @@
-<?php
+﻿<?php
 /**
- * Página para gerenciamento dos dados pessoais do usuário
+ * PÃ¡gina para gerenciamento dos dados pessoais do usuÃ¡rio
  * 
- * Esta página permite ao usuário visualizar e editar seus dados pessoais,
- * incluindo informações de contato e endereço. Requer autenticação.
+ * Esta pÃ¡gina permite ao usuÃ¡rio visualizar e editar seus dados pessoais,
+ * incluindo informaÃ§Ãµes de contato e endereÃ§o. Requer autenticaÃ§Ã£o.
  * 
  * @author Sistema SkillConnect
  * @version 1.0
@@ -42,7 +42,7 @@ $flash = ['ok' => null, 'err' => null];
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if (!hash_equals($CSRF, $_POST['csrf_token'] ?? '')) {
-        $flash['err'] = 'Sessão expirada. Recarregue a página.';
+        $flash['err'] = 'SessÃ£o expirada. Recarregue a pÃ¡gina.';
     } else {
         $in = [
             'nome'       => trim($_POST['nome'] ?? ''),
@@ -110,7 +110,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                             <p class="mb-1"><strong>Telefone</strong><br><?php echo htmlspecialchars($dados['telefone']); ?></p>
                         <?php endif; ?>
                         <?php if ($dados['logradouro'] || $dados['bairro'] || $dados['cidade']): ?>
-                            <p class="mb-0"><strong>Endereço</strong><br>
+                            <p class="mb-0"><strong>EndereÃ§o</strong><br>
                                 <?php echo htmlspecialchars($dados['logradouro']); ?>
                                 <?php echo $dados['bairro'] ? ' - ' . htmlspecialchars($dados['bairro']) : ''; ?>
                                 <?php echo $dados['cidade'] ? ' - ' . htmlspecialchars($dados['cidade']) : ''; ?>
@@ -126,10 +126,18 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 </div>
                 <div class="card shadow-sm mt-3">
                     <div class="card-body py-3">
-                        <h6 class="mb-2">Meu espaco</h6>
-                        <a class="d-block small mb-1" href="meus-cursos.php"><i class="fas fa-book-open"></i> Meus cursos</a>
-                        <a class="d-block small mb-1" href="minhas-candidaturas.php"><i class="fas fa-briefcase"></i> Minhas vagas</a>
-                        <a class="d-block small" href="meu-curriculo.php"><i class="fas fa-file-pdf"></i> Meu currículo</a>
+                        <h6 class="mb-2"><?php echo $PERFIL === 'admin' ? 'Area admin' : 'Meu espaco'; ?></h6>
+                        <?php if ($PERFIL === 'admin'): ?>
+                            <a class="d-block small mb-1" href="../admin/admin.php"><i class="fas fa-cogs"></i> Painel admin</a>
+                            <a class="d-block small mb-1" href="cursos.php"><i class="fas fa-book"></i> Gerenciar cursos</a>
+                            <a class="d-block small mb-1" href="vagas.php"><i class="fas fa-briefcase"></i> Gerenciar vagas</a>
+                            <a class="d-block small mb-1" href="../admin/candidaturas.php"><i class="fas fa-users"></i> Candidaturas</a>
+                            <a class="d-block small" href="../admin/listarclientes.php"><i class="fas fa-user-friends"></i> Usuarios</a>
+                        <?php else: ?>
+                            <a class="d-block small mb-1" href="meus-cursos.php"><i class="fas fa-book-open"></i> Meus cursos</a>
+                            <a class="d-block small mb-1" href="minhas-candidaturas.php"><i class="fas fa-briefcase"></i> Minhas vagas</a>
+                            <a class="d-block small" href="meu-curriculo.php"><i class="fas fa-file-pdf"></i> Meu curriculo</a>
+                        <?php endif; ?>
                     </div>
                 </div>
             </div>
@@ -158,7 +166,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                         </div>
 
                         <div class="form-group">
-                            <label for="email_display">E-mail (não editável)</label>
+                            <label for="email_display">E-mail (nÃ£o editÃ¡vel)</label>
                             <input type="email" class="form-control" id="email_display"
                                    value="<?php echo htmlspecialchars($dados['email']); ?>" disabled>
                         </div>
@@ -200,7 +208,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                                    value="<?php echo htmlspecialchars($dados['bairro']); ?>">
                         </div>
 
-                        <button type="submit" class="btn btn-primary">Salvar alterações</button>
+                        <button type="submit" class="btn btn-primary">Salvar alteraÃ§Ãµes</button>
                     </form>
                 </div>
             </div>

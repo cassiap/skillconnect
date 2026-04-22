@@ -3,6 +3,11 @@ require_once __DIR__ . '/../config/db.php';
 
 auth_check();
 
+if (($_SESSION['perfil'] ?? '') === 'admin') {
+    flash('info', 'Area exclusiva para alunos.');
+    redirect(app_url('admin/admin.php'));
+}
+
 $usuarioId = (int) ($_SESSION['user_id'] ?? 0);
 $cursoId = (int) ($_GET['curso_id'] ?? $_POST['curso_id'] ?? 0);
 $aulaSelecionadaId = (int) ($_GET['aula'] ?? $_POST['aula_atual'] ?? 0);

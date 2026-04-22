@@ -16,6 +16,12 @@ auth_check();
 
 $curso_id = (int) ($_GET['curso_id'] ?? $_POST['curso_id'] ?? 0);
 $usuario_id = (int) ($_SESSION['user_id'] ?? 0);
+$perfil = trim((string) ($_SESSION['perfil'] ?? ''));
+
+if ($perfil === 'admin') {
+    flash('info', 'Administradores nao realizam inscricao em cursos.');
+    redirect('cursos.php');
+}
 
 if ($curso_id <= 0) {
     flash('error', 'Curso invalido.');

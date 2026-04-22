@@ -52,8 +52,9 @@ admin_check();
             <div class="card shadow h-100">
                 <div class="card-body text-center">
                     <i class="fas fa-book fa-2x text-warning mb-3"></i>
-                    <h5 class="card-title">Cadastrar Curso</h5>
-                    <a href="cadastracurso.php" class="btn btn-outline-warning btn-sm mt-2">Acessar</a>
+                    <h5 class="card-title">Cursos</h5>
+                    <a href="cadastracurso.php" class="btn btn-outline-warning btn-sm mt-2 mr-1">Cadastrar</a>
+                    <a href="../user/cursos.php" class="btn btn-outline-primary btn-sm mt-2">Gerenciar</a>
                 </div>
             </div>
         </div>

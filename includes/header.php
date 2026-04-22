@@ -1,10 +1,10 @@
-<?php
+﻿<?php
 /**
- * Arquivo de cabeçalho da aplicação SkillConnect
+ * Arquivo de cabeÃ§alho da aplicaÃ§Ã£o SkillConnect
  * 
- * Este arquivo contém a estrutura HTML do cabeçalho da aplicação, incluindo
- * navegação, autenticação de usuário, exibição de mensagens flash e estilos CSS.
- * Responsável por exibir a barra de navegação e verificar o status de login do usuário.
+ * Este arquivo contÃ©m a estrutura HTML do cabeÃ§alho da aplicaÃ§Ã£o, incluindo
+ * navegaÃ§Ã£o, autenticaÃ§Ã£o de usuÃ¡rio, exibiÃ§Ã£o de mensagens flash e estilos CSS.
+ * ResponsÃ¡vel por exibir a barra de navegaÃ§Ã£o e verificar o status de login do usuÃ¡rio.
  * 
  * @author SkillConnect
  * @version 1.0
@@ -135,9 +135,18 @@ $_flash_info = get_flash('info');
                         </a>
                         <div class="dropdown-menu dropdown-menu-right" aria-labelledby="perfilDropdown">
                             <a class="dropdown-item" href="<?= $_base ?>/user/meus-dados.php"><i class="fas fa-id-card"></i> Meus dados</a>
+                            <?php if ($perfil === 'admin'): ?>
+                                <div class="dropdown-divider"></div>
+                                <a class="dropdown-item" href="<?= $_base ?>/admin/admin.php"><i class="fas fa-cogs"></i> Painel admin</a>
+                                <a class="dropdown-item" href="<?= $_base ?>/user/cursos.php"><i class="fas fa-book"></i> Gerenciar cursos</a>
+                                <a class="dropdown-item" href="<?= $_base ?>/user/vagas.php"><i class="fas fa-briefcase"></i> Gerenciar vagas</a>
+                                <a class="dropdown-item" href="<?= $_base ?>/admin/candidaturas.php"><i class="fas fa-users"></i> Candidaturas</a>
+                                <a class="dropdown-item" href="<?= $_base ?>/admin/listarclientes.php"><i class="fas fa-user-friends"></i> Usuarios</a>
+                            <?php else: ?>
                             <a class="dropdown-item" href="<?= $_base ?>/user/meus-cursos.php"><i class="fas fa-book-open"></i> Meus cursos</a>
                             <a class="dropdown-item" href="<?= $_base ?>/user/minhas-candidaturas.php"><i class="fas fa-briefcase"></i> Minhas vagas</a>
-                            <a class="dropdown-item" href="<?= $_base ?>/user/meu-curriculo.php"><i class="fas fa-file-pdf"></i> Meu currículo</a>
+                            <a class="dropdown-item" href="<?= $_base ?>/user/meu-curriculo.php"><i class="fas fa-file-pdf"></i> Meu currÃ­culo</a>
+                            <?php endif; ?>
                             <div class="dropdown-divider"></div>
                             <a class="dropdown-item text-danger" href="<?= $_base ?>/auth/logout.php"><i class="fas fa-sign-out-alt"></i> Sair</a>
                         </div>

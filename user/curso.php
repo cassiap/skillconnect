@@ -11,6 +11,7 @@
  */
 
 require_once __DIR__ . '/../config/db.php';
+$isAdmin = isset($_SESSION['perfil']) && $_SESSION['perfil'] === 'admin';
 
 // Verifica se o ID foi passado via URL
 if (!isset($_GET['id']) || empty($_GET['id'])) {
@@ -18,7 +19,10 @@ if (!isset($_GET['id']) || empty($_GET['id'])) {
 }
 
 $id = intval($_GET['id']);
-$stmt = $cx->prepare("SELECT * FROM cursos WHERE id = ? AND ativo = 1");
+$sql = $isAdmin
+    ? "SELECT * FROM cursos WHERE id = ?"
+    : "SELECT * FROM cursos WHERE id = ? AND ativo = 1";
+$stmt = $cx->prepare($sql);
 $stmt->bind_param("i", $id);
 $stmt->execute();
 $resultado = $stmt->get_result();
@@ -78,7 +82,13 @@ $stmt->close();
             <h5 class="mt-3">Descricao</h5>
             <p><?php echo nl2br(htmlspecialchars($curso['descricao'])); ?></p>
 
-            <a href="inscrever.php?curso_id=<?php echo $curso['id']; ?>" class="btn btn-success mt-3">Quero me inscrever</a>
+            <?php if (!$isAdmin): ?>
+                <a href="inscrever.php?curso_id=<?php echo $curso['id']; ?>" class="btn btn-success mt-3">Quero me inscrever</a>
+            <?php else: ?>
+                <div class="alert alert-info mt-3 mb-0">
+                    Visualizacao administrativa. A gestao de status deste curso esta em <a href="cursos.php" class="alert-link">Cursos</a>.
+                </div>
+            <?php endif; ?>
         </div>
     </div>
 </div>
