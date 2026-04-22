@@ -1,6 +1,11 @@
 Search.appendIndex(
     [
                 {
+            "fqsen": "\\bind_params_dynamic\u0028\u0029",
+            "name": "bind_params_dynamic",
+            "summary": "",
+            "url": "namespaces/default.html#function_bind_params_dynamic"
+        },                {
             "fqsen": "\\validaCPF\u0028\u0029",
             "name": "validaCPF",
             "summary": "Valida\u0020um\u0020n\u00FAmero\u0020de\u0020CPF\u0020atrav\u00E9s\u0020do\u0020algoritmo\u0020de\u0020d\u00EDgitos\u0020verificadores",
@@ -71,6 +76,36 @@ Search.appendIndex(
             "summary": "Cria\u0020um\u0020resumo\u0020do\u0020texto\u0020para\u0020exibi\u00E7\u00E3o\u0020na\u0020p\u00E1gina\u0020inicial",
             "url": "namespaces/default.html#function_resumo_home"
         },                {
+            "fqsen": "\\anthropic_chat_with_fallback\u0028\u0029",
+            "name": "anthropic_chat_with_fallback",
+            "summary": "",
+            "url": "namespaces/default.html#function_anthropic_chat_with_fallback"
+        },                {
+            "fqsen": "\\ai_resume_texto\u0028\u0029",
+            "name": "ai_resume_texto",
+            "summary": "",
+            "url": "namespaces/default.html#function_ai_resume_texto"
+        },                {
+            "fqsen": "\\ai_connect_db_optional\u0028\u0029",
+            "name": "ai_connect_db_optional",
+            "summary": "",
+            "url": "namespaces/default.html#function_ai_connect_db_optional"
+        },                {
+            "fqsen": "\\ai_catalogo_site_contexto\u0028\u0029",
+            "name": "ai_catalogo_site_contexto",
+            "summary": "",
+            "url": "namespaces/default.html#function_ai_catalogo_site_contexto"
+        },                {
+            "fqsen": "\\ai_format_inline\u0028\u0029",
+            "name": "ai_format_inline",
+            "summary": "",
+            "url": "namespaces/default.html#function_ai_format_inline"
+        },                {
+            "fqsen": "\\ai_render_response_html\u0028\u0029",
+            "name": "ai_render_response_html",
+            "summary": "",
+            "url": "namespaces/default.html#function_ai_render_response_html"
+        },                {
             "fqsen": "\\resumo_curso\u0028\u0029",
             "name": "resumo_curso",
             "summary": "Cria\u0020um\u0020resumo\u0020truncado\u0020de\u0020um\u0020texto\u0020para\u0020exibi\u00E7\u00E3o\u0020em\u0020cards\u0020de\u0020curso",
@@ -80,6 +115,11 @@ Search.appendIndex(
             "name": "split_lines",
             "summary": "Divide\u0020um\u0020texto\u0020em\u0020linhas\u0020n\u00E3o\u0020vazias",
             "url": "namespaces/default.html#function_split_lines"
+        },                {
+            "fqsen": "\\safe_http_url\u0028\u0029",
+            "name": "safe_http_url",
+            "summary": "",
+            "url": "namespaces/default.html#function_safe_http_url"
         },                {
             "fqsen": "\\resumo_vaga\u0028\u0029",
             "name": "resumo_vaga",
