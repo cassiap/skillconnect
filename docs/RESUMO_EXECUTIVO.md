@@ -91,7 +91,9 @@ O projeto foi desenvolvido com interface funcional e responsiva em Bootstrap 4. 
 
 A documentação PHP gerada automaticamente pelo phpDocumentor está publicada em:
 🔗 **https://cassiap.github.io/skillconnect/** 
-🔗 **[https://cassiap.github.io/skillconnect/](https://youtu.be/NUynnh-I-uA)** 
+
+
+(https://youtu.be/NUynnh-I-uA) 
 
 ---
 
