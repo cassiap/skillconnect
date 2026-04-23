@@ -12,8 +12,8 @@
 | Nome | Matrícula |
 |------|-----------|
 | Cássia Gabriela | 22252157 |
-| Arthur Gomes | (preencher) |
-| Brenno Jonas | (preencher) |
+| Arthur Gomes | (22250160) |
+| Brenno Jonas | (22205163) |
 
 **Orientador:** Prof. Tiago Leite
 
