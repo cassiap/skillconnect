@@ -145,12 +145,12 @@ Um pipeline de segurança. Ele faz uma varredura em todos os arquivos do projeto
 
 ---
 
-Por que é importante:
+## Por que é importante:
 É muito comum subir acidentalmente dados sensíveis para o GitHub. Essa action age como um guarda de segurança que barra isso antes que vire um problema.
 Resultado:
 
-✅ Nenhuma vulnerabilidade encontrada
-❌ Dado sensível detectado — requer ação imediata
+- ✅ Nenhuma vulnerabilidade encontrada
+- ❌ Dado sensível detectado — requer ação imediata
 
 
 
