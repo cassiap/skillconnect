@@ -143,8 +143,6 @@ Um pipeline de segurança. Ele faz uma varredura em todos os arquivos do projeto
 | Senhas fracas | senha123, password123, admin123 no código |
 | Chaves de API | Tokens de acesso expostos publicamente |
 
----
-
 ## Por que é importante:
 É muito comum subir acidentalmente dados sensíveis para o GitHub. Essa action age como um guarda de segurança que barra isso antes que vire um problema.
 Resultado:
@@ -152,6 +150,27 @@ Resultado:
 - ✅ Nenhuma vulnerabilidade encontrada
 - ❌ Dado sensível detectado — requer ação imediata
 
+---
+
+## 4. Validar HTML — validar-html.yml
+## O que é:
+Um pipeline de conformidade web. Ele instala a ferramenta html-validate e verifica se todos os arquivos .html do projeto seguem os padrões da W3C.
+## O que detecta:
+| Problema | Exemplo |
+|----------|---------|
+| Tag não fechada | <div> sem </div> |
+| Atributo obrigatório ausente | <img> sem alt |
+| Tags obsoletas | <center>, <font> | 
+| Link inválido | <a> sem href |
+
+## Por que é importante:
+HTML mal escrito pode causar problemas de exibição em diferentes navegadores e prejudicar a acessibilidade do site.
+Resultado:
+
+- ✅ Todos os arquivos HTML válidos
+- ❌ Erros de estrutura ou acessibilidade encontrados
+
+---
 
 
 
