@@ -127,10 +127,30 @@ Permite acompanhar o crescimento do projeto ao longo do tempo e registrar quem f
 Resultado:
 
 - ✅ Relatório gerado com sucesso a cada push
-- Nunca falha — apenas exibe as métricas do projeto
+- Nunca falha,apenas exibe as métricas do projeto
 
 ---
 
+## 3. Verificação de Segurança — seguranca.yml
+## O que é:
+
+Um pipeline de segurança. Ele faz uma varredura em todos os arquivos do projeto procurando três tipos de vulnerabilidades comuns que desenvolvedores iniciantes costumam cometer por descuido.
+## O que verifica:
+
+| Verificação | Exemplo do problema |
+|-------------|---------------------|
+| Arquivo .env |  Subir senhas e configurações sensíveis sem querer |
+| Senhas fracas | senha123, password123, admin123 no código |
+| Chaves de API | Tokens de acesso expostos publicamente |
+
+---
+
+Por que é importante:
+É muito comum subir acidentalmente dados sensíveis para o GitHub. Essa action age como um guarda de segurança que barra isso antes que vire um problema.
+Resultado:
+
+✅ Nenhuma vulnerabilidade encontrada
+❌ Dado sensível detectado — requer ação imediata
 
 
 
