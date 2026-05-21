@@ -107,7 +107,8 @@ skillconnect/
 ## 1. Verificar PHP - main.yml
 
 ## O que é:
-Um pipeline de qualidade de código. Ele instala o PHP numa máquina virtual Ubuntu e executa o comando php -l em todos os arquivos .php do projeto, verificando se há erros de sintaxe.
+
+Um pipeline de qualidade de código. Ele instala o PHP numa máquina virtual Ubuntu e executa o comando php -1 em todos os arquivos .php do projeto, verificando se há erros de sintaxe.
 Por que é importante:
 Garante que nenhum código quebrado seja enviado para o repositório. Se você esquecer de fechar uma função ou errar um símbolo, o pipeline avisa na hora.
 Resultado:
@@ -115,6 +116,20 @@ Resultado:
 - ✅ Nenhum erro de sintaxe nos arquivos PHP
 - ❌ Erro de sintaxe detectado — precisa corrigir antes de continuar
 
+---
+
+## 2. Relatório do Projeto — relatorio.yml
+## O que é:
+
+Um pipeline de rastreabilidade. A cada push ele gera automaticamente um relatório no log com informações do projeto como: quem fez o commit, data e hora, quantos arquivos .php, .html, .css e .js existem, total de linhas de código e tamanho do repositório.
+## Por que é importante:
+Permite acompanhar o crescimento do projeto ao longo do tempo e registrar quem fez cada alteração.
+Resultado:
+
+- ✅ Relatório gerado com sucesso a cada push
+- Nunca falha — apenas exibe as métricas do projeto
+
+---
 
 
 
