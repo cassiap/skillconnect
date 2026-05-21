@@ -102,6 +102,8 @@ skillconnect/
 | Validar HTML | `validar-html.yml` | Valida arquivos `.html` |
 | Gerar Documentação | `documentacao.yml` | Publica doc PHP no GitHub Pages |
 
+---
+
 ## 1. Verificar PHP - main.yml
 
 ## O que é:
@@ -110,8 +112,8 @@ Por que é importante:
 Garante que nenhum código quebrado seja enviado para o repositório. Se você esquecer de fechar uma função ou errar um símbolo, o pipeline avisa na hora.
 Resultado:
 
-✅ Nenhum erro de sintaxe nos arquivos PHP
-❌ Erro de sintaxe detectado — precisa corrigir antes de continuar
+-✅ Nenhum erro de sintaxe nos arquivos PHP
+-❌ Erro de sintaxe detectado — precisa corrigir antes de continuar
 
 
 
