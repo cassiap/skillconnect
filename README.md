@@ -169,7 +169,6 @@ Resultado:
 
 - ✅ Todos os arquivos HTML válidos
 - ❌ Erros de estrutura ou acessibilidade encontrados
-
 ---
 
 
