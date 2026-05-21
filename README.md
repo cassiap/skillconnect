@@ -112,8 +112,8 @@ Por que é importante:
 Garante que nenhum código quebrado seja enviado para o repositório. Se você esquecer de fechar uma função ou errar um símbolo, o pipeline avisa na hora.
 Resultado:
 
--✅ Nenhum erro de sintaxe nos arquivos PHP
--❌ Erro de sintaxe detectado — precisa corrigir antes de continuar
+- ✅ Nenhum erro de sintaxe nos arquivos PHP
+- ❌ Erro de sintaxe detectado — precisa corrigir antes de continuar
 
 
 
