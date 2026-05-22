@@ -57,7 +57,20 @@
     Menu
 </label>
 <aside class="phpdocumentor-column -three phpdocumentor-sidebar">
-                    <section class="phpdocumentor-sidebar__category -packages">
+                    <section class="phpdocumentor-sidebar__category -namespaces">
+            <h2 class="phpdocumentor-sidebar__category-header">Namespaces</h2>
+                                    <h4 class="phpdocumentor-sidebar__root-namespace">
+    <a href="namespaces/tests.html" class="">Tests</a>
+</h4>
+    <ul class="phpdocumentor-list">
+                    <li>
+                <a href="namespaces/tests-unit.html" class="">Unit</a>
+                
+            </li>
+            </ul>
+
+                        </section>
+                <section class="phpdocumentor-sidebar__category -packages">
             <h2 class="phpdocumentor-sidebar__category-header">Packages</h2>
                                     <h4 class="phpdocumentor-sidebar__root-namespace">
     <a href="packages/Application.html" class="">Application</a>
@@ -103,14 +116,882 @@
 
 
 
+<h4 id="toc-constants">
+    Constants
+    <a href="packages/SkillConnect.html#toc-constants" class="headerlink"><i class="fas fa-link"></i></a>
+
+</h4>
+<dl class="phpdocumentor-table-of-contents">
+            <dt class="phpdocumentor-table-of-contents__entry -constant -public">
+    <a class="" href="namespaces/default.html#constant_PERFIL_ADMIN">PERFIL_ADMIN</a>
+    <span>
+        &nbsp;: mixed&nbsp;= &#039;admin&#039;                            </span>
+</dt>
+<dd>Perfil de administrador da plataforma.</dd>
+
+            <dt class="phpdocumentor-table-of-contents__entry -constant -public">
+    <a class="" href="namespaces/default.html#constant_PERFIL_USUARIO">PERFIL_USUARIO</a>
+    <span>
+        &nbsp;: mixed&nbsp;= &#039;usuario&#039;                            </span>
+</dt>
+<dd>Perfil padrão de aluno.</dd>
+
+            <dt class="phpdocumentor-table-of-contents__entry -constant -public">
+    <a class="" href="namespaces/default.html#constant_STATUS_CAND_ANALISE">STATUS_CAND_ANALISE</a>
+    <span>
+        &nbsp;: mixed&nbsp;= &#039;em_analise&#039;                            </span>
+</dt>
+<dd>Candidatura em processo de avaliação pelo recrutador.</dd>
+
+            <dt class="phpdocumentor-table-of-contents__entry -constant -public">
+    <a class="" href="namespaces/default.html#constant_STATUS_CAND_APROVADO">STATUS_CAND_APROVADO</a>
+    <span>
+        &nbsp;: mixed&nbsp;= &#039;aprovado&#039;                            </span>
+</dt>
+<dd>Candidato aprovado para a vaga.</dd>
+
+            <dt class="phpdocumentor-table-of-contents__entry -constant -public">
+    <a class="" href="namespaces/default.html#constant_STATUS_CAND_ENVIADA">STATUS_CAND_ENVIADA</a>
+    <span>
+        &nbsp;: mixed&nbsp;= &#039;enviada&#039;                            </span>
+</dt>
+<dd>Candidatura recém-enviada, aguardando análise.</dd>
+
+            <dt class="phpdocumentor-table-of-contents__entry -constant -public">
+    <a class="" href="namespaces/default.html#constant_STATUS_CAND_REPROVADO">STATUS_CAND_REPROVADO</a>
+    <span>
+        &nbsp;: mixed&nbsp;= &#039;reprovado&#039;                            </span>
+</dt>
+<dd>Candidato não selecionado para a vaga.</dd>
+
+            <dt class="phpdocumentor-table-of-contents__entry -constant -public">
+    <a class="" href="namespaces/default.html#constant_STATUS_INSC_CANCELADO">STATUS_INSC_CANCELADO</a>
+    <span>
+        &nbsp;: mixed&nbsp;= &#039;cancelado&#039;                            </span>
+</dt>
+<dd>Inscrição cancelada pelo aluno ou pelo admin.</dd>
+
+            <dt class="phpdocumentor-table-of-contents__entry -constant -public">
+    <a class="" href="namespaces/default.html#constant_STATUS_INSC_CONCLUIDO">STATUS_INSC_CONCLUIDO</a>
+    <span>
+        &nbsp;: mixed&nbsp;= &#039;concluido&#039;                            </span>
+</dt>
+<dd>Todas as aulas concluídas — curso finalizado.</dd>
+
+            <dt class="phpdocumentor-table-of-contents__entry -constant -public">
+    <a class="" href="namespaces/default.html#constant_STATUS_INSC_CONFIRMADO">STATUS_INSC_CONFIRMADO</a>
+    <span>
+        &nbsp;: mixed&nbsp;= &#039;confirmado&#039;                            </span>
+</dt>
+<dd>Inscrição ativa — aluno cursando.</dd>
+
+            <dt class="phpdocumentor-table-of-contents__entry -constant -public">
+    <a class="" href="namespaces/default.html#constant_STATUS_INSC_PENDENTE">STATUS_INSC_PENDENTE</a>
+    <span>
+        &nbsp;: mixed&nbsp;= &#039;pendente&#039;                            </span>
+</dt>
+<dd>Inscrição registrada, aguardando confirmação.</dd>
+
+    </dl>
 
 
 
 
+<h4 id="toc-functions">
+    Functions
+    <a href="packages/SkillConnect.html#toc-functions" class="headerlink"><i class="fas fa-link"></i></a>
+
+</h4>
+<dl class="phpdocumentor-table-of-contents">
+            <dt class="phpdocumentor-table-of-contents__entry -function -">
+    <a class="" href="namespaces/default.html#function_anthropic_chat_with_fallback">anthropic_chat_with_fallback()</a>
+    <span>
+                                &nbsp;: array{0: bool, 1: string, 2: string, 3: string}    </span>
+</dt>
+<dd>Envia uma conversa à API Anthropic com suporte a múltiplos modelos de fallback.</dd>
+
+            <dt class="phpdocumentor-table-of-contents__entry -function -">
+    <a class="" href="namespaces/default.html#function_ai_resume_texto">ai_resume_texto()</a>
+    <span>
+                                &nbsp;: string    </span>
+</dt>
+<dd>Trunca um texto para uso em contextos de IA, preservando palavras completas.</dd>
+
+            <dt class="phpdocumentor-table-of-contents__entry -function -">
+    <a class="" href="namespaces/default.html#function_ai_connect_db_optional">ai_connect_db_optional()</a>
+    <span>
+                                &nbsp;: <abbr title="\mysqli">mysqli</abbr>|null    </span>
+</dt>
+<dd>Cria uma conexão MySQL secundária opcional para o assistente de IA.</dd>
+
+            <dt class="phpdocumentor-table-of-contents__entry -function -">
+    <a class="" href="namespaces/default.html#function_ai_catalogo_site_contexto">ai_catalogo_site_contexto()</a>
+    <span>
+                                &nbsp;: string    </span>
+</dt>
+<dd>Carrega o catálogo atual de cursos e vagas para injetar no contexto da IA.</dd>
+
+            <dt class="phpdocumentor-table-of-contents__entry -function -">
+    <a class="" href="namespaces/default.html#function_ai_perfil_aluno_contexto">ai_perfil_aluno_contexto()</a>
+    <span>
+                                &nbsp;: string    </span>
+</dt>
+<dd>Carrega o perfil real do aluno para personalizar as respostas da IA.</dd>
+
+            <dt class="phpdocumentor-table-of-contents__entry -function -">
+    <a class="" href="namespaces/default.html#function_ai_format_inline">ai_format_inline()</a>
+    <span>
+                                &nbsp;: string    </span>
+</dt>
+<dd>Converte formatação inline Markdown para HTML seguro.</dd>
+
+            <dt class="phpdocumentor-table-of-contents__entry -function -">
+    <a class="" href="namespaces/default.html#function_ai_render_response_html">ai_render_response_html()</a>
+    <span>
+                                &nbsp;: string    </span>
+</dt>
+<dd>Converte a resposta Markdown da IA para HTML renderizável.</dd>
+
+            <dt class="phpdocumentor-table-of-contents__entry -function -">
+    <a class="" href="namespaces/default.html#function_safe_http_url">safe_http_url()</a>
+    <span>
+                                &nbsp;: string    </span>
+</dt>
+<dd>Valida e retorna uma URL HTTP/HTTPS segura.</dd>
+
+    </dl>
 
         
+    <section class="phpdocumentor-constants">
+        <h3 class="phpdocumentor-elements__header" id="constants">
+            Constants
+            <a href="packages/SkillConnect.html#constants" class="headerlink"><i class="fas fa-link"></i></a>
+
+        </h3>
+                    <article class="phpdocumentor-element -constant -public ">
+    <h4 class="phpdocumentor-element__name" id="constant_PERFIL_ADMIN">
+        PERFIL_ADMIN
+        <a href="namespaces/default.html#constant_PERFIL_ADMIN" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h4>
+
+    <aside class="phpdocumentor-element-found-in">
+    <abbr class="phpdocumentor-element-found-in__file" title="config/constants.php"><a href="files/config-constants.html"><abbr title="config/constants.php">constants.php</abbr></a></abbr>
+    :
+    <span class="phpdocumentor-element-found-in__line">47</span>
+
+    </aside>
+
+        <p class="phpdocumentor-summary">Perfil de administrador da plataforma.</p>
+
+    
+    <code class="phpdocumentor-signature phpdocumentor-code ">
+    <span class="phpdocumentor-signature__visibility">public</span>
+        <span class="phpdocumentor-signature__type">mixed</span>
+    <span class="phpdocumentor-signature__name">PERFIL_ADMIN</span>
+    = <span class="phpdocumentor-signature__default-value">&#039;admin&#039;</span>
+</code>
+
+
+    
+    
+    
 
         
+    </article>
+                    <article class="phpdocumentor-element -constant -public ">
+    <h4 class="phpdocumentor-element__name" id="constant_PERFIL_USUARIO">
+        PERFIL_USUARIO
+        <a href="namespaces/default.html#constant_PERFIL_USUARIO" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h4>
+
+    <aside class="phpdocumentor-element-found-in">
+    <abbr class="phpdocumentor-element-found-in__file" title="config/constants.php"><a href="files/config-constants.html"><abbr title="config/constants.php">constants.php</abbr></a></abbr>
+    :
+    <span class="phpdocumentor-element-found-in__line">44</span>
+
+    </aside>
+
+        <p class="phpdocumentor-summary">Perfil padrão de aluno.</p>
+
+    
+    <code class="phpdocumentor-signature phpdocumentor-code ">
+    <span class="phpdocumentor-signature__visibility">public</span>
+        <span class="phpdocumentor-signature__type">mixed</span>
+    <span class="phpdocumentor-signature__name">PERFIL_USUARIO</span>
+    = <span class="phpdocumentor-signature__default-value">&#039;usuario&#039;</span>
+</code>
+
+
+    
+    
+    
+
+        
+    </article>
+                    <article class="phpdocumentor-element -constant -public ">
+    <h4 class="phpdocumentor-element__name" id="constant_STATUS_CAND_ANALISE">
+        STATUS_CAND_ANALISE
+        <a href="namespaces/default.html#constant_STATUS_CAND_ANALISE" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h4>
+
+    <aside class="phpdocumentor-element-found-in">
+    <abbr class="phpdocumentor-element-found-in__file" title="config/constants.php"><a href="files/config-constants.html"><abbr title="config/constants.php">constants.php</abbr></a></abbr>
+    :
+    <span class="phpdocumentor-element-found-in__line">19</span>
+
+    </aside>
+
+        <p class="phpdocumentor-summary">Candidatura em processo de avaliação pelo recrutador.</p>
+
+    
+    <code class="phpdocumentor-signature phpdocumentor-code ">
+    <span class="phpdocumentor-signature__visibility">public</span>
+        <span class="phpdocumentor-signature__type">mixed</span>
+    <span class="phpdocumentor-signature__name">STATUS_CAND_ANALISE</span>
+    = <span class="phpdocumentor-signature__default-value">&#039;em_analise&#039;</span>
+</code>
+
+
+    
+    
+    
+
+        
+    </article>
+                    <article class="phpdocumentor-element -constant -public ">
+    <h4 class="phpdocumentor-element__name" id="constant_STATUS_CAND_APROVADO">
+        STATUS_CAND_APROVADO
+        <a href="namespaces/default.html#constant_STATUS_CAND_APROVADO" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h4>
+
+    <aside class="phpdocumentor-element-found-in">
+    <abbr class="phpdocumentor-element-found-in__file" title="config/constants.php"><a href="files/config-constants.html"><abbr title="config/constants.php">constants.php</abbr></a></abbr>
+    :
+    <span class="phpdocumentor-element-found-in__line">22</span>
+
+    </aside>
+
+        <p class="phpdocumentor-summary">Candidato aprovado para a vaga.</p>
+
+    
+    <code class="phpdocumentor-signature phpdocumentor-code ">
+    <span class="phpdocumentor-signature__visibility">public</span>
+        <span class="phpdocumentor-signature__type">mixed</span>
+    <span class="phpdocumentor-signature__name">STATUS_CAND_APROVADO</span>
+    = <span class="phpdocumentor-signature__default-value">&#039;aprovado&#039;</span>
+</code>
+
+
+    
+    
+    
+
+        
+    </article>
+                    <article class="phpdocumentor-element -constant -public ">
+    <h4 class="phpdocumentor-element__name" id="constant_STATUS_CAND_ENVIADA">
+        STATUS_CAND_ENVIADA
+        <a href="namespaces/default.html#constant_STATUS_CAND_ENVIADA" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h4>
+
+    <aside class="phpdocumentor-element-found-in">
+    <abbr class="phpdocumentor-element-found-in__file" title="config/constants.php"><a href="files/config-constants.html"><abbr title="config/constants.php">constants.php</abbr></a></abbr>
+    :
+    <span class="phpdocumentor-element-found-in__line">16</span>
+
+    </aside>
+
+        <p class="phpdocumentor-summary">Candidatura recém-enviada, aguardando análise.</p>
+
+    
+    <code class="phpdocumentor-signature phpdocumentor-code ">
+    <span class="phpdocumentor-signature__visibility">public</span>
+        <span class="phpdocumentor-signature__type">mixed</span>
+    <span class="phpdocumentor-signature__name">STATUS_CAND_ENVIADA</span>
+    = <span class="phpdocumentor-signature__default-value">&#039;enviada&#039;</span>
+</code>
+
+
+    
+    
+    
+
+        
+    </article>
+                    <article class="phpdocumentor-element -constant -public ">
+    <h4 class="phpdocumentor-element__name" id="constant_STATUS_CAND_REPROVADO">
+        STATUS_CAND_REPROVADO
+        <a href="namespaces/default.html#constant_STATUS_CAND_REPROVADO" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h4>
+
+    <aside class="phpdocumentor-element-found-in">
+    <abbr class="phpdocumentor-element-found-in__file" title="config/constants.php"><a href="files/config-constants.html"><abbr title="config/constants.php">constants.php</abbr></a></abbr>
+    :
+    <span class="phpdocumentor-element-found-in__line">25</span>
+
+    </aside>
+
+        <p class="phpdocumentor-summary">Candidato não selecionado para a vaga.</p>
+
+    
+    <code class="phpdocumentor-signature phpdocumentor-code ">
+    <span class="phpdocumentor-signature__visibility">public</span>
+        <span class="phpdocumentor-signature__type">mixed</span>
+    <span class="phpdocumentor-signature__name">STATUS_CAND_REPROVADO</span>
+    = <span class="phpdocumentor-signature__default-value">&#039;reprovado&#039;</span>
+</code>
+
+
+    
+    
+    
+
+        
+    </article>
+                    <article class="phpdocumentor-element -constant -public ">
+    <h4 class="phpdocumentor-element__name" id="constant_STATUS_INSC_CANCELADO">
+        STATUS_INSC_CANCELADO
+        <a href="namespaces/default.html#constant_STATUS_INSC_CANCELADO" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h4>
+
+    <aside class="phpdocumentor-element-found-in">
+    <abbr class="phpdocumentor-element-found-in__file" title="config/constants.php"><a href="files/config-constants.html"><abbr title="config/constants.php">constants.php</abbr></a></abbr>
+    :
+    <span class="phpdocumentor-element-found-in__line">36</span>
+
+    </aside>
+
+        <p class="phpdocumentor-summary">Inscrição cancelada pelo aluno ou pelo admin.</p>
+
+    
+    <code class="phpdocumentor-signature phpdocumentor-code ">
+    <span class="phpdocumentor-signature__visibility">public</span>
+        <span class="phpdocumentor-signature__type">mixed</span>
+    <span class="phpdocumentor-signature__name">STATUS_INSC_CANCELADO</span>
+    = <span class="phpdocumentor-signature__default-value">&#039;cancelado&#039;</span>
+</code>
+
+
+    
+    
+    
+
+        
+    </article>
+                    <article class="phpdocumentor-element -constant -public ">
+    <h4 class="phpdocumentor-element__name" id="constant_STATUS_INSC_CONCLUIDO">
+        STATUS_INSC_CONCLUIDO
+        <a href="namespaces/default.html#constant_STATUS_INSC_CONCLUIDO" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h4>
+
+    <aside class="phpdocumentor-element-found-in">
+    <abbr class="phpdocumentor-element-found-in__file" title="config/constants.php"><a href="files/config-constants.html"><abbr title="config/constants.php">constants.php</abbr></a></abbr>
+    :
+    <span class="phpdocumentor-element-found-in__line">39</span>
+
+    </aside>
+
+        <p class="phpdocumentor-summary">Todas as aulas concluídas — curso finalizado.</p>
+
+    
+    <code class="phpdocumentor-signature phpdocumentor-code ">
+    <span class="phpdocumentor-signature__visibility">public</span>
+        <span class="phpdocumentor-signature__type">mixed</span>
+    <span class="phpdocumentor-signature__name">STATUS_INSC_CONCLUIDO</span>
+    = <span class="phpdocumentor-signature__default-value">&#039;concluido&#039;</span>
+</code>
+
+
+    
+    
+    
+
+        
+    </article>
+                    <article class="phpdocumentor-element -constant -public ">
+    <h4 class="phpdocumentor-element__name" id="constant_STATUS_INSC_CONFIRMADO">
+        STATUS_INSC_CONFIRMADO
+        <a href="namespaces/default.html#constant_STATUS_INSC_CONFIRMADO" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h4>
+
+    <aside class="phpdocumentor-element-found-in">
+    <abbr class="phpdocumentor-element-found-in__file" title="config/constants.php"><a href="files/config-constants.html"><abbr title="config/constants.php">constants.php</abbr></a></abbr>
+    :
+    <span class="phpdocumentor-element-found-in__line">33</span>
+
+    </aside>
+
+        <p class="phpdocumentor-summary">Inscrição ativa — aluno cursando.</p>
+
+    
+    <code class="phpdocumentor-signature phpdocumentor-code ">
+    <span class="phpdocumentor-signature__visibility">public</span>
+        <span class="phpdocumentor-signature__type">mixed</span>
+    <span class="phpdocumentor-signature__name">STATUS_INSC_CONFIRMADO</span>
+    = <span class="phpdocumentor-signature__default-value">&#039;confirmado&#039;</span>
+</code>
+
+
+    
+    
+    
+
+        
+    </article>
+                    <article class="phpdocumentor-element -constant -public ">
+    <h4 class="phpdocumentor-element__name" id="constant_STATUS_INSC_PENDENTE">
+        STATUS_INSC_PENDENTE
+        <a href="namespaces/default.html#constant_STATUS_INSC_PENDENTE" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h4>
+
+    <aside class="phpdocumentor-element-found-in">
+    <abbr class="phpdocumentor-element-found-in__file" title="config/constants.php"><a href="files/config-constants.html"><abbr title="config/constants.php">constants.php</abbr></a></abbr>
+    :
+    <span class="phpdocumentor-element-found-in__line">30</span>
+
+    </aside>
+
+        <p class="phpdocumentor-summary">Inscrição registrada, aguardando confirmação.</p>
+
+    
+    <code class="phpdocumentor-signature phpdocumentor-code ">
+    <span class="phpdocumentor-signature__visibility">public</span>
+        <span class="phpdocumentor-signature__type">mixed</span>
+    <span class="phpdocumentor-signature__name">STATUS_INSC_PENDENTE</span>
+    = <span class="phpdocumentor-signature__default-value">&#039;pendente&#039;</span>
+</code>
+
+
+    
+    
+    
+
+        
+    </article>
+            </section>
+
+            <section class="phpdocumentor-functions">
+        <h3 class="phpdocumentor-elements__header" id="functions">
+            Functions
+            <a href="packages/SkillConnect.html#functions" class="headerlink"><i class="fas fa-link"></i></a>
+
+        </h3>
+                    <article class="phpdocumentor-element -function - ">
+    <h4 class="phpdocumentor-element__name" id="function_anthropic_chat_with_fallback">
+        anthropic_chat_with_fallback()
+        <a href="namespaces/default.html#function_anthropic_chat_with_fallback" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h4>
+    <aside class="phpdocumentor-element-found-in">
+    <abbr class="phpdocumentor-element-found-in__file" title="user/assistente.php"><a href="files/user-assistente.html"><abbr title="user/assistente.php">assistente.php</abbr></a></abbr>
+    :
+    <span class="phpdocumentor-element-found-in__line">37</span>
+
+    </aside>
+
+        <p class="phpdocumentor-summary">Envia uma conversa à API Anthropic com suporte a múltiplos modelos de fallback.</p>
+
+    
+    <code class="phpdocumentor-code phpdocumentor-signature ">
+    <span class="phpdocumentor-signature__visibility"></span>
+                    <span class="phpdocumentor-signature__name">anthropic_chat_with_fallback</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__type">string&nbsp;</span><span class="phpdocumentor-signature__argument__name">$apiKey</span></span><span class="phpdocumentor-signature__argument"><span>, </span><span class="phpdocumentor-signature__argument__type">string&nbsp;</span><span class="phpdocumentor-signature__argument__name">$systemPrompt</span></span><span class="phpdocumentor-signature__argument"><span>, </span><span class="phpdocumentor-signature__argument__type">array&lt;string|int, mixed&gt;&nbsp;</span><span class="phpdocumentor-signature__argument__name">$mensagens</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">array{0: bool, 1: string, 2: string, 3: string}</span></code>
+
+        <section class="phpdocumentor-description"><p>Tenta cada modelo listado em ANTHROPIC_MODEL (separados por vírgula) até
+obter uma resposta bem-sucedida. Trata erros HTTP e erros de modelo individualmente.</p>
+</section>
+
+        <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
+    <dl class="phpdocumentor-argument-list">
+                    <dt class="phpdocumentor-argument-list__entry">
+                <span class="phpdocumentor-argument-list__argument__name">$apiKey</span>
+                : <span class="phpdocumentor-argument-list__argument__type">string</span>
+                            </dt>
+            <dd class="phpdocumentor-argument-list__definition">
+                    <section class="phpdocumentor-description"><p>Chave de API Anthropic.</p>
+</section>
+
+            </dd>
+                    <dt class="phpdocumentor-argument-list__entry">
+                <span class="phpdocumentor-argument-list__argument__name">$systemPrompt</span>
+                : <span class="phpdocumentor-argument-list__argument__type">string</span>
+                            </dt>
+            <dd class="phpdocumentor-argument-list__definition">
+                    <section class="phpdocumentor-description"><p>Instrução de sistema enviada ao modelo.</p>
+</section>
+
+            </dd>
+                    <dt class="phpdocumentor-argument-list__entry">
+                <span class="phpdocumentor-argument-list__argument__name">$mensagens</span>
+                : <span class="phpdocumentor-argument-list__argument__type">array&lt;string|int, mixed&gt;</span>
+                            </dt>
+            <dd class="phpdocumentor-argument-list__definition">
+                    <section class="phpdocumentor-description"><p>Array de mensagens no formato [{role, content}].</p>
+</section>
+
+            </dd>
+            </dl>
+
+    
+
+            <section>
+        <h5 class="phpdocumentor-return-value__heading">Return values</h5>
+        <span class="phpdocumentor-signature__response_type">array{0: bool, 1: string, 2: string, 3: string}</span>
+                    &mdash;
+                <section class="phpdocumentor-description"><p>[sucesso, conteudo, erro, modelo_usado]</p>
+</section>
+
+            </section>
+
+</article>
+                    <article class="phpdocumentor-element -function - ">
+    <h4 class="phpdocumentor-element__name" id="function_ai_resume_texto">
+        ai_resume_texto()
+        <a href="namespaces/default.html#function_ai_resume_texto" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h4>
+    <aside class="phpdocumentor-element-found-in">
+    <abbr class="phpdocumentor-element-found-in__file" title="user/assistente.php"><a href="files/user-assistente.html"><abbr title="user/assistente.php">assistente.php</abbr></a></abbr>
+    :
+    <span class="phpdocumentor-element-found-in__line">164</span>
+
+    </aside>
+
+        <p class="phpdocumentor-summary">Trunca um texto para uso em contextos de IA, preservando palavras completas.</p>
+
+    
+    <code class="phpdocumentor-code phpdocumentor-signature ">
+    <span class="phpdocumentor-signature__visibility"></span>
+                    <span class="phpdocumentor-signature__name">ai_resume_texto</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__type">string&nbsp;</span><span class="phpdocumentor-signature__argument__name">$texto</span></span><span class="phpdocumentor-signature__argument"><span>[</span><span>, </span><span class="phpdocumentor-signature__argument__type">int&nbsp;</span><span class="phpdocumentor-signature__argument__name">$limite</span><span> = </span><span class="phpdocumentor-signature__argument__default-value">110</span><span> ]</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">string</span></code>
+
+    
+        <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
+    <dl class="phpdocumentor-argument-list">
+                    <dt class="phpdocumentor-argument-list__entry">
+                <span class="phpdocumentor-argument-list__argument__name">$texto</span>
+                : <span class="phpdocumentor-argument-list__argument__type">string</span>
+                            </dt>
+            <dd class="phpdocumentor-argument-list__definition">
+                    <section class="phpdocumentor-description"><p>Texto bruto (pode conter HTML).</p>
+</section>
+
+            </dd>
+                    <dt class="phpdocumentor-argument-list__entry">
+                <span class="phpdocumentor-argument-list__argument__name">$limite</span>
+                : <span class="phpdocumentor-argument-list__argument__type">int</span>
+                 = <span class="phpdocumentor-argument-list__argument__default-value">110</span>            </dt>
+            <dd class="phpdocumentor-argument-list__definition">
+                    <section class="phpdocumentor-description"><p>Máximo de caracteres (padrão 110).</p>
+</section>
+
+            </dd>
+            </dl>
+
+    
+
+            <section>
+        <h5 class="phpdocumentor-return-value__heading">Return values</h5>
+        <span class="phpdocumentor-signature__response_type">string</span>
+                    &mdash;
+                <section class="phpdocumentor-description"><p>Texto truncado com &quot;...&quot; se necessário.</p>
+</section>
+
+            </section>
+
+</article>
+                    <article class="phpdocumentor-element -function - ">
+    <h4 class="phpdocumentor-element__name" id="function_ai_connect_db_optional">
+        ai_connect_db_optional()
+        <a href="namespaces/default.html#function_ai_connect_db_optional" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h4>
+    <aside class="phpdocumentor-element-found-in">
+    <abbr class="phpdocumentor-element-found-in__file" title="user/assistente.php"><a href="files/user-assistente.html"><abbr title="user/assistente.php">assistente.php</abbr></a></abbr>
+    :
+    <span class="phpdocumentor-element-found-in__line">186</span>
+
+    </aside>
+
+        <p class="phpdocumentor-summary">Cria uma conexão MySQL secundária opcional para o assistente de IA.</p>
+
+    
+    <code class="phpdocumentor-code phpdocumentor-signature ">
+    <span class="phpdocumentor-signature__visibility"></span>
+                    <span class="phpdocumentor-signature__name">ai_connect_db_optional</span><span>(</span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type"><abbr title="\mysqli">mysqli</abbr>|null</span></code>
+
+        <section class="phpdocumentor-description"><p>Usa as mesmas variáveis de ambiente da conexão principal.
+Retorna null sem lançar exceção se a conexão falhar, pois o assistente
+pode operar sem acesso ao banco (catálogo e perfil ficam indisponíveis).</p>
+</section>
+
+    
+    
+
+            <section>
+        <h5 class="phpdocumentor-return-value__heading">Return values</h5>
+        <span class="phpdocumentor-signature__response_type"><abbr title="\mysqli">mysqli</abbr>|null</span>
+                    &mdash;
+                <section class="phpdocumentor-description"><p>Conexão ativa ou null em caso de falha.</p>
+</section>
+
+            </section>
+
+</article>
+                    <article class="phpdocumentor-element -function - ">
+    <h4 class="phpdocumentor-element__name" id="function_ai_catalogo_site_contexto">
+        ai_catalogo_site_contexto()
+        <a href="namespaces/default.html#function_ai_catalogo_site_contexto" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h4>
+    <aside class="phpdocumentor-element-found-in">
+    <abbr class="phpdocumentor-element-found-in__file" title="user/assistente.php"><a href="files/user-assistente.html"><abbr title="user/assistente.php">assistente.php</abbr></a></abbr>
+    :
+    <span class="phpdocumentor-element-found-in__line">236</span>
+
+    </aside>
+
+        <p class="phpdocumentor-summary">Carrega o catálogo atual de cursos e vagas para injetar no contexto da IA.</p>
+
+    
+    <code class="phpdocumentor-code phpdocumentor-signature ">
+    <span class="phpdocumentor-signature__visibility"></span>
+                    <span class="phpdocumentor-signature__name">ai_catalogo_site_contexto</span><span>(</span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">string</span></code>
+
+        <section class="phpdocumentor-description"><p>Limita a 8 cursos e 10 vagas para não ultrapassar o limite de tokens.
+A IA usa essas informações para recomendar itens reais do sistema.</p>
+</section>
+
+    
+    
+
+            <section>
+        <h5 class="phpdocumentor-return-value__heading">Return values</h5>
+        <span class="phpdocumentor-signature__response_type">string</span>
+                    &mdash;
+                <section class="phpdocumentor-description"><p>Bloco de texto formatado com cursos e vagas ativos.</p>
+</section>
+
+            </section>
+
+</article>
+                    <article class="phpdocumentor-element -function - ">
+    <h4 class="phpdocumentor-element__name" id="function_ai_perfil_aluno_contexto">
+        ai_perfil_aluno_contexto()
+        <a href="namespaces/default.html#function_ai_perfil_aluno_contexto" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h4>
+    <aside class="phpdocumentor-element-found-in">
+    <abbr class="phpdocumentor-element-found-in__file" title="user/assistente.php"><a href="files/user-assistente.html"><abbr title="user/assistente.php">assistente.php</abbr></a></abbr>
+    :
+    <span class="phpdocumentor-element-found-in__line">319</span>
+
+    </aside>
+
+        <p class="phpdocumentor-summary">Carrega o perfil real do aluno para personalizar as respostas da IA.</p>
+
+    
+    <code class="phpdocumentor-code phpdocumentor-signature ">
+    <span class="phpdocumentor-signature__visibility"></span>
+                    <span class="phpdocumentor-signature__name">ai_perfil_aluno_contexto</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__type"><abbr title="\mysqli">mysqli</abbr>|null&nbsp;</span><span class="phpdocumentor-signature__argument__name">$cx</span></span><span class="phpdocumentor-signature__argument"><span>, </span><span class="phpdocumentor-signature__argument__type">int&nbsp;</span><span class="phpdocumentor-signature__argument__name">$usuarioId</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">string</span></code>
+
+        <section class="phpdocumentor-description"><p>Injeta no contexto: nome, cidade, título profissional, habilidades,
+cursos inscritos com percentual de progresso e candidaturas em aberto.
+Retorna string vazia se a conexão ou o ID forem inválidos.</p>
+</section>
+
+        <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
+    <dl class="phpdocumentor-argument-list">
+                    <dt class="phpdocumentor-argument-list__entry">
+                <span class="phpdocumentor-argument-list__argument__name">$cx</span>
+                : <span class="phpdocumentor-argument-list__argument__type"><abbr title="\mysqli">mysqli</abbr>|null</span>
+                            </dt>
+            <dd class="phpdocumentor-argument-list__definition">
+                    <section class="phpdocumentor-description"><p>Conexão MySQL opcional.</p>
+</section>
+
+            </dd>
+                    <dt class="phpdocumentor-argument-list__entry">
+                <span class="phpdocumentor-argument-list__argument__name">$usuarioId</span>
+                : <span class="phpdocumentor-argument-list__argument__type">int</span>
+                            </dt>
+            <dd class="phpdocumentor-argument-list__definition">
+                    <section class="phpdocumentor-description"><p>ID do usuário autenticado.</p>
+</section>
+
+            </dd>
+            </dl>
+
+    
+
+            <section>
+        <h5 class="phpdocumentor-return-value__heading">Return values</h5>
+        <span class="phpdocumentor-signature__response_type">string</span>
+                    &mdash;
+                <section class="phpdocumentor-description"><p>Bloco de texto formatado com os dados do aluno.</p>
+</section>
+
+            </section>
+
+</article>
+                    <article class="phpdocumentor-element -function - ">
+    <h4 class="phpdocumentor-element__name" id="function_ai_format_inline">
+        ai_format_inline()
+        <a href="namespaces/default.html#function_ai_format_inline" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h4>
+    <aside class="phpdocumentor-element-found-in">
+    <abbr class="phpdocumentor-element-found-in__file" title="user/assistente.php"><a href="files/user-assistente.html"><abbr title="user/assistente.php">assistente.php</abbr></a></abbr>
+    :
+    <span class="phpdocumentor-element-found-in__line">437</span>
+
+    </aside>
+
+        <p class="phpdocumentor-summary">Converte formatação inline Markdown para HTML seguro.</p>
+
+    
+    <code class="phpdocumentor-code phpdocumentor-signature ">
+    <span class="phpdocumentor-signature__visibility"></span>
+                    <span class="phpdocumentor-signature__name">ai_format_inline</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__type">string&nbsp;</span><span class="phpdocumentor-signature__argument__name">$text</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">string</span></code>
+
+        <section class="phpdocumentor-description"><p>Processa: links <a href="url">texto</a>, negrito <strong>texto</strong> e código <code class="prettyprint">inline</code>.
+Aplica htmlspecialchars antes de inserir no DOM para evitar XSS.</p>
+</section>
+
+        <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
+    <dl class="phpdocumentor-argument-list">
+                    <dt class="phpdocumentor-argument-list__entry">
+                <span class="phpdocumentor-argument-list__argument__name">$text</span>
+                : <span class="phpdocumentor-argument-list__argument__type">string</span>
+                            </dt>
+            <dd class="phpdocumentor-argument-list__definition">
+                    <section class="phpdocumentor-description"><p>Texto com marcação Markdown.</p>
+</section>
+
+            </dd>
+            </dl>
+
+    
+
+            <section>
+        <h5 class="phpdocumentor-return-value__heading">Return values</h5>
+        <span class="phpdocumentor-signature__response_type">string</span>
+                    &mdash;
+                <section class="phpdocumentor-description"><p>HTML seguro com tags inline.</p>
+</section>
+
+            </section>
+
+</article>
+                    <article class="phpdocumentor-element -function - ">
+    <h4 class="phpdocumentor-element__name" id="function_ai_render_response_html">
+        ai_render_response_html()
+        <a href="namespaces/default.html#function_ai_render_response_html" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h4>
+    <aside class="phpdocumentor-element-found-in">
+    <abbr class="phpdocumentor-element-found-in__file" title="user/assistente.php"><a href="files/user-assistente.html"><abbr title="user/assistente.php">assistente.php</abbr></a></abbr>
+    :
+    <span class="phpdocumentor-element-found-in__line">457</span>
+
+    </aside>
+
+        <p class="phpdocumentor-summary">Converte a resposta Markdown da IA para HTML renderizável.</p>
+
+    
+    <code class="phpdocumentor-code phpdocumentor-signature ">
+    <span class="phpdocumentor-signature__visibility"></span>
+                    <span class="phpdocumentor-signature__name">ai_render_response_html</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__type">string&nbsp;</span><span class="phpdocumentor-signature__argument__name">$markdown</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">string</span></code>
+
+        <section class="phpdocumentor-description"><p>Suporta: headings (# ## ###), listas não-ordenadas (- *),
+listas ordenadas (1.) e parágrafos. Delega formatação inline
+a ai_format_inline() para segurança contra XSS.</p>
+</section>
+
+        <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
+    <dl class="phpdocumentor-argument-list">
+                    <dt class="phpdocumentor-argument-list__entry">
+                <span class="phpdocumentor-argument-list__argument__name">$markdown</span>
+                : <span class="phpdocumentor-argument-list__argument__type">string</span>
+                            </dt>
+            <dd class="phpdocumentor-argument-list__definition">
+                    <section class="phpdocumentor-description"><p>Texto bruto retornado pela API.</p>
+</section>
+
+            </dd>
+            </dl>
+
+    
+
+            <section>
+        <h5 class="phpdocumentor-return-value__heading">Return values</h5>
+        <span class="phpdocumentor-signature__response_type">string</span>
+                    &mdash;
+                <section class="phpdocumentor-description"><p>HTML pronto para inserção em .response-box.</p>
+</section>
+
+            </section>
+
+</article>
+                    <article class="phpdocumentor-element -function - ">
+    <h4 class="phpdocumentor-element__name" id="function_safe_http_url">
+        safe_http_url()
+        <a href="namespaces/default.html#function_safe_http_url" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h4>
+    <aside class="phpdocumentor-element-found-in">
+    <abbr class="phpdocumentor-element-found-in__file" title="user/meu-curso.php"><a href="files/user-meu-curso.html"><abbr title="user/meu-curso.php">meu-curso.php</abbr></a></abbr>
+    :
+    <span class="phpdocumentor-element-found-in__line">326</span>
+
+    </aside>
+
+        <p class="phpdocumentor-summary">Valida e retorna uma URL HTTP/HTTPS segura.</p>
+
+    
+    <code class="phpdocumentor-code phpdocumentor-signature ">
+    <span class="phpdocumentor-signature__visibility"></span>
+                    <span class="phpdocumentor-signature__name">safe_http_url</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__type">mixed&nbsp;</span><span class="phpdocumentor-signature__argument__name">$url</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">string</span></code>
+
+        <section class="phpdocumentor-description"><p>Rejeita URLs com protocolos não-HTTP (javascript:, data:, etc.)
+para evitar vetores de XSS em src e href.</p>
+</section>
+
+        <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
+    <dl class="phpdocumentor-argument-list">
+                    <dt class="phpdocumentor-argument-list__entry">
+                <span class="phpdocumentor-argument-list__argument__name">$url</span>
+                : <span class="phpdocumentor-argument-list__argument__type">mixed</span>
+                            </dt>
+            <dd class="phpdocumentor-argument-list__definition">
+                    <section class="phpdocumentor-description"><p>Valor bruto recebido do banco.</p>
+</section>
+
+            </dd>
+            </dl>
+
+    
+
+            <section>
+        <h5 class="phpdocumentor-return-value__heading">Return values</h5>
+        <span class="phpdocumentor-signature__response_type">string</span>
+                    &mdash;
+                <section class="phpdocumentor-description"><p>URL validada ou string vazia se inválida.</p>
+</section>
+
+            </section>
+
+</article>
+            </section>
+
         
     </article>
                                 </section>
@@ -123,10 +1004,40 @@
             <li class="phpdocumentor-on-this-page-section__title">Table Of Contents</li>
             <li>
                 <ul class="phpdocumentor-list -clean">
-                                                                                                                                                                                </ul>
+                                                                                                                                                                    <li><a href="packages/SkillConnect.html#toc-constants">Constants</a></li>
+                                                                <li><a href="packages/SkillConnect.html#toc-functions">Functions</a></li>
+                                    </ul>
             </li>
 
+                            <li class="phpdocumentor-on-this-page-section__title">Constants</li>
+                <li>
+                    <ul class="phpdocumentor-list -clean">
+                                                    <li class=""><a href="namespaces/default.html#constant_PERFIL_ADMIN">PERFIL_ADMIN</a></li>
+                                                    <li class=""><a href="namespaces/default.html#constant_PERFIL_USUARIO">PERFIL_USUARIO</a></li>
+                                                    <li class=""><a href="namespaces/default.html#constant_STATUS_CAND_ANALISE">STATUS_CAND_ANALISE</a></li>
+                                                    <li class=""><a href="namespaces/default.html#constant_STATUS_CAND_APROVADO">STATUS_CAND_APROVADO</a></li>
+                                                    <li class=""><a href="namespaces/default.html#constant_STATUS_CAND_ENVIADA">STATUS_CAND_ENVIADA</a></li>
+                                                    <li class=""><a href="namespaces/default.html#constant_STATUS_CAND_REPROVADO">STATUS_CAND_REPROVADO</a></li>
+                                                    <li class=""><a href="namespaces/default.html#constant_STATUS_INSC_CANCELADO">STATUS_INSC_CANCELADO</a></li>
+                                                    <li class=""><a href="namespaces/default.html#constant_STATUS_INSC_CONCLUIDO">STATUS_INSC_CONCLUIDO</a></li>
+                                                    <li class=""><a href="namespaces/default.html#constant_STATUS_INSC_CONFIRMADO">STATUS_INSC_CONFIRMADO</a></li>
+                                                    <li class=""><a href="namespaces/default.html#constant_STATUS_INSC_PENDENTE">STATUS_INSC_PENDENTE</a></li>
+                                            </ul>
+                </li>
             
+                            <li class="phpdocumentor-on-this-page-section__title">Functions</li>
+                <li>
+                    <ul class="phpdocumentor-list -clean">
+                                                    <li class=""><a href="namespaces/default.html#function_ai_catalogo_site_contexto">ai_catalogo_site_contexto()</a></li>
+                                                    <li class=""><a href="namespaces/default.html#function_ai_connect_db_optional">ai_connect_db_optional()</a></li>
+                                                    <li class=""><a href="namespaces/default.html#function_ai_format_inline">ai_format_inline()</a></li>
+                                                    <li class=""><a href="namespaces/default.html#function_ai_perfil_aluno_contexto">ai_perfil_aluno_contexto()</a></li>
+                                                    <li class=""><a href="namespaces/default.html#function_ai_render_response_html">ai_render_response_html()</a></li>
+                                                    <li class=""><a href="namespaces/default.html#function_ai_resume_texto">ai_resume_texto()</a></li>
+                                                    <li class=""><a href="namespaces/default.html#function_anthropic_chat_with_fallback">anthropic_chat_with_fallback()</a></li>
+                                                    <li class=""><a href="namespaces/default.html#function_safe_http_url">safe_http_url()</a></li>
+                                            </ul>
+                </li>
                     </ul>
     </section>
 

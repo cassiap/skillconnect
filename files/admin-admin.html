@@ -57,7 +57,20 @@
     Menu
 </label>
 <aside class="phpdocumentor-column -three phpdocumentor-sidebar">
-                    <section class="phpdocumentor-sidebar__category -packages">
+                    <section class="phpdocumentor-sidebar__category -namespaces">
+            <h2 class="phpdocumentor-sidebar__category-header">Namespaces</h2>
+                                    <h4 class="phpdocumentor-sidebar__root-namespace">
+    <a href="namespaces/tests.html" class="">Tests</a>
+</h4>
+    <ul class="phpdocumentor-list">
+                    <li>
+                <a href="namespaces/tests-unit.html" class="">Unit</a>
+                
+            </li>
+            </ul>
+
+                        </section>
+                <section class="phpdocumentor-sidebar__category -packages">
             <h2 class="phpdocumentor-sidebar__category-header">Packages</h2>
                                     <h4 class="phpdocumentor-sidebar__root-namespace">
     <a href="packages/Application.html" class="">Application</a>
@@ -85,7 +98,6 @@
             <div class="phpdocumentor-column -nine phpdocumentor-content">
                                 <section>
                                         <ul class="phpdocumentor-breadcrumbs">
-            <li class="phpdocumentor-breadcrumb"><a href="packages/Application.html">Application</a></li>
     </ul>
 
     <article class="phpdocumentor-element -file">
@@ -125,6 +137,7 @@
     <span>
                                 &nbsp;: int    </span>
 </dt>
+<dd>Executes a static scalar COUNT or aggregate query for the admin panel.</dd>
 
     </dl>
 
@@ -146,17 +159,22 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="admin/admin.php"><a href="files/admin-admin.html"><abbr title="admin/admin.php">admin.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">7</span>
+    <span class="phpdocumentor-element-found-in__line">18</span>
 
     </aside>
 
-    
+        <p class="phpdocumentor-summary">Executes a static scalar COUNT or aggregate query for the admin panel.</p>
+
     
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility"></span>
                     <span class="phpdocumentor-signature__name">admin_scalar</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__type"><abbr title="\mysqli">mysqli</abbr>&nbsp;</span><span class="phpdocumentor-signature__argument__name">$cx</span></span><span class="phpdocumentor-signature__argument"><span>, </span><span class="phpdocumentor-signature__argument__type">string&nbsp;</span><span class="phpdocumentor-signature__argument__name">$sql</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">int</span></code>
 
-    
+        <section class="phpdocumentor-description"><p>Intended for fixed KPI queries that contain no user-supplied input.
+For dynamic queries with user input, use parameterized prepared statements instead.
+Returns 0 and logs the error when the query fails.</p>
+</section>
+
         <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
     <dl class="phpdocumentor-argument-list">
                     <dt class="phpdocumentor-argument-list__entry">
@@ -164,14 +182,18 @@
                 : <span class="phpdocumentor-argument-list__argument__type"><abbr title="\mysqli">mysqli</abbr></span>
                             </dt>
             <dd class="phpdocumentor-argument-list__definition">
-                
+                    <section class="phpdocumentor-description"><p>Active database connection.</p>
+</section>
+
             </dd>
                     <dt class="phpdocumentor-argument-list__entry">
                 <span class="phpdocumentor-argument-list__argument__name">$sql</span>
                 : <span class="phpdocumentor-argument-list__argument__type">string</span>
                             </dt>
             <dd class="phpdocumentor-argument-list__definition">
-                
+                    <section class="phpdocumentor-description"><p>Static SQL query (no user input).</p>
+</section>
+
             </dd>
             </dl>
 
@@ -180,6 +202,10 @@
             <section>
         <h5 class="phpdocumentor-return-value__heading">Return values</h5>
         <span class="phpdocumentor-signature__response_type">int</span>
+                    &mdash;
+                <section class="phpdocumentor-description"><p>First column of first row cast to int, or 0 on error.</p>
+</section>
+
             </section>
 
 </article>

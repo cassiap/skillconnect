@@ -3,7 +3,7 @@ Search.appendIndex(
                 {
             "fqsen": "\\admin_scalar\u0028\u0029",
             "name": "admin_scalar",
-            "summary": "",
+            "summary": "Executes\u0020a\u0020static\u0020scalar\u0020COUNT\u0020or\u0020aggregate\u0020query\u0020for\u0020the\u0020admin\u0020panel.",
             "url": "namespaces/default.html#function_admin_scalar"
         },                {
             "fqsen": "\\bind_params_dynamic\u0028\u0029",
@@ -16,10 +16,65 @@ Search.appendIndex(
             "summary": "Valida\u0020um\u0020n\u00FAmero\u0020de\u0020CPF\u0020atrav\u00E9s\u0020do\u0020algoritmo\u0020de\u0020d\u00EDgitos\u0020verificadores",
             "url": "namespaces/default.html#function_validaCPF"
         },                {
+            "fqsen": "\\STATUS_CAND_ENVIADA",
+            "name": "STATUS_CAND_ENVIADA",
+            "summary": "Candidatura\u0020rec\u00E9m\u002Denviada,\u0020aguardando\u0020an\u00E1lise.",
+            "url": "namespaces/default.html#constant_STATUS_CAND_ENVIADA"
+        },                {
+            "fqsen": "\\STATUS_CAND_ANALISE",
+            "name": "STATUS_CAND_ANALISE",
+            "summary": "Candidatura\u0020em\u0020processo\u0020de\u0020avalia\u00E7\u00E3o\u0020pelo\u0020recrutador.",
+            "url": "namespaces/default.html#constant_STATUS_CAND_ANALISE"
+        },                {
+            "fqsen": "\\STATUS_CAND_APROVADO",
+            "name": "STATUS_CAND_APROVADO",
+            "summary": "Candidato\u0020aprovado\u0020para\u0020a\u0020vaga.",
+            "url": "namespaces/default.html#constant_STATUS_CAND_APROVADO"
+        },                {
+            "fqsen": "\\STATUS_CAND_REPROVADO",
+            "name": "STATUS_CAND_REPROVADO",
+            "summary": "Candidato\u0020n\u00E3o\u0020selecionado\u0020para\u0020a\u0020vaga.",
+            "url": "namespaces/default.html#constant_STATUS_CAND_REPROVADO"
+        },                {
+            "fqsen": "\\STATUS_INSC_PENDENTE",
+            "name": "STATUS_INSC_PENDENTE",
+            "summary": "Inscri\u00E7\u00E3o\u0020registrada,\u0020aguardando\u0020confirma\u00E7\u00E3o.",
+            "url": "namespaces/default.html#constant_STATUS_INSC_PENDENTE"
+        },                {
+            "fqsen": "\\STATUS_INSC_CONFIRMADO",
+            "name": "STATUS_INSC_CONFIRMADO",
+            "summary": "Inscri\u00E7\u00E3o\u0020ativa\u0020\u2014\u0020aluno\u0020cursando.",
+            "url": "namespaces/default.html#constant_STATUS_INSC_CONFIRMADO"
+        },                {
+            "fqsen": "\\STATUS_INSC_CANCELADO",
+            "name": "STATUS_INSC_CANCELADO",
+            "summary": "Inscri\u00E7\u00E3o\u0020cancelada\u0020pelo\u0020aluno\u0020ou\u0020pelo\u0020admin.",
+            "url": "namespaces/default.html#constant_STATUS_INSC_CANCELADO"
+        },                {
+            "fqsen": "\\STATUS_INSC_CONCLUIDO",
+            "name": "STATUS_INSC_CONCLUIDO",
+            "summary": "Todas\u0020as\u0020aulas\u0020conclu\u00EDdas\u0020\u2014\u0020curso\u0020finalizado.",
+            "url": "namespaces/default.html#constant_STATUS_INSC_CONCLUIDO"
+        },                {
+            "fqsen": "\\PERFIL_USUARIO",
+            "name": "PERFIL_USUARIO",
+            "summary": "Perfil\u0020padr\u00E3o\u0020de\u0020aluno.",
+            "url": "namespaces/default.html#constant_PERFIL_USUARIO"
+        },                {
+            "fqsen": "\\PERFIL_ADMIN",
+            "name": "PERFIL_ADMIN",
+            "summary": "Perfil\u0020de\u0020administrador\u0020da\u0020plataforma.",
+            "url": "namespaces/default.html#constant_PERFIL_ADMIN"
+        },                {
             "fqsen": "\\env\u0028\u0029",
             "name": "env",
             "summary": "Retorna\u0020variavel\u0020de\u0020ambiente\u0020ou\u0020valor\u0020padrao",
             "url": "namespaces/default.html#function_env"
+        },                {
+            "fqsen": "\\SESSION_TIMEOUT",
+            "name": "SESSION_TIMEOUT",
+            "summary": "Tempo\u0020m\u00E1ximo\u0020de\u0020inatividade\u0020em\u0020segundos\u0020antes\u0020de\u0020expirar\u0020a\u0020sess\u00E3o\u0020autenticada.",
+            "url": "namespaces/default.html#constant_SESSION_TIMEOUT"
         },                {
             "fqsen": "\\csrf_token\u0028\u0029",
             "name": "csrf_token",
@@ -61,14 +116,19 @@ Search.appendIndex(
             "summary": "Gera\u0020uma\u0020URL\u0020absoluta\u0020da\u0020aplica\u00E7\u00E3o",
             "url": "namespaces/default.html#function_app_absolute_url"
         },                {
+            "fqsen": "\\session_check_timeout\u0028\u0029",
+            "name": "session_check_timeout",
+            "summary": "Verifica\u0020se\u0020a\u0020sess\u00E3o\u0020autenticada\u0020expirou\u0020por\u0020inatividade\u0020e\u0020encerra\u0020se\u0020necess\u00E1rio.",
+            "url": "namespaces/default.html#function_session_check_timeout"
+        },                {
             "fqsen": "\\auth_check\u0028\u0029",
             "name": "auth_check",
-            "summary": "Verifica\u0020se\u0020o\u0020usu\u00E1rio\u0020est\u00E1\u0020autenticado,\u0020redirecionando\u0020para\u0020login\u0020se\u0020n\u00E3o\u0020estiver",
+            "summary": "Verifica\u0020se\u0020o\u0020usu\u00E1rio\u0020est\u00E1\u0020autenticado,\u0020redirecionando\u0020para\u0020login\u0020se\u0020n\u00E3o\u0020estiver.",
             "url": "namespaces/default.html#function_auth_check"
         },                {
             "fqsen": "\\admin_check\u0028\u0029",
             "name": "admin_check",
-            "summary": "Verifica\u0020se\u0020o\u0020usu\u00E1rio\u0020\u00E9\u0020administrador,\u0020redirecionando\u0020para\u0020login\u0020se\u0020n\u00E3o\u0020for",
+            "summary": "Verifica\u0020se\u0020o\u0020usu\u00E1rio\u0020\u00E9\u0020administrador,\u0020redirecionando\u0020para\u0020login\u0020se\u0020n\u00E3o\u0020for.",
             "url": "namespaces/default.html#function_admin_check"
         },                {
             "fqsen": "\\redirect\u0028\u0029",
@@ -81,34 +141,239 @@ Search.appendIndex(
             "summary": "Cria\u0020um\u0020resumo\u0020do\u0020texto\u0020para\u0020exibi\u00E7\u00E3o\u0020na\u0020p\u00E1gina\u0020inicial",
             "url": "namespaces/default.html#function_resumo_home"
         },                {
+            "fqsen": "\\Tests\\Unit\\ConstantsTest",
+            "name": "ConstantsTest",
+            "summary": "Verifica\u0020que\u0020todas\u0020as\u0020constantes\u0020de\u0020status\u0020e\u0020perfil\u0020do\u0020SkillConnect\nmant\u00EAm\u0020os\u0020valores\u0020exatos\u0020esperados\u0020pelo\u0020banco\u0020de\u0020dados.",
+            "url": "classes/Tests-Unit-ConstantsTest.html"
+        },                {
+            "fqsen": "\\Tests\\Unit\\ConstantsTest\u003A\u003AtestStatusCandEnviadaValue\u0028\u0029",
+            "name": "testStatusCandEnviadaValue",
+            "summary": "",
+            "url": "classes/Tests-Unit-ConstantsTest.html#method_testStatusCandEnviadaValue"
+        },                {
+            "fqsen": "\\Tests\\Unit\\ConstantsTest\u003A\u003AtestStatusCandAnaliseValue\u0028\u0029",
+            "name": "testStatusCandAnaliseValue",
+            "summary": "",
+            "url": "classes/Tests-Unit-ConstantsTest.html#method_testStatusCandAnaliseValue"
+        },                {
+            "fqsen": "\\Tests\\Unit\\ConstantsTest\u003A\u003AtestStatusCandAprovadoValue\u0028\u0029",
+            "name": "testStatusCandAprovadoValue",
+            "summary": "",
+            "url": "classes/Tests-Unit-ConstantsTest.html#method_testStatusCandAprovadoValue"
+        },                {
+            "fqsen": "\\Tests\\Unit\\ConstantsTest\u003A\u003AtestStatusCandReprovadoValue\u0028\u0029",
+            "name": "testStatusCandReprovadoValue",
+            "summary": "",
+            "url": "classes/Tests-Unit-ConstantsTest.html#method_testStatusCandReprovadoValue"
+        },                {
+            "fqsen": "\\Tests\\Unit\\ConstantsTest\u003A\u003AtestAllCandidaturaConstantsAreStrings\u0028\u0029",
+            "name": "testAllCandidaturaConstantsAreStrings",
+            "summary": "",
+            "url": "classes/Tests-Unit-ConstantsTest.html#method_testAllCandidaturaConstantsAreStrings"
+        },                {
+            "fqsen": "\\Tests\\Unit\\ConstantsTest\u003A\u003AtestCandidaturaStatusAreDistinct\u0028\u0029",
+            "name": "testCandidaturaStatusAreDistinct",
+            "summary": "",
+            "url": "classes/Tests-Unit-ConstantsTest.html#method_testCandidaturaStatusAreDistinct"
+        },                {
+            "fqsen": "\\Tests\\Unit\\ConstantsTest\u003A\u003AtestStatusInscPendenteValue\u0028\u0029",
+            "name": "testStatusInscPendenteValue",
+            "summary": "",
+            "url": "classes/Tests-Unit-ConstantsTest.html#method_testStatusInscPendenteValue"
+        },                {
+            "fqsen": "\\Tests\\Unit\\ConstantsTest\u003A\u003AtestStatusInscConfirmadoValue\u0028\u0029",
+            "name": "testStatusInscConfirmadoValue",
+            "summary": "",
+            "url": "classes/Tests-Unit-ConstantsTest.html#method_testStatusInscConfirmadoValue"
+        },                {
+            "fqsen": "\\Tests\\Unit\\ConstantsTest\u003A\u003AtestStatusInscCanceladoValue\u0028\u0029",
+            "name": "testStatusInscCanceladoValue",
+            "summary": "",
+            "url": "classes/Tests-Unit-ConstantsTest.html#method_testStatusInscCanceladoValue"
+        },                {
+            "fqsen": "\\Tests\\Unit\\ConstantsTest\u003A\u003AtestStatusInscConcluidoValue\u0028\u0029",
+            "name": "testStatusInscConcluidoValue",
+            "summary": "",
+            "url": "classes/Tests-Unit-ConstantsTest.html#method_testStatusInscConcluidoValue"
+        },                {
+            "fqsen": "\\Tests\\Unit\\ConstantsTest\u003A\u003AtestAllInscricaoConstantsAreStrings\u0028\u0029",
+            "name": "testAllInscricaoConstantsAreStrings",
+            "summary": "",
+            "url": "classes/Tests-Unit-ConstantsTest.html#method_testAllInscricaoConstantsAreStrings"
+        },                {
+            "fqsen": "\\Tests\\Unit\\ConstantsTest\u003A\u003AtestInscricaoStatusAreDistinct\u0028\u0029",
+            "name": "testInscricaoStatusAreDistinct",
+            "summary": "",
+            "url": "classes/Tests-Unit-ConstantsTest.html#method_testInscricaoStatusAreDistinct"
+        },                {
+            "fqsen": "\\Tests\\Unit\\ConstantsTest\u003A\u003AtestPerfilUsuarioValue\u0028\u0029",
+            "name": "testPerfilUsuarioValue",
+            "summary": "",
+            "url": "classes/Tests-Unit-ConstantsTest.html#method_testPerfilUsuarioValue"
+        },                {
+            "fqsen": "\\Tests\\Unit\\ConstantsTest\u003A\u003AtestPerfilAdminValue\u0028\u0029",
+            "name": "testPerfilAdminValue",
+            "summary": "",
+            "url": "classes/Tests-Unit-ConstantsTest.html#method_testPerfilAdminValue"
+        },                {
+            "fqsen": "\\Tests\\Unit\\ConstantsTest\u003A\u003AtestPerfisAreDistinct\u0028\u0029",
+            "name": "testPerfisAreDistinct",
+            "summary": "",
+            "url": "classes/Tests-Unit-ConstantsTest.html#method_testPerfisAreDistinct"
+        },                {
+            "fqsen": "\\Tests\\Unit\\HelpersTest",
+            "name": "HelpersTest",
+            "summary": "Testes\u0020unit\u00E1rios\u0020para\u0020as\u0020fun\u00E7\u00F5es\u0020auxiliares\u0020globais\u0020\u0028config\/helpers.php\u0029.",
+            "url": "classes/Tests-Unit-HelpersTest.html"
+        },                {
+            "fqsen": "\\Tests\\Unit\\HelpersTest\u003A\u003AtestSessionTimeoutIsDefined\u0028\u0029",
+            "name": "testSessionTimeoutIsDefined",
+            "summary": "",
+            "url": "classes/Tests-Unit-HelpersTest.html#method_testSessionTimeoutIsDefined"
+        },                {
+            "fqsen": "\\Tests\\Unit\\HelpersTest\u003A\u003AtestSessionTimeoutIsPositiveInteger\u0028\u0029",
+            "name": "testSessionTimeoutIsPositiveInteger",
+            "summary": "",
+            "url": "classes/Tests-Unit-HelpersTest.html#method_testSessionTimeoutIsPositiveInteger"
+        },                {
+            "fqsen": "\\Tests\\Unit\\HelpersTest\u003A\u003AtestSessionTimeoutIs30Minutes\u0028\u0029",
+            "name": "testSessionTimeoutIs30Minutes",
+            "summary": "",
+            "url": "classes/Tests-Unit-HelpersTest.html#method_testSessionTimeoutIs30Minutes"
+        },                {
+            "fqsen": "\\Tests\\Unit\\HelpersTest\u003A\u003AtestCsrfTokenReturnsHexString\u0028\u0029",
+            "name": "testCsrfTokenReturnsHexString",
+            "summary": "",
+            "url": "classes/Tests-Unit-HelpersTest.html#method_testCsrfTokenReturnsHexString"
+        },                {
+            "fqsen": "\\Tests\\Unit\\HelpersTest\u003A\u003AtestCsrfTokenIsPersistentWithinSameRequest\u0028\u0029",
+            "name": "testCsrfTokenIsPersistentWithinSameRequest",
+            "summary": "",
+            "url": "classes/Tests-Unit-HelpersTest.html#method_testCsrfTokenIsPersistentWithinSameRequest"
+        },                {
+            "fqsen": "\\Tests\\Unit\\HelpersTest\u003A\u003AtestCsrfFieldContainsTokenValue\u0028\u0029",
+            "name": "testCsrfFieldContainsTokenValue",
+            "summary": "",
+            "url": "classes/Tests-Unit-HelpersTest.html#method_testCsrfFieldContainsTokenValue"
+        },                {
+            "fqsen": "\\Tests\\Unit\\HelpersTest\u003A\u003AtestCsrfFieldIsHiddenInput\u0028\u0029",
+            "name": "testCsrfFieldIsHiddenInput",
+            "summary": "",
+            "url": "classes/Tests-Unit-HelpersTest.html#method_testCsrfFieldIsHiddenInput"
+        },                {
+            "fqsen": "\\Tests\\Unit\\HelpersTest\u003A\u003AtestCsrfValidateReturnsFalseWithNoPostData\u0028\u0029",
+            "name": "testCsrfValidateReturnsFalseWithNoPostData",
+            "summary": "",
+            "url": "classes/Tests-Unit-HelpersTest.html#method_testCsrfValidateReturnsFalseWithNoPostData"
+        },                {
+            "fqsen": "\\Tests\\Unit\\HelpersTest\u003A\u003AtestCsrfValidateReturnsFalseWithWrongToken\u0028\u0029",
+            "name": "testCsrfValidateReturnsFalseWithWrongToken",
+            "summary": "",
+            "url": "classes/Tests-Unit-HelpersTest.html#method_testCsrfValidateReturnsFalseWithWrongToken"
+        },                {
+            "fqsen": "\\Tests\\Unit\\HelpersTest\u003A\u003AtestCsrfValidateReturnsTrueWithCorrectToken\u0028\u0029",
+            "name": "testCsrfValidateReturnsTrueWithCorrectToken",
+            "summary": "",
+            "url": "classes/Tests-Unit-HelpersTest.html#method_testCsrfValidateReturnsTrueWithCorrectToken"
+        },                {
+            "fqsen": "\\Tests\\Unit\\HelpersTest\u003A\u003AtestCsrfValidateReturnsFalseWhenSessionTokenMissing\u0028\u0029",
+            "name": "testCsrfValidateReturnsFalseWhenSessionTokenMissing",
+            "summary": "",
+            "url": "classes/Tests-Unit-HelpersTest.html#method_testCsrfValidateReturnsFalseWhenSessionTokenMissing"
+        },                {
+            "fqsen": "\\Tests\\Unit\\HelpersTest\u003A\u003AtestFlashSetsMessageInSession\u0028\u0029",
+            "name": "testFlashSetsMessageInSession",
+            "summary": "",
+            "url": "classes/Tests-Unit-HelpersTest.html#method_testFlashSetsMessageInSession"
+        },                {
+            "fqsen": "\\Tests\\Unit\\HelpersTest\u003A\u003AtestGetFlashReturnsMessageAndRemovesIt\u0028\u0029",
+            "name": "testGetFlashReturnsMessageAndRemovesIt",
+            "summary": "",
+            "url": "classes/Tests-Unit-HelpersTest.html#method_testGetFlashReturnsMessageAndRemovesIt"
+        },                {
+            "fqsen": "\\Tests\\Unit\\HelpersTest\u003A\u003AtestGetFlashReturnsNullWhenKeyDoesNotExist\u0028\u0029",
+            "name": "testGetFlashReturnsNullWhenKeyDoesNotExist",
+            "summary": "",
+            "url": "classes/Tests-Unit-HelpersTest.html#method_testGetFlashReturnsNullWhenKeyDoesNotExist"
+        },                {
+            "fqsen": "\\Tests\\Unit\\HelpersTest\u003A\u003AtestGetFlashIsConsumedOnFirstRead\u0028\u0029",
+            "name": "testGetFlashIsConsumedOnFirstRead",
+            "summary": "",
+            "url": "classes/Tests-Unit-HelpersTest.html#method_testGetFlashIsConsumedOnFirstRead"
+        },                {
+            "fqsen": "\\Tests\\Unit\\HelpersTest\u003A\u003AtestDifferentFlashTypesAreIndependent\u0028\u0029",
+            "name": "testDifferentFlashTypesAreIndependent",
+            "summary": "",
+            "url": "classes/Tests-Unit-HelpersTest.html#method_testDifferentFlashTypesAreIndependent"
+        },                {
+            "fqsen": "\\Tests\\Unit\\HelpersTest\u003A\u003AtestAppUrlReturnsStringStartingWithSlash\u0028\u0029",
+            "name": "testAppUrlReturnsStringStartingWithSlash",
+            "summary": "",
+            "url": "classes/Tests-Unit-HelpersTest.html#method_testAppUrlReturnsStringStartingWithSlash"
+        },                {
+            "fqsen": "\\Tests\\Unit\\HelpersTest\u003A\u003AtestAppUrlEndsWithSlashWhenNoPathGiven\u0028\u0029",
+            "name": "testAppUrlEndsWithSlashWhenNoPathGiven",
+            "summary": "",
+            "url": "classes/Tests-Unit-HelpersTest.html#method_testAppUrlEndsWithSlashWhenNoPathGiven"
+        },                {
+            "fqsen": "\\Tests\\Unit\\HelpersTest\u003A\u003AtestAppUrlWithPathContainsThePath\u0028\u0029",
+            "name": "testAppUrlWithPathContainsThePath",
+            "summary": "",
+            "url": "classes/Tests-Unit-HelpersTest.html#method_testAppUrlWithPathContainsThePath"
+        },                {
+            "fqsen": "\\Tests\\Unit\\HelpersTest\u003A\u003AtestAppUrlWithPathStartsWithSlash\u0028\u0029",
+            "name": "testAppUrlWithPathStartsWithSlash",
+            "summary": "",
+            "url": "classes/Tests-Unit-HelpersTest.html#method_testAppUrlWithPathStartsWithSlash"
+        },                {
+            "fqsen": "\\Tests\\Unit\\HelpersTest\u003A\u003AtestSessionCheckTimeoutUpdatesLastActivity\u0028\u0029",
+            "name": "testSessionCheckTimeoutUpdatesLastActivity",
+            "summary": "",
+            "url": "classes/Tests-Unit-HelpersTest.html#method_testSessionCheckTimeoutUpdatesLastActivity"
+        },                {
+            "fqsen": "\\Tests\\Unit\\HelpersTest\u003A\u003AtestSessionCheckTimeoutDoesNothingWhenNotLoggedIn\u0028\u0029",
+            "name": "testSessionCheckTimeoutDoesNothingWhenNotLoggedIn",
+            "summary": "",
+            "url": "classes/Tests-Unit-HelpersTest.html#method_testSessionCheckTimeoutDoesNothingWhenNotLoggedIn"
+        },                {
+            "fqsen": "\\Tests\\Unit\\HelpersTest\u003A\u003AtestSessionCheckTimeoutSetsLastActivityOnFirstAuthenticatedRequest\u0028\u0029",
+            "name": "testSessionCheckTimeoutSetsLastActivityOnFirstAuthenticatedRequest",
+            "summary": "",
+            "url": "classes/Tests-Unit-HelpersTest.html#method_testSessionCheckTimeoutSetsLastActivityOnFirstAuthenticatedRequest"
+        },                {
             "fqsen": "\\anthropic_chat_with_fallback\u0028\u0029",
             "name": "anthropic_chat_with_fallback",
-            "summary": "",
+            "summary": "Envia\u0020uma\u0020conversa\u0020\u00E0\u0020API\u0020Anthropic\u0020com\u0020suporte\u0020a\u0020m\u00FAltiplos\u0020modelos\u0020de\u0020fallback.",
             "url": "namespaces/default.html#function_anthropic_chat_with_fallback"
         },                {
             "fqsen": "\\ai_resume_texto\u0028\u0029",
             "name": "ai_resume_texto",
-            "summary": "",
+            "summary": "Trunca\u0020um\u0020texto\u0020para\u0020uso\u0020em\u0020contextos\u0020de\u0020IA,\u0020preservando\u0020palavras\u0020completas.",
             "url": "namespaces/default.html#function_ai_resume_texto"
         },                {
             "fqsen": "\\ai_connect_db_optional\u0028\u0029",
             "name": "ai_connect_db_optional",
-            "summary": "",
+            "summary": "Cria\u0020uma\u0020conex\u00E3o\u0020MySQL\u0020secund\u00E1ria\u0020opcional\u0020para\u0020o\u0020assistente\u0020de\u0020IA.",
             "url": "namespaces/default.html#function_ai_connect_db_optional"
         },                {
             "fqsen": "\\ai_catalogo_site_contexto\u0028\u0029",
             "name": "ai_catalogo_site_contexto",
-            "summary": "",
+            "summary": "Carrega\u0020o\u0020cat\u00E1logo\u0020atual\u0020de\u0020cursos\u0020e\u0020vagas\u0020para\u0020injetar\u0020no\u0020contexto\u0020da\u0020IA.",
             "url": "namespaces/default.html#function_ai_catalogo_site_contexto"
+        },                {
+            "fqsen": "\\ai_perfil_aluno_contexto\u0028\u0029",
+            "name": "ai_perfil_aluno_contexto",
+            "summary": "Carrega\u0020o\u0020perfil\u0020real\u0020do\u0020aluno\u0020para\u0020personalizar\u0020as\u0020respostas\u0020da\u0020IA.",
+            "url": "namespaces/default.html#function_ai_perfil_aluno_contexto"
         },                {
             "fqsen": "\\ai_format_inline\u0028\u0029",
             "name": "ai_format_inline",
-            "summary": "",
+            "summary": "Converte\u0020formata\u00E7\u00E3o\u0020inline\u0020Markdown\u0020para\u0020HTML\u0020seguro.",
             "url": "namespaces/default.html#function_ai_format_inline"
         },                {
             "fqsen": "\\ai_render_response_html\u0028\u0029",
             "name": "ai_render_response_html",
-            "summary": "",
+            "summary": "Converte\u0020a\u0020resposta\u0020Markdown\u0020da\u0020IA\u0020para\u0020HTML\u0020renderiz\u00E1vel.",
             "url": "namespaces/default.html#function_ai_render_response_html"
         },                {
             "fqsen": "\\resumo_curso\u0028\u0029",
@@ -123,17 +388,17 @@ Search.appendIndex(
         },                {
             "fqsen": "\\safe_http_url\u0028\u0029",
             "name": "safe_http_url",
-            "summary": "",
+            "summary": "Valida\u0020e\u0020retorna\u0020uma\u0020URL\u0020HTTP\/HTTPS\u0020segura.",
             "url": "namespaces/default.html#function_safe_http_url"
         },                {
             "fqsen": "\\painel_scalar\u0028\u0029",
             "name": "painel_scalar",
-            "summary": "",
+            "summary": "Executes\u0020a\u0020scalar\u0020COUNT\u0020or\u0020aggregate\u0020query\u0020and\u0020returns\u0020the\u0020result\u0020as\u0020an\u0020integer.",
             "url": "namespaces/default.html#function_painel_scalar"
         },                {
             "fqsen": "\\painel_fetch_all\u0028\u0029",
             "name": "painel_fetch_all",
-            "summary": "",
+            "summary": "Executes\u0020a\u0020SELECT\u0020query\u0020and\u0020returns\u0020all\u0020rows\u0020as\u0020an\u0020associative\u0020array.",
             "url": "namespaces/default.html#function_painel_fetch_all"
         },                {
             "fqsen": "\\resumo_vaga\u0028\u0029",
@@ -145,5 +410,15 @@ Search.appendIndex(
             "name": "\\",
             "summary": "",
             "url": "namespaces/default.html"
+        },                {
+            "fqsen": "\\Tests\\Unit",
+            "name": "Unit",
+            "summary": "",
+            "url": "namespaces/tests-unit.html"
+        },                {
+            "fqsen": "\\Tests",
+            "name": "Tests",
+            "summary": "",
+            "url": "namespaces/tests.html"
         }            ]
 );

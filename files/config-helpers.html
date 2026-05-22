@@ -57,7 +57,20 @@
     Menu
 </label>
 <aside class="phpdocumentor-column -three phpdocumentor-sidebar">
-                    <section class="phpdocumentor-sidebar__category -packages">
+                    <section class="phpdocumentor-sidebar__category -namespaces">
+            <h2 class="phpdocumentor-sidebar__category-header">Namespaces</h2>
+                                    <h4 class="phpdocumentor-sidebar__root-namespace">
+    <a href="namespaces/tests.html" class="">Tests</a>
+</h4>
+    <ul class="phpdocumentor-list">
+                    <li>
+                <a href="namespaces/tests-unit.html" class="">Unit</a>
+                
+            </li>
+            </ul>
+
+                        </section>
+                <section class="phpdocumentor-sidebar__category -packages">
             <h2 class="phpdocumentor-sidebar__category-header">Packages</h2>
                                     <h4 class="phpdocumentor-sidebar__root-namespace">
     <a href="packages/Application.html" class="">Application</a>
@@ -85,7 +98,6 @@
             <div class="phpdocumentor-column -nine phpdocumentor-content">
                                 <section>
                                         <ul class="phpdocumentor-breadcrumbs">
-            <li class="phpdocumentor-breadcrumb"><a href="packages/Application.html">Application</a></li>
     </ul>
 
     <article class="phpdocumentor-element -file">
@@ -112,6 +124,20 @@ Este arquivo e incluido automaticamente via config/db.php</p>
 
 
 
+<h4 id="toc-constants">
+    Constants
+    <a href="files/config-helpers.html#toc-constants" class="headerlink"><i class="fas fa-link"></i></a>
+
+</h4>
+<dl class="phpdocumentor-table-of-contents">
+            <dt class="phpdocumentor-table-of-contents__entry -constant -public">
+    <a class="" href="namespaces/default.html#constant_SESSION_TIMEOUT">SESSION_TIMEOUT</a>
+    <span>
+        &nbsp;: mixed&nbsp;= 1800                            </span>
+</dt>
+<dd>Tempo máximo de inatividade em segundos antes de expirar a sessão autenticada.</dd>
+
+    </dl>
 
 
 
@@ -179,18 +205,25 @@ Este arquivo e incluido automaticamente via config/db.php</p>
 <dd>Gera uma URL absoluta da aplicação</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -function -">
+    <a class="" href="namespaces/default.html#function_session_check_timeout">session_check_timeout()</a>
+    <span>
+                                &nbsp;: void    </span>
+</dt>
+<dd>Verifica se a sessão autenticada expirou por inatividade e encerra se necessário.</dd>
+
+            <dt class="phpdocumentor-table-of-contents__entry -function -">
     <a class="" href="namespaces/default.html#function_auth_check">auth_check()</a>
     <span>
                                 &nbsp;: void    </span>
 </dt>
-<dd>Verifica se o usuário está autenticado, redirecionando para login se não estiver</dd>
+<dd>Verifica se o usuário está autenticado, redirecionando para login se não estiver.</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -function -">
     <a class="" href="namespaces/default.html#function_admin_check">admin_check()</a>
     <span>
                                 &nbsp;: void    </span>
 </dt>
-<dd>Verifica se o usuário é administrador, redirecionando para login se não for</dd>
+<dd>Verifica se o usuário é administrador, redirecionando para login se não for.</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -function -">
     <a class="" href="namespaces/default.html#function_redirect">redirect()</a>
@@ -203,6 +236,44 @@ Este arquivo e incluido automaticamente via config/db.php</p>
 
 
         
+    <section class="phpdocumentor-constants">
+        <h3 class="phpdocumentor-elements__header" id="constants">
+            Constants
+            <a href="files/config-helpers.html#constants" class="headerlink"><i class="fas fa-link"></i></a>
+
+        </h3>
+                    <article class="phpdocumentor-element -constant -public ">
+    <h4 class="phpdocumentor-element__name" id="constant_SESSION_TIMEOUT">
+        SESSION_TIMEOUT
+        <a href="namespaces/default.html#constant_SESSION_TIMEOUT" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h4>
+
+    <aside class="phpdocumentor-element-found-in">
+    <abbr class="phpdocumentor-element-found-in__file" title="config/helpers.php"><a href="files/config-helpers.html"><abbr title="config/helpers.php">helpers.php</abbr></a></abbr>
+    :
+    <span class="phpdocumentor-element-found-in__line">10</span>
+
+    </aside>
+
+        <p class="phpdocumentor-summary">Tempo máximo de inatividade em segundos antes de expirar a sessão autenticada.</p>
+
+    
+    <code class="phpdocumentor-signature phpdocumentor-code ">
+    <span class="phpdocumentor-signature__visibility">public</span>
+        <span class="phpdocumentor-signature__type">mixed</span>
+    <span class="phpdocumentor-signature__name">SESSION_TIMEOUT</span>
+    = <span class="phpdocumentor-signature__default-value">1800</span>
+</code>
+
+
+    
+    
+    
+
+        
+    </article>
+            </section>
 
             <section class="phpdocumentor-functions">
         <h3 class="phpdocumentor-elements__header" id="functions">
@@ -219,7 +290,7 @@ Este arquivo e incluido automaticamente via config/db.php</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="config/helpers.php"><a href="files/config-helpers.html"><abbr title="config/helpers.php">helpers.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">30</span>
+    <span class="phpdocumentor-element-found-in__line">35</span>
 
     </aside>
 
@@ -253,7 +324,7 @@ Este arquivo e incluido automaticamente via config/db.php</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="config/helpers.php"><a href="files/config-helpers.html"><abbr title="config/helpers.php">helpers.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">42</span>
+    <span class="phpdocumentor-element-found-in__line">47</span>
 
     </aside>
 
@@ -287,7 +358,7 @@ Este arquivo e incluido automaticamente via config/db.php</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="config/helpers.php"><a href="files/config-helpers.html"><abbr title="config/helpers.php">helpers.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">51</span>
+    <span class="phpdocumentor-element-found-in__line">56</span>
 
     </aside>
 
@@ -321,7 +392,7 @@ Este arquivo e incluido automaticamente via config/db.php</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="config/helpers.php"><a href="files/config-helpers.html"><abbr title="config/helpers.php">helpers.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">67</span>
+    <span class="phpdocumentor-element-found-in__line">72</span>
 
     </aside>
 
@@ -368,7 +439,7 @@ Este arquivo e incluido automaticamente via config/db.php</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="config/helpers.php"><a href="files/config-helpers.html"><abbr title="config/helpers.php">helpers.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">77</span>
+    <span class="phpdocumentor-element-found-in__line">82</span>
 
     </aside>
 
@@ -414,7 +485,7 @@ Este arquivo e incluido automaticamente via config/db.php</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="config/helpers.php"><a href="files/config-helpers.html"><abbr title="config/helpers.php">helpers.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">90</span>
+    <span class="phpdocumentor-element-found-in__line">95</span>
 
     </aside>
 
@@ -448,7 +519,7 @@ Este arquivo e incluido automaticamente via config/db.php</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="config/helpers.php"><a href="files/config-helpers.html"><abbr title="config/helpers.php">helpers.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">129</span>
+    <span class="phpdocumentor-element-found-in__line">134</span>
 
     </aside>
 
@@ -494,7 +565,7 @@ Este arquivo e incluido automaticamente via config/db.php</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="config/helpers.php"><a href="files/config-helpers.html"><abbr title="config/helpers.php">helpers.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">146</span>
+    <span class="phpdocumentor-element-found-in__line">151</span>
 
     </aside>
 
@@ -532,6 +603,37 @@ Este arquivo e incluido automaticamente via config/db.php</p>
 
 </article>
                     <article class="phpdocumentor-element -function - ">
+    <h4 class="phpdocumentor-element__name" id="function_session_check_timeout">
+        session_check_timeout()
+        <a href="namespaces/default.html#function_session_check_timeout" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h4>
+    <aside class="phpdocumentor-element-found-in">
+    <abbr class="phpdocumentor-element-found-in__file" title="config/helpers.php"><a href="files/config-helpers.html"><abbr title="config/helpers.php">helpers.php</abbr></a></abbr>
+    :
+    <span class="phpdocumentor-element-found-in__line">179</span>
+
+    </aside>
+
+        <p class="phpdocumentor-summary">Verifica se a sessão autenticada expirou por inatividade e encerra se necessário.</p>
+
+    
+    <code class="phpdocumentor-code phpdocumentor-signature ">
+    <span class="phpdocumentor-signature__visibility"></span>
+                    <span class="phpdocumentor-signature__name">session_check_timeout</span><span>(</span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">void</span></code>
+
+        <section class="phpdocumentor-description"><p>Deve ser chamada no início de auth_check() e admin_check(). Se o usuário estiver
+autenticado e a última atividade registrada exceder SESSION_TIMEOUT segundos,
+a sessão é destruída e o usuário é redirecionado para o login com aviso.
+Caso contrário, atualiza o timestamp de última atividade.</p>
+</section>
+
+    
+    
+
+    
+</article>
+                    <article class="phpdocumentor-element -function - ">
     <h4 class="phpdocumentor-element__name" id="function_auth_check">
         auth_check()
         <a href="namespaces/default.html#function_auth_check" class="headerlink"><i class="fas fa-link"></i></a>
@@ -540,18 +642,20 @@ Este arquivo e incluido automaticamente via config/db.php</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="config/helpers.php"><a href="files/config-helpers.html"><abbr title="config/helpers.php">helpers.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">169</span>
+    <span class="phpdocumentor-element-found-in__line">202</span>
 
     </aside>
 
-        <p class="phpdocumentor-summary">Verifica se o usuário está autenticado, redirecionando para login se não estiver</p>
+        <p class="phpdocumentor-summary">Verifica se o usuário está autenticado, redirecionando para login se não estiver.</p>
 
     
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility"></span>
                     <span class="phpdocumentor-signature__name">auth_check</span><span>(</span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">void</span></code>
 
-    
+        <section class="phpdocumentor-description"><p>Também encerra sessões expiradas por inatividade via session_check_timeout().</p>
+</section>
+
     
     
 
@@ -566,18 +670,20 @@ Este arquivo e incluido automaticamente via config/db.php</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="config/helpers.php"><a href="files/config-helpers.html"><abbr title="config/helpers.php">helpers.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">181</span>
+    <span class="phpdocumentor-element-found-in__line">218</span>
 
     </aside>
 
-        <p class="phpdocumentor-summary">Verifica se o usuário é administrador, redirecionando para login se não for</p>
+        <p class="phpdocumentor-summary">Verifica se o usuário é administrador, redirecionando para login se não for.</p>
 
     
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility"></span>
                     <span class="phpdocumentor-signature__name">admin_check</span><span>(</span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">void</span></code>
 
-    
+        <section class="phpdocumentor-description"><p>Também encerra sessões expiradas por inatividade via session_check_timeout().</p>
+</section>
+
     
     
 
@@ -592,7 +698,7 @@ Este arquivo e incluido automaticamente via config/db.php</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="config/helpers.php"><a href="files/config-helpers.html"><abbr title="config/helpers.php">helpers.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">195</span>
+    <span class="phpdocumentor-element-found-in__line">234</span>
 
     </aside>
 
@@ -635,10 +741,17 @@ Este arquivo e incluido automaticamente via config/db.php</p>
             <li class="phpdocumentor-on-this-page-section__title">Table Of Contents</li>
             <li>
                 <ul class="phpdocumentor-list -clean">
-                                                                                                                                                                                        <li><a href="files/config-helpers.html#toc-functions">Functions</a></li>
+                                                                                                                                                                    <li><a href="files/config-helpers.html#toc-constants">Constants</a></li>
+                                                                <li><a href="files/config-helpers.html#toc-functions">Functions</a></li>
                                     </ul>
             </li>
 
+                            <li class="phpdocumentor-on-this-page-section__title">Constants</li>
+                <li>
+                    <ul class="phpdocumentor-list -clean">
+                                                    <li class=""><a href="namespaces/default.html#constant_SESSION_TIMEOUT">SESSION_TIMEOUT</a></li>
+                                            </ul>
+                </li>
             
                             <li class="phpdocumentor-on-this-page-section__title">Functions</li>
                 <li>
@@ -654,6 +767,7 @@ Este arquivo e incluido automaticamente via config/db.php</p>
                                                     <li class=""><a href="namespaces/default.html#function_flash">flash()</a></li>
                                                     <li class=""><a href="namespaces/default.html#function_get_flash">get_flash()</a></li>
                                                     <li class=""><a href="namespaces/default.html#function_redirect">redirect()</a></li>
+                                                    <li class=""><a href="namespaces/default.html#function_session_check_timeout">session_check_timeout()</a></li>
                                             </ul>
                 </li>
                     </ul>

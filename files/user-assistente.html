@@ -57,7 +57,20 @@
     Menu
 </label>
 <aside class="phpdocumentor-column -three phpdocumentor-sidebar">
-                    <section class="phpdocumentor-sidebar__category -packages">
+                    <section class="phpdocumentor-sidebar__category -namespaces">
+            <h2 class="phpdocumentor-sidebar__category-header">Namespaces</h2>
+                                    <h4 class="phpdocumentor-sidebar__root-namespace">
+    <a href="namespaces/tests.html" class="">Tests</a>
+</h4>
+    <ul class="phpdocumentor-list">
+                    <li>
+                <a href="namespaces/tests-unit.html" class="">Unit</a>
+                
+            </li>
+            </ul>
+
+                        </section>
+                <section class="phpdocumentor-sidebar__category -packages">
             <h2 class="phpdocumentor-sidebar__category-header">Packages</h2>
                                     <h4 class="phpdocumentor-sidebar__root-namespace">
     <a href="packages/Application.html" class="">Application</a>
@@ -85,15 +98,19 @@
             <div class="phpdocumentor-column -nine phpdocumentor-content">
                                 <section>
                                         <ul class="phpdocumentor-breadcrumbs">
-            <li class="phpdocumentor-breadcrumb"><a href="packages/Application.html">Application</a></li>
     </ul>
 
     <article class="phpdocumentor-element -file">
         <h2 class="phpdocumentor-content__title">assistente.php</h2>
 
+            <p class="phpdocumentor-summary">Assistente de Carreira com IA</p>
+
         
-        
-        
+            <section class="phpdocumentor-description"><p>Integra a API Anthropic Claude para gerar planos de carreira personalizados.
+Injeta o perfil real do aluno (cursos, currículo, candidaturas) no contexto
+enviado à IA para respostas verdadeiramente individualizadas.</p>
+</section>
+
         
 
 
@@ -123,38 +140,51 @@
             <dt class="phpdocumentor-table-of-contents__entry -function -">
     <a class="" href="namespaces/default.html#function_anthropic_chat_with_fallback">anthropic_chat_with_fallback()</a>
     <span>
-                                &nbsp;: array&lt;string|int, mixed&gt;    </span>
+                                &nbsp;: array{0: bool, 1: string, 2: string, 3: string}    </span>
 </dt>
+<dd>Envia uma conversa à API Anthropic com suporte a múltiplos modelos de fallback.</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -function -">
     <a class="" href="namespaces/default.html#function_ai_resume_texto">ai_resume_texto()</a>
     <span>
                                 &nbsp;: string    </span>
 </dt>
+<dd>Trunca um texto para uso em contextos de IA, preservando palavras completas.</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -function -">
     <a class="" href="namespaces/default.html#function_ai_connect_db_optional">ai_connect_db_optional()</a>
     <span>
                                 &nbsp;: <abbr title="\mysqli">mysqli</abbr>|null    </span>
 </dt>
+<dd>Cria uma conexão MySQL secundária opcional para o assistente de IA.</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -function -">
     <a class="" href="namespaces/default.html#function_ai_catalogo_site_contexto">ai_catalogo_site_contexto()</a>
     <span>
                                 &nbsp;: string    </span>
 </dt>
+<dd>Carrega o catálogo atual de cursos e vagas para injetar no contexto da IA.</dd>
+
+            <dt class="phpdocumentor-table-of-contents__entry -function -">
+    <a class="" href="namespaces/default.html#function_ai_perfil_aluno_contexto">ai_perfil_aluno_contexto()</a>
+    <span>
+                                &nbsp;: string    </span>
+</dt>
+<dd>Carrega o perfil real do aluno para personalizar as respostas da IA.</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -function -">
     <a class="" href="namespaces/default.html#function_ai_format_inline">ai_format_inline()</a>
     <span>
                                 &nbsp;: string    </span>
 </dt>
+<dd>Converte formatação inline Markdown para HTML seguro.</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -function -">
     <a class="" href="namespaces/default.html#function_ai_render_response_html">ai_render_response_html()</a>
     <span>
                                 &nbsp;: string    </span>
 </dt>
+<dd>Converte a resposta Markdown da IA para HTML renderizável.</dd>
 
     </dl>
 
@@ -176,17 +206,21 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="user/assistente.php"><a href="files/user-assistente.html"><abbr title="user/assistente.php">assistente.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">14</span>
+    <span class="phpdocumentor-element-found-in__line">37</span>
 
     </aside>
 
-    
+        <p class="phpdocumentor-summary">Envia uma conversa à API Anthropic com suporte a múltiplos modelos de fallback.</p>
+
     
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility"></span>
-                    <span class="phpdocumentor-signature__name">anthropic_chat_with_fallback</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__type">string&nbsp;</span><span class="phpdocumentor-signature__argument__name">$apiKey</span></span><span class="phpdocumentor-signature__argument"><span>, </span><span class="phpdocumentor-signature__argument__type">string&nbsp;</span><span class="phpdocumentor-signature__argument__name">$systemPrompt</span></span><span class="phpdocumentor-signature__argument"><span>, </span><span class="phpdocumentor-signature__argument__type">array&lt;string|int, mixed&gt;&nbsp;</span><span class="phpdocumentor-signature__argument__name">$mensagens</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">array&lt;string|int, mixed&gt;</span></code>
+                    <span class="phpdocumentor-signature__name">anthropic_chat_with_fallback</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__type">string&nbsp;</span><span class="phpdocumentor-signature__argument__name">$apiKey</span></span><span class="phpdocumentor-signature__argument"><span>, </span><span class="phpdocumentor-signature__argument__type">string&nbsp;</span><span class="phpdocumentor-signature__argument__name">$systemPrompt</span></span><span class="phpdocumentor-signature__argument"><span>, </span><span class="phpdocumentor-signature__argument__type">array&lt;string|int, mixed&gt;&nbsp;</span><span class="phpdocumentor-signature__argument__name">$mensagens</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">array{0: bool, 1: string, 2: string, 3: string}</span></code>
 
-    
+        <section class="phpdocumentor-description"><p>Tenta cada modelo listado em ANTHROPIC_MODEL (separados por vírgula) até
+obter uma resposta bem-sucedida. Trata erros HTTP e erros de modelo individualmente.</p>
+</section>
+
         <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
     <dl class="phpdocumentor-argument-list">
                     <dt class="phpdocumentor-argument-list__entry">
@@ -194,21 +228,27 @@
                 : <span class="phpdocumentor-argument-list__argument__type">string</span>
                             </dt>
             <dd class="phpdocumentor-argument-list__definition">
-                
+                    <section class="phpdocumentor-description"><p>Chave de API Anthropic.</p>
+</section>
+
             </dd>
                     <dt class="phpdocumentor-argument-list__entry">
                 <span class="phpdocumentor-argument-list__argument__name">$systemPrompt</span>
                 : <span class="phpdocumentor-argument-list__argument__type">string</span>
                             </dt>
             <dd class="phpdocumentor-argument-list__definition">
-                
+                    <section class="phpdocumentor-description"><p>Instrução de sistema enviada ao modelo.</p>
+</section>
+
             </dd>
                     <dt class="phpdocumentor-argument-list__entry">
                 <span class="phpdocumentor-argument-list__argument__name">$mensagens</span>
                 : <span class="phpdocumentor-argument-list__argument__type">array&lt;string|int, mixed&gt;</span>
                             </dt>
             <dd class="phpdocumentor-argument-list__definition">
-                
+                    <section class="phpdocumentor-description"><p>Array de mensagens no formato [{role, content}].</p>
+</section>
+
             </dd>
             </dl>
 
@@ -216,7 +256,11 @@
 
             <section>
         <h5 class="phpdocumentor-return-value__heading">Return values</h5>
-        <span class="phpdocumentor-signature__response_type">array&lt;string|int, mixed&gt;</span>
+        <span class="phpdocumentor-signature__response_type">array{0: bool, 1: string, 2: string, 3: string}</span>
+                    &mdash;
+                <section class="phpdocumentor-description"><p>[sucesso, conteudo, erro, modelo_usado]</p>
+</section>
+
             </section>
 
 </article>
@@ -229,11 +273,12 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="user/assistente.php"><a href="files/user-assistente.html"><abbr title="user/assistente.php">assistente.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">140</span>
+    <span class="phpdocumentor-element-found-in__line">164</span>
 
     </aside>
 
-    
+        <p class="phpdocumentor-summary">Trunca um texto para uso em contextos de IA, preservando palavras completas.</p>
+
     
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility"></span>
@@ -247,14 +292,18 @@
                 : <span class="phpdocumentor-argument-list__argument__type">string</span>
                             </dt>
             <dd class="phpdocumentor-argument-list__definition">
-                
+                    <section class="phpdocumentor-description"><p>Texto bruto (pode conter HTML).</p>
+</section>
+
             </dd>
                     <dt class="phpdocumentor-argument-list__entry">
                 <span class="phpdocumentor-argument-list__argument__name">$limite</span>
                 : <span class="phpdocumentor-argument-list__argument__type">int</span>
                  = <span class="phpdocumentor-argument-list__argument__default-value">110</span>            </dt>
             <dd class="phpdocumentor-argument-list__definition">
-                
+                    <section class="phpdocumentor-description"><p>Máximo de caracteres (padrão 110).</p>
+</section>
+
             </dd>
             </dl>
 
@@ -263,6 +312,10 @@
             <section>
         <h5 class="phpdocumentor-return-value__heading">Return values</h5>
         <span class="phpdocumentor-signature__response_type">string</span>
+                    &mdash;
+                <section class="phpdocumentor-description"><p>Texto truncado com &quot;...&quot; se necessário.</p>
+</section>
+
             </section>
 
 </article>
@@ -275,23 +328,32 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="user/assistente.php"><a href="files/user-assistente.html"><abbr title="user/assistente.php">assistente.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">159</span>
+    <span class="phpdocumentor-element-found-in__line">186</span>
 
     </aside>
 
-    
+        <p class="phpdocumentor-summary">Cria uma conexão MySQL secundária opcional para o assistente de IA.</p>
+
     
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility"></span>
                     <span class="phpdocumentor-signature__name">ai_connect_db_optional</span><span>(</span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type"><abbr title="\mysqli">mysqli</abbr>|null</span></code>
 
-    
+        <section class="phpdocumentor-description"><p>Usa as mesmas variáveis de ambiente da conexão principal.
+Retorna null sem lançar exceção se a conexão falhar, pois o assistente
+pode operar sem acesso ao banco (catálogo e perfil ficam indisponíveis).</p>
+</section>
+
     
     
 
             <section>
         <h5 class="phpdocumentor-return-value__heading">Return values</h5>
         <span class="phpdocumentor-signature__response_type"><abbr title="\mysqli">mysqli</abbr>|null</span>
+                    &mdash;
+                <section class="phpdocumentor-description"><p>Conexão ativa ou null em caso de falha.</p>
+</section>
+
             </section>
 
 </article>
@@ -304,23 +366,90 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="user/assistente.php"><a href="files/user-assistente.html"><abbr title="user/assistente.php">assistente.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">200</span>
+    <span class="phpdocumentor-element-found-in__line">236</span>
 
     </aside>
 
-    
+        <p class="phpdocumentor-summary">Carrega o catálogo atual de cursos e vagas para injetar no contexto da IA.</p>
+
     
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility"></span>
                     <span class="phpdocumentor-signature__name">ai_catalogo_site_contexto</span><span>(</span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">string</span></code>
 
-    
+        <section class="phpdocumentor-description"><p>Limita a 8 cursos e 10 vagas para não ultrapassar o limite de tokens.
+A IA usa essas informações para recomendar itens reais do sistema.</p>
+</section>
+
     
     
 
             <section>
         <h5 class="phpdocumentor-return-value__heading">Return values</h5>
         <span class="phpdocumentor-signature__response_type">string</span>
+                    &mdash;
+                <section class="phpdocumentor-description"><p>Bloco de texto formatado com cursos e vagas ativos.</p>
+</section>
+
+            </section>
+
+</article>
+                    <article class="phpdocumentor-element -function - ">
+    <h4 class="phpdocumentor-element__name" id="function_ai_perfil_aluno_contexto">
+        ai_perfil_aluno_contexto()
+        <a href="namespaces/default.html#function_ai_perfil_aluno_contexto" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h4>
+    <aside class="phpdocumentor-element-found-in">
+    <abbr class="phpdocumentor-element-found-in__file" title="user/assistente.php"><a href="files/user-assistente.html"><abbr title="user/assistente.php">assistente.php</abbr></a></abbr>
+    :
+    <span class="phpdocumentor-element-found-in__line">319</span>
+
+    </aside>
+
+        <p class="phpdocumentor-summary">Carrega o perfil real do aluno para personalizar as respostas da IA.</p>
+
+    
+    <code class="phpdocumentor-code phpdocumentor-signature ">
+    <span class="phpdocumentor-signature__visibility"></span>
+                    <span class="phpdocumentor-signature__name">ai_perfil_aluno_contexto</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__type"><abbr title="\mysqli">mysqli</abbr>|null&nbsp;</span><span class="phpdocumentor-signature__argument__name">$cx</span></span><span class="phpdocumentor-signature__argument"><span>, </span><span class="phpdocumentor-signature__argument__type">int&nbsp;</span><span class="phpdocumentor-signature__argument__name">$usuarioId</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">string</span></code>
+
+        <section class="phpdocumentor-description"><p>Injeta no contexto: nome, cidade, título profissional, habilidades,
+cursos inscritos com percentual de progresso e candidaturas em aberto.
+Retorna string vazia se a conexão ou o ID forem inválidos.</p>
+</section>
+
+        <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
+    <dl class="phpdocumentor-argument-list">
+                    <dt class="phpdocumentor-argument-list__entry">
+                <span class="phpdocumentor-argument-list__argument__name">$cx</span>
+                : <span class="phpdocumentor-argument-list__argument__type"><abbr title="\mysqli">mysqli</abbr>|null</span>
+                            </dt>
+            <dd class="phpdocumentor-argument-list__definition">
+                    <section class="phpdocumentor-description"><p>Conexão MySQL opcional.</p>
+</section>
+
+            </dd>
+                    <dt class="phpdocumentor-argument-list__entry">
+                <span class="phpdocumentor-argument-list__argument__name">$usuarioId</span>
+                : <span class="phpdocumentor-argument-list__argument__type">int</span>
+                            </dt>
+            <dd class="phpdocumentor-argument-list__definition">
+                    <section class="phpdocumentor-description"><p>ID do usuário autenticado.</p>
+</section>
+
+            </dd>
+            </dl>
+
+    
+
+            <section>
+        <h5 class="phpdocumentor-return-value__heading">Return values</h5>
+        <span class="phpdocumentor-signature__response_type">string</span>
+                    &mdash;
+                <section class="phpdocumentor-description"><p>Bloco de texto formatado com os dados do aluno.</p>
+</section>
+
             </section>
 
 </article>
@@ -333,17 +462,21 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="user/assistente.php"><a href="files/user-assistente.html"><abbr title="user/assistente.php">assistente.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">298</span>
+    <span class="phpdocumentor-element-found-in__line">437</span>
 
     </aside>
 
-    
+        <p class="phpdocumentor-summary">Converte formatação inline Markdown para HTML seguro.</p>
+
     
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility"></span>
                     <span class="phpdocumentor-signature__name">ai_format_inline</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__type">string&nbsp;</span><span class="phpdocumentor-signature__argument__name">$text</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">string</span></code>
 
-    
+        <section class="phpdocumentor-description"><p>Processa: links <a href="url">texto</a>, negrito <strong>texto</strong> e código <code class="prettyprint">inline</code>.
+Aplica htmlspecialchars antes de inserir no DOM para evitar XSS.</p>
+</section>
+
         <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
     <dl class="phpdocumentor-argument-list">
                     <dt class="phpdocumentor-argument-list__entry">
@@ -351,7 +484,9 @@
                 : <span class="phpdocumentor-argument-list__argument__type">string</span>
                             </dt>
             <dd class="phpdocumentor-argument-list__definition">
-                
+                    <section class="phpdocumentor-description"><p>Texto com marcação Markdown.</p>
+</section>
+
             </dd>
             </dl>
 
@@ -360,6 +495,10 @@
             <section>
         <h5 class="phpdocumentor-return-value__heading">Return values</h5>
         <span class="phpdocumentor-signature__response_type">string</span>
+                    &mdash;
+                <section class="phpdocumentor-description"><p>HTML seguro com tags inline.</p>
+</section>
+
             </section>
 
 </article>
@@ -372,17 +511,22 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="user/assistente.php"><a href="files/user-assistente.html"><abbr title="user/assistente.php">assistente.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">308</span>
+    <span class="phpdocumentor-element-found-in__line">457</span>
 
     </aside>
 
-    
+        <p class="phpdocumentor-summary">Converte a resposta Markdown da IA para HTML renderizável.</p>
+
     
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility"></span>
                     <span class="phpdocumentor-signature__name">ai_render_response_html</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__type">string&nbsp;</span><span class="phpdocumentor-signature__argument__name">$markdown</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">string</span></code>
 
-    
+        <section class="phpdocumentor-description"><p>Suporta: headings (# ## ###), listas não-ordenadas (- *),
+listas ordenadas (1.) e parágrafos. Delega formatação inline
+a ai_format_inline() para segurança contra XSS.</p>
+</section>
+
         <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
     <dl class="phpdocumentor-argument-list">
                     <dt class="phpdocumentor-argument-list__entry">
@@ -390,7 +534,9 @@
                 : <span class="phpdocumentor-argument-list__argument__type">string</span>
                             </dt>
             <dd class="phpdocumentor-argument-list__definition">
-                
+                    <section class="phpdocumentor-description"><p>Texto bruto retornado pela API.</p>
+</section>
+
             </dd>
             </dl>
 
@@ -399,6 +545,10 @@
             <section>
         <h5 class="phpdocumentor-return-value__heading">Return values</h5>
         <span class="phpdocumentor-signature__response_type">string</span>
+                    &mdash;
+                <section class="phpdocumentor-description"><p>HTML pronto para inserção em .response-box.</p>
+</section>
+
             </section>
 
 </article>
@@ -427,6 +577,7 @@
                                                     <li class=""><a href="namespaces/default.html#function_ai_catalogo_site_contexto">ai_catalogo_site_contexto()</a></li>
                                                     <li class=""><a href="namespaces/default.html#function_ai_connect_db_optional">ai_connect_db_optional()</a></li>
                                                     <li class=""><a href="namespaces/default.html#function_ai_format_inline">ai_format_inline()</a></li>
+                                                    <li class=""><a href="namespaces/default.html#function_ai_perfil_aluno_contexto">ai_perfil_aluno_contexto()</a></li>
                                                     <li class=""><a href="namespaces/default.html#function_ai_render_response_html">ai_render_response_html()</a></li>
                                                     <li class=""><a href="namespaces/default.html#function_ai_resume_texto">ai_resume_texto()</a></li>
                                                     <li class=""><a href="namespaces/default.html#function_anthropic_chat_with_fallback">anthropic_chat_with_fallback()</a></li>

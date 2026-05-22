@@ -57,7 +57,20 @@
     Menu
 </label>
 <aside class="phpdocumentor-column -three phpdocumentor-sidebar">
-                    <section class="phpdocumentor-sidebar__category -packages">
+                    <section class="phpdocumentor-sidebar__category -namespaces">
+            <h2 class="phpdocumentor-sidebar__category-header">Namespaces</h2>
+                                    <h4 class="phpdocumentor-sidebar__root-namespace">
+    <a href="namespaces/tests.html" class="">Tests</a>
+</h4>
+    <ul class="phpdocumentor-list">
+                    <li>
+                <a href="namespaces/tests-unit.html" class="">Unit</a>
+                
+            </li>
+            </ul>
+
+                        </section>
+                <section class="phpdocumentor-sidebar__category -packages">
             <h2 class="phpdocumentor-sidebar__category-header">Packages</h2>
                                     <h4 class="phpdocumentor-sidebar__root-namespace">
     <a href="packages/Application.html" class="-active">Application</a>
@@ -100,9 +113,31 @@
 
 
 
+    <h4 id="toc-classes">
+        Classes
+        <a href="packages/Application.html#toc-classes" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h4>
+    <dl class="phpdocumentor-table-of-contents">
+                    <dt class="phpdocumentor-table-of-contents__entry -class"><a href="classes/Tests-Unit-ConstantsTest.html"><abbr title="\Tests\Unit\ConstantsTest">ConstantsTest</abbr></a></dt><dd>Verifica que todas as constantes de status e perfil do SkillConnect
+mantêm os valores exatos esperados pelo banco de dados.</dd>            <dt class="phpdocumentor-table-of-contents__entry -class"><a href="classes/Tests-Unit-HelpersTest.html"><abbr title="\Tests\Unit\HelpersTest">HelpersTest</abbr></a></dt><dd>Testes unitários para as funções auxiliares globais (config/helpers.php).</dd>    </dl>
 
 
 
+<h4 id="toc-constants">
+    Constants
+    <a href="packages/Application.html#toc-constants" class="headerlink"><i class="fas fa-link"></i></a>
+
+</h4>
+<dl class="phpdocumentor-table-of-contents">
+            <dt class="phpdocumentor-table-of-contents__entry -constant -public">
+    <a class="" href="namespaces/default.html#constant_SESSION_TIMEOUT">SESSION_TIMEOUT</a>
+    <span>
+        &nbsp;: mixed&nbsp;= 1800                            </span>
+</dt>
+<dd>Tempo máximo de inatividade em segundos antes de expirar a sessão autenticada.</dd>
+
+    </dl>
 
 
 
@@ -118,6 +153,7 @@
     <span>
                                 &nbsp;: int    </span>
 </dt>
+<dd>Executes a static scalar COUNT or aggregate query for the admin panel.</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -function -">
     <a class="" href="namespaces/default.html#function_bind_params_dynamic">bind_params_dynamic()</a>
@@ -196,18 +232,25 @@
 <dd>Gera uma URL absoluta da aplicação</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -function -">
+    <a class="" href="namespaces/default.html#function_session_check_timeout">session_check_timeout()</a>
+    <span>
+                                &nbsp;: void    </span>
+</dt>
+<dd>Verifica se a sessão autenticada expirou por inatividade e encerra se necessário.</dd>
+
+            <dt class="phpdocumentor-table-of-contents__entry -function -">
     <a class="" href="namespaces/default.html#function_auth_check">auth_check()</a>
     <span>
                                 &nbsp;: void    </span>
 </dt>
-<dd>Verifica se o usuário está autenticado, redirecionando para login se não estiver</dd>
+<dd>Verifica se o usuário está autenticado, redirecionando para login se não estiver.</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -function -">
     <a class="" href="namespaces/default.html#function_admin_check">admin_check()</a>
     <span>
                                 &nbsp;: void    </span>
 </dt>
-<dd>Verifica se o usuário é administrador, redirecionando para login se não for</dd>
+<dd>Verifica se o usuário é administrador, redirecionando para login se não for.</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -function -">
     <a class="" href="namespaces/default.html#function_redirect">redirect()</a>
@@ -224,42 +267,6 @@
 <dd>Cria um resumo do texto para exibição na página inicial</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -function -">
-    <a class="" href="namespaces/default.html#function_anthropic_chat_with_fallback">anthropic_chat_with_fallback()</a>
-    <span>
-                                &nbsp;: array&lt;string|int, mixed&gt;    </span>
-</dt>
-
-            <dt class="phpdocumentor-table-of-contents__entry -function -">
-    <a class="" href="namespaces/default.html#function_ai_resume_texto">ai_resume_texto()</a>
-    <span>
-                                &nbsp;: string    </span>
-</dt>
-
-            <dt class="phpdocumentor-table-of-contents__entry -function -">
-    <a class="" href="namespaces/default.html#function_ai_connect_db_optional">ai_connect_db_optional()</a>
-    <span>
-                                &nbsp;: <abbr title="\mysqli">mysqli</abbr>|null    </span>
-</dt>
-
-            <dt class="phpdocumentor-table-of-contents__entry -function -">
-    <a class="" href="namespaces/default.html#function_ai_catalogo_site_contexto">ai_catalogo_site_contexto()</a>
-    <span>
-                                &nbsp;: string    </span>
-</dt>
-
-            <dt class="phpdocumentor-table-of-contents__entry -function -">
-    <a class="" href="namespaces/default.html#function_ai_format_inline">ai_format_inline()</a>
-    <span>
-                                &nbsp;: string    </span>
-</dt>
-
-            <dt class="phpdocumentor-table-of-contents__entry -function -">
-    <a class="" href="namespaces/default.html#function_ai_render_response_html">ai_render_response_html()</a>
-    <span>
-                                &nbsp;: string    </span>
-</dt>
-
-            <dt class="phpdocumentor-table-of-contents__entry -function -">
     <a class="" href="namespaces/default.html#function_resumo_curso">resumo_curso()</a>
     <span>
                                 &nbsp;: string    </span>
@@ -274,22 +281,18 @@
 <dd>Divide um texto em linhas não vazias</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -function -">
-    <a class="" href="namespaces/default.html#function_safe_http_url">safe_http_url()</a>
-    <span>
-                                &nbsp;: mixed    </span>
-</dt>
-
-            <dt class="phpdocumentor-table-of-contents__entry -function -">
     <a class="" href="namespaces/default.html#function_painel_scalar">painel_scalar()</a>
     <span>
                                 &nbsp;: int    </span>
 </dt>
+<dd>Executes a scalar COUNT or aggregate query and returns the result as an integer.</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -function -">
     <a class="" href="namespaces/default.html#function_painel_fetch_all">painel_fetch_all()</a>
     <span>
                                 &nbsp;: array&lt;string|int, mixed&gt;    </span>
 </dt>
+<dd>Executes a SELECT query and returns all rows as an associative array.</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -function -">
     <a class="" href="namespaces/default.html#function_resumo_vaga">resumo_vaga()</a>
@@ -301,6 +304,44 @@
     </dl>
 
         
+    <section class="phpdocumentor-constants">
+        <h3 class="phpdocumentor-elements__header" id="constants">
+            Constants
+            <a href="packages/Application.html#constants" class="headerlink"><i class="fas fa-link"></i></a>
+
+        </h3>
+                    <article class="phpdocumentor-element -constant -public ">
+    <h4 class="phpdocumentor-element__name" id="constant_SESSION_TIMEOUT">
+        SESSION_TIMEOUT
+        <a href="namespaces/default.html#constant_SESSION_TIMEOUT" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h4>
+
+    <aside class="phpdocumentor-element-found-in">
+    <abbr class="phpdocumentor-element-found-in__file" title="config/helpers.php"><a href="files/config-helpers.html"><abbr title="config/helpers.php">helpers.php</abbr></a></abbr>
+    :
+    <span class="phpdocumentor-element-found-in__line">10</span>
+
+    </aside>
+
+        <p class="phpdocumentor-summary">Tempo máximo de inatividade em segundos antes de expirar a sessão autenticada.</p>
+
+    
+    <code class="phpdocumentor-signature phpdocumentor-code ">
+    <span class="phpdocumentor-signature__visibility">public</span>
+        <span class="phpdocumentor-signature__type">mixed</span>
+    <span class="phpdocumentor-signature__name">SESSION_TIMEOUT</span>
+    = <span class="phpdocumentor-signature__default-value">1800</span>
+</code>
+
+
+    
+    
+    
+
+        
+    </article>
+            </section>
 
             <section class="phpdocumentor-functions">
         <h3 class="phpdocumentor-elements__header" id="functions">
@@ -317,17 +358,22 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="admin/admin.php"><a href="files/admin-admin.html"><abbr title="admin/admin.php">admin.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">7</span>
+    <span class="phpdocumentor-element-found-in__line">18</span>
 
     </aside>
 
-    
+        <p class="phpdocumentor-summary">Executes a static scalar COUNT or aggregate query for the admin panel.</p>
+
     
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility"></span>
                     <span class="phpdocumentor-signature__name">admin_scalar</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__type"><abbr title="\mysqli">mysqli</abbr>&nbsp;</span><span class="phpdocumentor-signature__argument__name">$cx</span></span><span class="phpdocumentor-signature__argument"><span>, </span><span class="phpdocumentor-signature__argument__type">string&nbsp;</span><span class="phpdocumentor-signature__argument__name">$sql</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">int</span></code>
 
-    
+        <section class="phpdocumentor-description"><p>Intended for fixed KPI queries that contain no user-supplied input.
+For dynamic queries with user input, use parameterized prepared statements instead.
+Returns 0 and logs the error when the query fails.</p>
+</section>
+
         <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
     <dl class="phpdocumentor-argument-list">
                     <dt class="phpdocumentor-argument-list__entry">
@@ -335,14 +381,18 @@
                 : <span class="phpdocumentor-argument-list__argument__type"><abbr title="\mysqli">mysqli</abbr></span>
                             </dt>
             <dd class="phpdocumentor-argument-list__definition">
-                
+                    <section class="phpdocumentor-description"><p>Active database connection.</p>
+</section>
+
             </dd>
                     <dt class="phpdocumentor-argument-list__entry">
                 <span class="phpdocumentor-argument-list__argument__name">$sql</span>
                 : <span class="phpdocumentor-argument-list__argument__type">string</span>
                             </dt>
             <dd class="phpdocumentor-argument-list__definition">
-                
+                    <section class="phpdocumentor-description"><p>Static SQL query (no user input).</p>
+</section>
+
             </dd>
             </dl>
 
@@ -351,6 +401,10 @@
             <section>
         <h5 class="phpdocumentor-return-value__heading">Return values</h5>
         <span class="phpdocumentor-signature__response_type">int</span>
+                    &mdash;
+                <section class="phpdocumentor-description"><p>First column of first row cast to int, or 0 on error.</p>
+</section>
+
             </section>
 
 </article>
@@ -513,7 +567,7 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="config/helpers.php"><a href="files/config-helpers.html"><abbr title="config/helpers.php">helpers.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">30</span>
+    <span class="phpdocumentor-element-found-in__line">35</span>
 
     </aside>
 
@@ -547,7 +601,7 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="config/helpers.php"><a href="files/config-helpers.html"><abbr title="config/helpers.php">helpers.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">42</span>
+    <span class="phpdocumentor-element-found-in__line">47</span>
 
     </aside>
 
@@ -581,7 +635,7 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="config/helpers.php"><a href="files/config-helpers.html"><abbr title="config/helpers.php">helpers.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">51</span>
+    <span class="phpdocumentor-element-found-in__line">56</span>
 
     </aside>
 
@@ -615,7 +669,7 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="config/helpers.php"><a href="files/config-helpers.html"><abbr title="config/helpers.php">helpers.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">67</span>
+    <span class="phpdocumentor-element-found-in__line">72</span>
 
     </aside>
 
@@ -662,7 +716,7 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="config/helpers.php"><a href="files/config-helpers.html"><abbr title="config/helpers.php">helpers.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">77</span>
+    <span class="phpdocumentor-element-found-in__line">82</span>
 
     </aside>
 
@@ -708,7 +762,7 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="config/helpers.php"><a href="files/config-helpers.html"><abbr title="config/helpers.php">helpers.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">90</span>
+    <span class="phpdocumentor-element-found-in__line">95</span>
 
     </aside>
 
@@ -742,7 +796,7 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="config/helpers.php"><a href="files/config-helpers.html"><abbr title="config/helpers.php">helpers.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">129</span>
+    <span class="phpdocumentor-element-found-in__line">134</span>
 
     </aside>
 
@@ -788,7 +842,7 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="config/helpers.php"><a href="files/config-helpers.html"><abbr title="config/helpers.php">helpers.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">146</span>
+    <span class="phpdocumentor-element-found-in__line">151</span>
 
     </aside>
 
@@ -826,6 +880,37 @@
 
 </article>
                     <article class="phpdocumentor-element -function - ">
+    <h4 class="phpdocumentor-element__name" id="function_session_check_timeout">
+        session_check_timeout()
+        <a href="namespaces/default.html#function_session_check_timeout" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h4>
+    <aside class="phpdocumentor-element-found-in">
+    <abbr class="phpdocumentor-element-found-in__file" title="config/helpers.php"><a href="files/config-helpers.html"><abbr title="config/helpers.php">helpers.php</abbr></a></abbr>
+    :
+    <span class="phpdocumentor-element-found-in__line">179</span>
+
+    </aside>
+
+        <p class="phpdocumentor-summary">Verifica se a sessão autenticada expirou por inatividade e encerra se necessário.</p>
+
+    
+    <code class="phpdocumentor-code phpdocumentor-signature ">
+    <span class="phpdocumentor-signature__visibility"></span>
+                    <span class="phpdocumentor-signature__name">session_check_timeout</span><span>(</span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">void</span></code>
+
+        <section class="phpdocumentor-description"><p>Deve ser chamada no início de auth_check() e admin_check(). Se o usuário estiver
+autenticado e a última atividade registrada exceder SESSION_TIMEOUT segundos,
+a sessão é destruída e o usuário é redirecionado para o login com aviso.
+Caso contrário, atualiza o timestamp de última atividade.</p>
+</section>
+
+    
+    
+
+    
+</article>
+                    <article class="phpdocumentor-element -function - ">
     <h4 class="phpdocumentor-element__name" id="function_auth_check">
         auth_check()
         <a href="namespaces/default.html#function_auth_check" class="headerlink"><i class="fas fa-link"></i></a>
@@ -834,18 +919,20 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="config/helpers.php"><a href="files/config-helpers.html"><abbr title="config/helpers.php">helpers.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">169</span>
+    <span class="phpdocumentor-element-found-in__line">202</span>
 
     </aside>
 
-        <p class="phpdocumentor-summary">Verifica se o usuário está autenticado, redirecionando para login se não estiver</p>
+        <p class="phpdocumentor-summary">Verifica se o usuário está autenticado, redirecionando para login se não estiver.</p>
 
     
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility"></span>
                     <span class="phpdocumentor-signature__name">auth_check</span><span>(</span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">void</span></code>
 
-    
+        <section class="phpdocumentor-description"><p>Também encerra sessões expiradas por inatividade via session_check_timeout().</p>
+</section>
+
     
     
 
@@ -860,18 +947,20 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="config/helpers.php"><a href="files/config-helpers.html"><abbr title="config/helpers.php">helpers.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">181</span>
+    <span class="phpdocumentor-element-found-in__line">218</span>
 
     </aside>
 
-        <p class="phpdocumentor-summary">Verifica se o usuário é administrador, redirecionando para login se não for</p>
+        <p class="phpdocumentor-summary">Verifica se o usuário é administrador, redirecionando para login se não for.</p>
 
     
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility"></span>
                     <span class="phpdocumentor-signature__name">admin_check</span><span>(</span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">void</span></code>
 
-    
+        <section class="phpdocumentor-description"><p>Também encerra sessões expiradas por inatividade via session_check_timeout().</p>
+</section>
+
     
     
 
@@ -886,7 +975,7 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="config/helpers.php"><a href="files/config-helpers.html"><abbr title="config/helpers.php">helpers.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">195</span>
+    <span class="phpdocumentor-element-found-in__line">234</span>
 
     </aside>
 
@@ -970,241 +1059,6 @@ quando necessário. Utiliza funções multibyte quando disponíveis.</p>
                 <section class="phpdocumentor-description"><p>O texto resumido com ou sem reticências</p>
 </section>
 
-            </section>
-
-</article>
-                    <article class="phpdocumentor-element -function - ">
-    <h4 class="phpdocumentor-element__name" id="function_anthropic_chat_with_fallback">
-        anthropic_chat_with_fallback()
-        <a href="namespaces/default.html#function_anthropic_chat_with_fallback" class="headerlink"><i class="fas fa-link"></i></a>
-
-    </h4>
-    <aside class="phpdocumentor-element-found-in">
-    <abbr class="phpdocumentor-element-found-in__file" title="user/assistente.php"><a href="files/user-assistente.html"><abbr title="user/assistente.php">assistente.php</abbr></a></abbr>
-    :
-    <span class="phpdocumentor-element-found-in__line">14</span>
-
-    </aside>
-
-    
-    
-    <code class="phpdocumentor-code phpdocumentor-signature ">
-    <span class="phpdocumentor-signature__visibility"></span>
-                    <span class="phpdocumentor-signature__name">anthropic_chat_with_fallback</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__type">string&nbsp;</span><span class="phpdocumentor-signature__argument__name">$apiKey</span></span><span class="phpdocumentor-signature__argument"><span>, </span><span class="phpdocumentor-signature__argument__type">string&nbsp;</span><span class="phpdocumentor-signature__argument__name">$systemPrompt</span></span><span class="phpdocumentor-signature__argument"><span>, </span><span class="phpdocumentor-signature__argument__type">array&lt;string|int, mixed&gt;&nbsp;</span><span class="phpdocumentor-signature__argument__name">$mensagens</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">array&lt;string|int, mixed&gt;</span></code>
-
-    
-        <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
-    <dl class="phpdocumentor-argument-list">
-                    <dt class="phpdocumentor-argument-list__entry">
-                <span class="phpdocumentor-argument-list__argument__name">$apiKey</span>
-                : <span class="phpdocumentor-argument-list__argument__type">string</span>
-                            </dt>
-            <dd class="phpdocumentor-argument-list__definition">
-                
-            </dd>
-                    <dt class="phpdocumentor-argument-list__entry">
-                <span class="phpdocumentor-argument-list__argument__name">$systemPrompt</span>
-                : <span class="phpdocumentor-argument-list__argument__type">string</span>
-                            </dt>
-            <dd class="phpdocumentor-argument-list__definition">
-                
-            </dd>
-                    <dt class="phpdocumentor-argument-list__entry">
-                <span class="phpdocumentor-argument-list__argument__name">$mensagens</span>
-                : <span class="phpdocumentor-argument-list__argument__type">array&lt;string|int, mixed&gt;</span>
-                            </dt>
-            <dd class="phpdocumentor-argument-list__definition">
-                
-            </dd>
-            </dl>
-
-    
-
-            <section>
-        <h5 class="phpdocumentor-return-value__heading">Return values</h5>
-        <span class="phpdocumentor-signature__response_type">array&lt;string|int, mixed&gt;</span>
-            </section>
-
-</article>
-                    <article class="phpdocumentor-element -function - ">
-    <h4 class="phpdocumentor-element__name" id="function_ai_resume_texto">
-        ai_resume_texto()
-        <a href="namespaces/default.html#function_ai_resume_texto" class="headerlink"><i class="fas fa-link"></i></a>
-
-    </h4>
-    <aside class="phpdocumentor-element-found-in">
-    <abbr class="phpdocumentor-element-found-in__file" title="user/assistente.php"><a href="files/user-assistente.html"><abbr title="user/assistente.php">assistente.php</abbr></a></abbr>
-    :
-    <span class="phpdocumentor-element-found-in__line">140</span>
-
-    </aside>
-
-    
-    
-    <code class="phpdocumentor-code phpdocumentor-signature ">
-    <span class="phpdocumentor-signature__visibility"></span>
-                    <span class="phpdocumentor-signature__name">ai_resume_texto</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__type">string&nbsp;</span><span class="phpdocumentor-signature__argument__name">$texto</span></span><span class="phpdocumentor-signature__argument"><span>[</span><span>, </span><span class="phpdocumentor-signature__argument__type">int&nbsp;</span><span class="phpdocumentor-signature__argument__name">$limite</span><span> = </span><span class="phpdocumentor-signature__argument__default-value">110</span><span> ]</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">string</span></code>
-
-    
-        <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
-    <dl class="phpdocumentor-argument-list">
-                    <dt class="phpdocumentor-argument-list__entry">
-                <span class="phpdocumentor-argument-list__argument__name">$texto</span>
-                : <span class="phpdocumentor-argument-list__argument__type">string</span>
-                            </dt>
-            <dd class="phpdocumentor-argument-list__definition">
-                
-            </dd>
-                    <dt class="phpdocumentor-argument-list__entry">
-                <span class="phpdocumentor-argument-list__argument__name">$limite</span>
-                : <span class="phpdocumentor-argument-list__argument__type">int</span>
-                 = <span class="phpdocumentor-argument-list__argument__default-value">110</span>            </dt>
-            <dd class="phpdocumentor-argument-list__definition">
-                
-            </dd>
-            </dl>
-
-    
-
-            <section>
-        <h5 class="phpdocumentor-return-value__heading">Return values</h5>
-        <span class="phpdocumentor-signature__response_type">string</span>
-            </section>
-
-</article>
-                    <article class="phpdocumentor-element -function - ">
-    <h4 class="phpdocumentor-element__name" id="function_ai_connect_db_optional">
-        ai_connect_db_optional()
-        <a href="namespaces/default.html#function_ai_connect_db_optional" class="headerlink"><i class="fas fa-link"></i></a>
-
-    </h4>
-    <aside class="phpdocumentor-element-found-in">
-    <abbr class="phpdocumentor-element-found-in__file" title="user/assistente.php"><a href="files/user-assistente.html"><abbr title="user/assistente.php">assistente.php</abbr></a></abbr>
-    :
-    <span class="phpdocumentor-element-found-in__line">159</span>
-
-    </aside>
-
-    
-    
-    <code class="phpdocumentor-code phpdocumentor-signature ">
-    <span class="phpdocumentor-signature__visibility"></span>
-                    <span class="phpdocumentor-signature__name">ai_connect_db_optional</span><span>(</span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type"><abbr title="\mysqli">mysqli</abbr>|null</span></code>
-
-    
-    
-    
-
-            <section>
-        <h5 class="phpdocumentor-return-value__heading">Return values</h5>
-        <span class="phpdocumentor-signature__response_type"><abbr title="\mysqli">mysqli</abbr>|null</span>
-            </section>
-
-</article>
-                    <article class="phpdocumentor-element -function - ">
-    <h4 class="phpdocumentor-element__name" id="function_ai_catalogo_site_contexto">
-        ai_catalogo_site_contexto()
-        <a href="namespaces/default.html#function_ai_catalogo_site_contexto" class="headerlink"><i class="fas fa-link"></i></a>
-
-    </h4>
-    <aside class="phpdocumentor-element-found-in">
-    <abbr class="phpdocumentor-element-found-in__file" title="user/assistente.php"><a href="files/user-assistente.html"><abbr title="user/assistente.php">assistente.php</abbr></a></abbr>
-    :
-    <span class="phpdocumentor-element-found-in__line">200</span>
-
-    </aside>
-
-    
-    
-    <code class="phpdocumentor-code phpdocumentor-signature ">
-    <span class="phpdocumentor-signature__visibility"></span>
-                    <span class="phpdocumentor-signature__name">ai_catalogo_site_contexto</span><span>(</span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">string</span></code>
-
-    
-    
-    
-
-            <section>
-        <h5 class="phpdocumentor-return-value__heading">Return values</h5>
-        <span class="phpdocumentor-signature__response_type">string</span>
-            </section>
-
-</article>
-                    <article class="phpdocumentor-element -function - ">
-    <h4 class="phpdocumentor-element__name" id="function_ai_format_inline">
-        ai_format_inline()
-        <a href="namespaces/default.html#function_ai_format_inline" class="headerlink"><i class="fas fa-link"></i></a>
-
-    </h4>
-    <aside class="phpdocumentor-element-found-in">
-    <abbr class="phpdocumentor-element-found-in__file" title="user/assistente.php"><a href="files/user-assistente.html"><abbr title="user/assistente.php">assistente.php</abbr></a></abbr>
-    :
-    <span class="phpdocumentor-element-found-in__line">298</span>
-
-    </aside>
-
-    
-    
-    <code class="phpdocumentor-code phpdocumentor-signature ">
-    <span class="phpdocumentor-signature__visibility"></span>
-                    <span class="phpdocumentor-signature__name">ai_format_inline</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__type">string&nbsp;</span><span class="phpdocumentor-signature__argument__name">$text</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">string</span></code>
-
-    
-        <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
-    <dl class="phpdocumentor-argument-list">
-                    <dt class="phpdocumentor-argument-list__entry">
-                <span class="phpdocumentor-argument-list__argument__name">$text</span>
-                : <span class="phpdocumentor-argument-list__argument__type">string</span>
-                            </dt>
-            <dd class="phpdocumentor-argument-list__definition">
-                
-            </dd>
-            </dl>
-
-    
-
-            <section>
-        <h5 class="phpdocumentor-return-value__heading">Return values</h5>
-        <span class="phpdocumentor-signature__response_type">string</span>
-            </section>
-
-</article>
-                    <article class="phpdocumentor-element -function - ">
-    <h4 class="phpdocumentor-element__name" id="function_ai_render_response_html">
-        ai_render_response_html()
-        <a href="namespaces/default.html#function_ai_render_response_html" class="headerlink"><i class="fas fa-link"></i></a>
-
-    </h4>
-    <aside class="phpdocumentor-element-found-in">
-    <abbr class="phpdocumentor-element-found-in__file" title="user/assistente.php"><a href="files/user-assistente.html"><abbr title="user/assistente.php">assistente.php</abbr></a></abbr>
-    :
-    <span class="phpdocumentor-element-found-in__line">308</span>
-
-    </aside>
-
-    
-    
-    <code class="phpdocumentor-code phpdocumentor-signature ">
-    <span class="phpdocumentor-signature__visibility"></span>
-                    <span class="phpdocumentor-signature__name">ai_render_response_html</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__type">string&nbsp;</span><span class="phpdocumentor-signature__argument__name">$markdown</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">string</span></code>
-
-    
-        <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
-    <dl class="phpdocumentor-argument-list">
-                    <dt class="phpdocumentor-argument-list__entry">
-                <span class="phpdocumentor-argument-list__argument__name">$markdown</span>
-                : <span class="phpdocumentor-argument-list__argument__type">string</span>
-                            </dt>
-            <dd class="phpdocumentor-argument-list__definition">
-                
-            </dd>
-            </dl>
-
-    
-
-            <section>
-        <h5 class="phpdocumentor-return-value__heading">Return values</h5>
-        <span class="phpdocumentor-signature__response_type">string</span>
             </section>
 
 </article>
@@ -1313,41 +1167,6 @@ quando necessário. Utiliza funções multibyte quando disponíveis.</p>
 
 </article>
                     <article class="phpdocumentor-element -function - ">
-    <h4 class="phpdocumentor-element__name" id="function_safe_http_url">
-        safe_http_url()
-        <a href="namespaces/default.html#function_safe_http_url" class="headerlink"><i class="fas fa-link"></i></a>
-
-    </h4>
-    <aside class="phpdocumentor-element-found-in">
-    <abbr class="phpdocumentor-element-found-in__file" title="user/meu-curso.php"><a href="files/user-meu-curso.html"><abbr title="user/meu-curso.php">meu-curso.php</abbr></a></abbr>
-    :
-    <span class="phpdocumentor-element-found-in__line">177</span>
-
-    </aside>
-
-    
-    
-    <code class="phpdocumentor-code phpdocumentor-signature ">
-    <span class="phpdocumentor-signature__visibility"></span>
-                    <span class="phpdocumentor-signature__name">safe_http_url</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__type">mixed&nbsp;</span><span class="phpdocumentor-signature__argument__name">$url</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">mixed</span></code>
-
-    
-        <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
-    <dl class="phpdocumentor-argument-list">
-                    <dt class="phpdocumentor-argument-list__entry">
-                <span class="phpdocumentor-argument-list__argument__name">$url</span>
-                : <span class="phpdocumentor-argument-list__argument__type">mixed</span>
-                            </dt>
-            <dd class="phpdocumentor-argument-list__definition">
-                
-            </dd>
-            </dl>
-
-    
-
-    
-</article>
-                    <article class="phpdocumentor-element -function - ">
     <h4 class="phpdocumentor-element__name" id="function_painel_scalar">
         painel_scalar()
         <a href="namespaces/default.html#function_painel_scalar" class="headerlink"><i class="fas fa-link"></i></a>
@@ -1356,17 +1175,21 @@ quando necessário. Utiliza funções multibyte quando disponíveis.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="user/painel.php"><a href="files/user-painel.html"><abbr title="user/painel.php">painel.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">15</span>
+    <span class="phpdocumentor-element-found-in__line">27</span>
 
     </aside>
 
-    
+        <p class="phpdocumentor-summary">Executes a scalar COUNT or aggregate query and returns the result as an integer.</p>
+
     
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility"></span>
-                    <span class="phpdocumentor-signature__name">painel_scalar</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__type"><abbr title="\mysqli">mysqli</abbr>&nbsp;</span><span class="phpdocumentor-signature__argument__name">$cx</span></span><span class="phpdocumentor-signature__argument"><span>, </span><span class="phpdocumentor-signature__argument__type">string&nbsp;</span><span class="phpdocumentor-signature__argument__name">$sql</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">int</span></code>
+                    <span class="phpdocumentor-signature__name">painel_scalar</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__type"><abbr title="\mysqli">mysqli</abbr>&nbsp;</span><span class="phpdocumentor-signature__argument__name">$cx</span></span><span class="phpdocumentor-signature__argument"><span>, </span><span class="phpdocumentor-signature__argument__type">string&nbsp;</span><span class="phpdocumentor-signature__argument__name">$sql</span></span><span class="phpdocumentor-signature__argument"><span>[</span><span>, </span><span class="phpdocumentor-signature__argument__type">string&nbsp;</span><span class="phpdocumentor-signature__argument__name">$types</span><span> = </span><span class="phpdocumentor-signature__argument__default-value">''</span><span> ]</span></span><span class="phpdocumentor-signature__argument"><span>[</span><span>, </span><span class="phpdocumentor-signature__argument__type">array&lt;string|int, mixed&gt;&nbsp;</span><span class="phpdocumentor-signature__argument__name">$params</span><span> = </span><span class="phpdocumentor-signature__argument__default-value">[]</span><span> ]</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">int</span></code>
 
-    
+        <section class="phpdocumentor-description"><p>Supports parameterized queries via mysqli prepared statements to prevent SQL injection.
+Returns 0 on failure and logs the error for debugging.</p>
+</section>
+
         <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
     <dl class="phpdocumentor-argument-list">
                     <dt class="phpdocumentor-argument-list__entry">
@@ -1374,14 +1197,36 @@ quando necessário. Utiliza funções multibyte quando disponíveis.</p>
                 : <span class="phpdocumentor-argument-list__argument__type"><abbr title="\mysqli">mysqli</abbr></span>
                             </dt>
             <dd class="phpdocumentor-argument-list__definition">
-                
+                    <section class="phpdocumentor-description"><p>Active database connection.</p>
+</section>
+
             </dd>
                     <dt class="phpdocumentor-argument-list__entry">
                 <span class="phpdocumentor-argument-list__argument__name">$sql</span>
                 : <span class="phpdocumentor-argument-list__argument__type">string</span>
                             </dt>
             <dd class="phpdocumentor-argument-list__definition">
-                
+                    <section class="phpdocumentor-description"><p>SQL query with optional ? placeholders.</p>
+</section>
+
+            </dd>
+                    <dt class="phpdocumentor-argument-list__entry">
+                <span class="phpdocumentor-argument-list__argument__name">$types</span>
+                : <span class="phpdocumentor-argument-list__argument__type">string</span>
+                 = <span class="phpdocumentor-argument-list__argument__default-value">''</span>            </dt>
+            <dd class="phpdocumentor-argument-list__definition">
+                    <section class="phpdocumentor-description"><p>bind_param type string (e.g. 'i', 'ss'). Empty for queries without parameters.</p>
+</section>
+
+            </dd>
+                    <dt class="phpdocumentor-argument-list__entry">
+                <span class="phpdocumentor-argument-list__argument__name">$params</span>
+                : <span class="phpdocumentor-argument-list__argument__type">array&lt;string|int, mixed&gt;</span>
+                 = <span class="phpdocumentor-argument-list__argument__default-value">[]</span>            </dt>
+            <dd class="phpdocumentor-argument-list__definition">
+                    <section class="phpdocumentor-description"><p>Ordered values to bind. Must match $types.</p>
+</section>
+
             </dd>
             </dl>
 
@@ -1390,6 +1235,10 @@ quando necessário. Utiliza funções multibyte quando disponíveis.</p>
             <section>
         <h5 class="phpdocumentor-return-value__heading">Return values</h5>
         <span class="phpdocumentor-signature__response_type">int</span>
+                    &mdash;
+                <section class="phpdocumentor-description"><p>First column of first row cast to int, or 0 on error.</p>
+</section>
+
             </section>
 
 </article>
@@ -1402,17 +1251,21 @@ quando necessário. Utiliza funções multibyte quando disponíveis.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="user/painel.php"><a href="files/user-painel.html"><abbr title="user/painel.php">painel.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">31</span>
+    <span class="phpdocumentor-element-found-in__line">72</span>
 
     </aside>
 
-    
+        <p class="phpdocumentor-summary">Executes a SELECT query and returns all rows as an associative array.</p>
+
     
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility"></span>
-                    <span class="phpdocumentor-signature__name">painel_fetch_all</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__type"><abbr title="\mysqli">mysqli</abbr>&nbsp;</span><span class="phpdocumentor-signature__argument__name">$cx</span></span><span class="phpdocumentor-signature__argument"><span>, </span><span class="phpdocumentor-signature__argument__type">string&nbsp;</span><span class="phpdocumentor-signature__argument__name">$sql</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">array&lt;string|int, mixed&gt;</span></code>
+                    <span class="phpdocumentor-signature__name">painel_fetch_all</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__type"><abbr title="\mysqli">mysqli</abbr>&nbsp;</span><span class="phpdocumentor-signature__argument__name">$cx</span></span><span class="phpdocumentor-signature__argument"><span>, </span><span class="phpdocumentor-signature__argument__type">string&nbsp;</span><span class="phpdocumentor-signature__argument__name">$sql</span></span><span class="phpdocumentor-signature__argument"><span>[</span><span>, </span><span class="phpdocumentor-signature__argument__type">string&nbsp;</span><span class="phpdocumentor-signature__argument__name">$types</span><span> = </span><span class="phpdocumentor-signature__argument__default-value">''</span><span> ]</span></span><span class="phpdocumentor-signature__argument"><span>[</span><span>, </span><span class="phpdocumentor-signature__argument__type">array&lt;string|int, mixed&gt;&nbsp;</span><span class="phpdocumentor-signature__argument__name">$params</span><span> = </span><span class="phpdocumentor-signature__argument__default-value">[]</span><span> ]</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">array&lt;string|int, mixed&gt;</span></code>
 
-    
+        <section class="phpdocumentor-description"><p>Supports parameterized queries via mysqli prepared statements to prevent SQL injection.
+Returns an empty array on failure and logs the error for debugging.</p>
+</section>
+
         <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
     <dl class="phpdocumentor-argument-list">
                     <dt class="phpdocumentor-argument-list__entry">
@@ -1420,14 +1273,36 @@ quando necessário. Utiliza funções multibyte quando disponíveis.</p>
                 : <span class="phpdocumentor-argument-list__argument__type"><abbr title="\mysqli">mysqli</abbr></span>
                             </dt>
             <dd class="phpdocumentor-argument-list__definition">
-                
+                    <section class="phpdocumentor-description"><p>Active database connection.</p>
+</section>
+
             </dd>
                     <dt class="phpdocumentor-argument-list__entry">
                 <span class="phpdocumentor-argument-list__argument__name">$sql</span>
                 : <span class="phpdocumentor-argument-list__argument__type">string</span>
                             </dt>
             <dd class="phpdocumentor-argument-list__definition">
-                
+                    <section class="phpdocumentor-description"><p>SQL query with optional ? placeholders.</p>
+</section>
+
+            </dd>
+                    <dt class="phpdocumentor-argument-list__entry">
+                <span class="phpdocumentor-argument-list__argument__name">$types</span>
+                : <span class="phpdocumentor-argument-list__argument__type">string</span>
+                 = <span class="phpdocumentor-argument-list__argument__default-value">''</span>            </dt>
+            <dd class="phpdocumentor-argument-list__definition">
+                    <section class="phpdocumentor-description"><p>bind_param type string (e.g. 'i', 'ss'). Empty for queries without parameters.</p>
+</section>
+
+            </dd>
+                    <dt class="phpdocumentor-argument-list__entry">
+                <span class="phpdocumentor-argument-list__argument__name">$params</span>
+                : <span class="phpdocumentor-argument-list__argument__type">array&lt;string|int, mixed&gt;</span>
+                 = <span class="phpdocumentor-argument-list__argument__default-value">[]</span>            </dt>
+            <dd class="phpdocumentor-argument-list__definition">
+                    <section class="phpdocumentor-description"><p>Ordered values to bind. Must match $types.</p>
+</section>
+
             </dd>
             </dl>
 
@@ -1436,6 +1311,10 @@ quando necessário. Utiliza funções multibyte quando disponíveis.</p>
             <section>
         <h5 class="phpdocumentor-return-value__heading">Return values</h5>
         <span class="phpdocumentor-signature__response_type">array&lt;string|int, mixed&gt;</span>
+                    &mdash;
+                <section class="phpdocumentor-description"><p>Array of associative rows, or [] on error.</p>
+</section>
+
             </section>
 
 </article>
@@ -1511,22 +1390,24 @@ adicionando reticências quando necessário. Suporta multibyte strings.</p>
             <li class="phpdocumentor-on-this-page-section__title">Table Of Contents</li>
             <li>
                 <ul class="phpdocumentor-list -clean">
-                                                                                                                                                                                        <li><a href="packages/Application.html#toc-functions">Functions</a></li>
+                                                                                                        <li><a href="packages/Application.html#toc-classes">Classes</a></li>
+                                                                                                        <li><a href="packages/Application.html#toc-constants">Constants</a></li>
+                                                                <li><a href="packages/Application.html#toc-functions">Functions</a></li>
                                     </ul>
             </li>
 
+                            <li class="phpdocumentor-on-this-page-section__title">Constants</li>
+                <li>
+                    <ul class="phpdocumentor-list -clean">
+                                                    <li class=""><a href="namespaces/default.html#constant_SESSION_TIMEOUT">SESSION_TIMEOUT</a></li>
+                                            </ul>
+                </li>
             
                             <li class="phpdocumentor-on-this-page-section__title">Functions</li>
                 <li>
                     <ul class="phpdocumentor-list -clean">
                                                     <li class=""><a href="namespaces/default.html#function_admin_check">admin_check()</a></li>
                                                     <li class=""><a href="namespaces/default.html#function_admin_scalar">admin_scalar()</a></li>
-                                                    <li class=""><a href="namespaces/default.html#function_ai_catalogo_site_contexto">ai_catalogo_site_contexto()</a></li>
-                                                    <li class=""><a href="namespaces/default.html#function_ai_connect_db_optional">ai_connect_db_optional()</a></li>
-                                                    <li class=""><a href="namespaces/default.html#function_ai_format_inline">ai_format_inline()</a></li>
-                                                    <li class=""><a href="namespaces/default.html#function_ai_render_response_html">ai_render_response_html()</a></li>
-                                                    <li class=""><a href="namespaces/default.html#function_ai_resume_texto">ai_resume_texto()</a></li>
-                                                    <li class=""><a href="namespaces/default.html#function_anthropic_chat_with_fallback">anthropic_chat_with_fallback()</a></li>
                                                     <li class=""><a href="namespaces/default.html#function_app_absolute_url">app_absolute_url()</a></li>
                                                     <li class=""><a href="namespaces/default.html#function_app_base_path">app_base_path()</a></li>
                                                     <li class=""><a href="namespaces/default.html#function_app_url">app_url()</a></li>
@@ -1544,7 +1425,7 @@ adicionando reticências quando necessário. Suporta multibyte strings.</p>
                                                     <li class=""><a href="namespaces/default.html#function_resumo_curso">resumo_curso()</a></li>
                                                     <li class=""><a href="namespaces/default.html#function_resumo_home">resumo_home()</a></li>
                                                     <li class=""><a href="namespaces/default.html#function_resumo_vaga">resumo_vaga()</a></li>
-                                                    <li class=""><a href="namespaces/default.html#function_safe_http_url">safe_http_url()</a></li>
+                                                    <li class=""><a href="namespaces/default.html#function_session_check_timeout">session_check_timeout()</a></li>
                                                     <li class=""><a href="namespaces/default.html#function_split_lines">split_lines()</a></li>
                                                     <li class=""><a href="namespaces/default.html#function_validaCPF">validaCPF()</a></li>
                                             </ul>

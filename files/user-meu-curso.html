@@ -57,7 +57,20 @@
     Menu
 </label>
 <aside class="phpdocumentor-column -three phpdocumentor-sidebar">
-                    <section class="phpdocumentor-sidebar__category -packages">
+                    <section class="phpdocumentor-sidebar__category -namespaces">
+            <h2 class="phpdocumentor-sidebar__category-header">Namespaces</h2>
+                                    <h4 class="phpdocumentor-sidebar__root-namespace">
+    <a href="namespaces/tests.html" class="">Tests</a>
+</h4>
+    <ul class="phpdocumentor-list">
+                    <li>
+                <a href="namespaces/tests-unit.html" class="">Unit</a>
+                
+            </li>
+            </ul>
+
+                        </section>
+                <section class="phpdocumentor-sidebar__category -packages">
             <h2 class="phpdocumentor-sidebar__category-header">Packages</h2>
                                     <h4 class="phpdocumentor-sidebar__root-namespace">
     <a href="packages/Application.html" class="">Application</a>
@@ -85,15 +98,19 @@
             <div class="phpdocumentor-column -nine phpdocumentor-content">
                                 <section>
                                         <ul class="phpdocumentor-breadcrumbs">
-            <li class="phpdocumentor-breadcrumb"><a href="packages/Application.html">Application</a></li>
     </ul>
 
     <article class="phpdocumentor-element -file">
         <h2 class="phpdocumentor-content__title">meu-curso.php</h2>
 
+            <p class="phpdocumentor-summary">Visualizador de aulas do curso inscrito</p>
+
         
-        
-        
+            <section class="phpdocumentor-description"><p>Permite ao aluno navegar pelos módulos e aulas, marcar progresso,
+avaliar aulas com 1–5 estrelas e acompanhar expiração de acesso.
+Ao atingir 100%, a inscrição é marcada como concluída automaticamente.</p>
+</section>
+
         
 
 
@@ -123,8 +140,9 @@
             <dt class="phpdocumentor-table-of-contents__entry -function -">
     <a class="" href="namespaces/default.html#function_safe_http_url">safe_http_url()</a>
     <span>
-                                &nbsp;: mixed    </span>
+                                &nbsp;: string    </span>
 </dt>
+<dd>Valida e retorna uma URL HTTP/HTTPS segura.</dd>
 
     </dl>
 
@@ -146,17 +164,21 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="user/meu-curso.php"><a href="files/user-meu-curso.html"><abbr title="user/meu-curso.php">meu-curso.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">177</span>
+    <span class="phpdocumentor-element-found-in__line">326</span>
 
     </aside>
 
-    
+        <p class="phpdocumentor-summary">Valida e retorna uma URL HTTP/HTTPS segura.</p>
+
     
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility"></span>
-                    <span class="phpdocumentor-signature__name">safe_http_url</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__type">mixed&nbsp;</span><span class="phpdocumentor-signature__argument__name">$url</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">mixed</span></code>
+                    <span class="phpdocumentor-signature__name">safe_http_url</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__type">mixed&nbsp;</span><span class="phpdocumentor-signature__argument__name">$url</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">string</span></code>
 
-    
+        <section class="phpdocumentor-description"><p>Rejeita URLs com protocolos não-HTTP (javascript:, data:, etc.)
+para evitar vetores de XSS em src e href.</p>
+</section>
+
         <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
     <dl class="phpdocumentor-argument-list">
                     <dt class="phpdocumentor-argument-list__entry">
@@ -164,13 +186,23 @@
                 : <span class="phpdocumentor-argument-list__argument__type">mixed</span>
                             </dt>
             <dd class="phpdocumentor-argument-list__definition">
-                
+                    <section class="phpdocumentor-description"><p>Valor bruto recebido do banco.</p>
+</section>
+
             </dd>
             </dl>
 
     
 
-    
+            <section>
+        <h5 class="phpdocumentor-return-value__heading">Return values</h5>
+        <span class="phpdocumentor-signature__response_type">string</span>
+                    &mdash;
+                <section class="phpdocumentor-description"><p>URL validada ou string vazia se inválida.</p>
+</section>
+
+            </section>
+
 </article>
             </section>
 
