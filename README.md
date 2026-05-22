@@ -158,10 +158,10 @@ Um pipeline de conformidade web. Ele instala a ferramenta html-validate e verifi
 ## O que detecta:
 | Problema | Exemplo |
 |----------|---------|
-| Tag não fechada | `<div>` sem </div> |
-| Atributo obrigatório ausente | <img> sem alt |
-| Tags obsoletas | <center>, <font> | 
-| Link inválido | <a> sem href |
+| Tag não fechada | `<div>` sem `</div>` |
+| Atributo obrigatório ausente | `<img>` sem alt |
+| Tags obsoletas | `<center>`, `<font>` | 
+| Link inválido | `<a>` sem `href` |
 
 ## Por que é importante:
 HTML mal escrito pode causar problemas de exibição em diferentes navegadores e prejudicar a acessibilidade do site.
