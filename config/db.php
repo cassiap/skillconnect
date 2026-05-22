@@ -48,5 +48,6 @@ try {
     $cx = new mysqli($host, $user, $pass, $db, $port);
     $cx->set_charset("utf8mb4");
 } catch (mysqli_sql_exception $e) {
+    error_log('db.php connection error: ' . $e->getMessage());
     die("Erro DB: falha ao conectar com o banco.");
 }

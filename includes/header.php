@@ -41,62 +41,8 @@ $_flash_info = get_flash('info');
 
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css" rel="stylesheet">
 <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta2/css/all.min.css" rel="stylesheet">
+<link href="<?= $_base ?>/css/skillconnect.css" rel="stylesheet">
 <meta charset="utf-8">
-<style>
-    .sc-header {
-        background: #ffffff;
-        border-bottom: 1px solid #e5e7eb;
-    }
-    .sc-brand {
-        font-weight: 800;
-        color: #0f172a !important;
-        letter-spacing: .2px;
-    }
-    .sc-brand-mark {
-        width: 12px;
-        height: 12px;
-        border-radius: 999px;
-        display: inline-block;
-        margin-right: 8px;
-        background: linear-gradient(135deg, #1d4ed8 0%, #0f766e 100%);
-        box-shadow: 0 0 0 4px rgba(29, 78, 216, .12);
-    }
-    .sc-nav-link {
-        color: #334155 !important;
-        font-weight: 500;
-        border-radius: 10px;
-        padding: 7px 11px !important;
-        margin-right: 3px;
-    }
-    .sc-nav-link:hover {
-        background: #f1f5f9;
-        color: #0f172a !important;
-    }
-    .sc-nav-link.active {
-        background: #eff6ff;
-        color: #1d4ed8 !important;
-    }
-    .sc-auth-btn {
-        border-radius: 999px;
-        font-weight: 600;
-        padding: 7px 14px !important;
-    }
-    .sc-auth-btn-login {
-        border: 1px solid #e2e8f0;
-        color: #0f172a !important;
-        margin-right: 8px;
-    }
-    .sc-auth-btn-register {
-        border: 1px solid #bfdbfe;
-        background: #eff6ff;
-        color: #1e3a8a !important;
-    }
-    .sc-flash-wrap {
-        max-width: 1140px;
-        margin: 14px auto 0;
-        padding: 0 15px;
-    }
-</style>
 
 <nav class="navbar navbar-expand-lg sc-header sticky-top">
     <div class="container">

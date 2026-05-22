@@ -1,7 +1,9 @@
-name: Verificar PHP
+name: CI — Sintaxe e Testes
 
 on:
   push:
+    branches: [ main ]
+  pull_request:
     branches: [ main ]
 
 jobs:
@@ -12,10 +14,18 @@ jobs:
       - name: Baixar o código
         uses: actions/checkout@v4
 
-      - name: Instalar PHP
+      - name: Instalar PHP 8.2
         uses: shivammathur/setup-php@v2
         with:
-          php-version: '8.1'
+          php-version: '8.2'
+          extensions: mysqli
+          coverage: none
 
       - name: Checar sintaxe dos arquivos PHP
-        run: find . -name "*.php" -exec php -l {} \;
+        run: find . -name "*.php" -not -path "./vendor/*" -exec php -l {} \;
+
+      - name: Instalar dependências Composer (dev)
+        run: composer install --no-interaction --no-progress --prefer-dist
+
+      - name: Executar testes unitários (PHPUnit)
+        run: vendor/bin/phpunit --testdox

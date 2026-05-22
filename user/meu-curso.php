@@ -1,4 +1,14 @@
 <?php
+/**
+ * Visualizador de aulas do curso inscrito
+ *
+ * Permite ao aluno navegar pelos módulos e aulas, marcar progresso,
+ * avaliar aulas com 1–5 estrelas e acompanhar expiração de acesso.
+ * Ao atingir 100%, a inscrição é marcada como concluída automaticamente.
+ *
+ * @package SkillConnect
+ */
+
 require_once __DIR__ . '/../config/db.php';
 
 auth_check();
@@ -8,8 +18,8 @@ if (($_SESSION['perfil'] ?? '') === 'admin') {
     redirect(app_url('admin/admin.php'));
 }
 
-$usuarioId = (int) ($_SESSION['user_id'] ?? 0);
-$cursoId = (int) ($_GET['curso_id'] ?? $_POST['curso_id'] ?? 0);
+$usuarioId        = (int) ($_SESSION['user_id'] ?? 0);
+$cursoId          = (int) ($_GET['curso_id'] ?? $_POST['curso_id'] ?? 0);
 $aulaSelecionadaId = (int) ($_GET['aula'] ?? $_POST['aula_atual'] ?? 0);
 
 if ($cursoId <= 0) {
@@ -17,8 +27,10 @@ if ($cursoId <= 0) {
     redirect('meus-cursos.php');
 }
 
-// Garante que o aluno esta inscrito no curso.
-$inscricaoStmt = $cx->prepare("SELECT id, status FROM inscricoes_cursos WHERE usuario_id = ? AND curso_id = ? LIMIT 1");
+// Inscrição + data de expiração
+$inscricaoStmt = $cx->prepare(
+    "SELECT id, status, acesso_expira_em FROM inscricoes_cursos WHERE usuario_id = ? AND curso_id = ? LIMIT 1"
+);
 $inscricaoStmt->bind_param("ii", $usuarioId, $cursoId);
 $inscricaoStmt->execute();
 $inscricao = $inscricaoStmt->get_result()->fetch_assoc();
@@ -29,23 +41,74 @@ if (!$inscricao) {
     redirect('meus-cursos.php');
 }
 
-if (($inscricao['status'] ?? '') === 'cancelado') {
+if (($inscricao['status'] ?? '') === STATUS_INSC_CANCELADO) {
     flash('error', 'Sua inscricao neste curso esta cancelada.');
     redirect('meus-cursos.php');
 }
 
+// Calcula estado de expiração
+$expirado       = false;
+$expirandoBreve = false;
+$diasRestantes  = null;
+
+if (!empty($inscricao['acesso_expira_em'])) {
+    $expiraTs = strtotime((string) $inscricao['acesso_expira_em']);
+    $agora    = time();
+    $expirado = $agora > $expiraTs;
+    if (!$expirado) {
+        $diasRestantes  = (int) ceil(($expiraTs - $agora) / 86400);
+        $expirandoBreve = $diasRestantes <= 7;
+    }
+}
+
+// ===== POST =====
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $aulaAtual = (int) ($_POST['aula_atual'] ?? $aulaSelecionadaId);
+
     if (!csrf_validate()) {
         flash('error', 'Sessao expirada. Tente novamente.');
         redirect("meu-curso.php?curso_id={$cursoId}&aula={$aulaAtual}");
     }
 
+    $acao   = trim((string) ($_POST['acao'] ?? ''));
     $aulaId = (int) ($_POST['aula_id'] ?? 0);
-    $acao = trim((string) ($_POST['acao'] ?? ''));
+
+    // ----- Avaliação de aula -----
+    if ($acao === 'avaliar') {
+        $nota       = (int) ($_POST['nota'] ?? 0);
+        $comentario = trim((string) ($_POST['comentario'] ?? ''));
+
+        if ($aulaId <= 0 || $nota < 1 || $nota > 5) {
+            flash('error', 'Avaliacao invalida.');
+            redirect("meu-curso.php?curso_id={$cursoId}&aula={$aulaId}");
+        }
+
+        try {
+            $avStmt = $cx->prepare(
+                "INSERT INTO avaliacoes_aulas (usuario_id, aula_id, nota, comentario)
+                 VALUES (?, ?, ?, ?)
+                 ON DUPLICATE KEY UPDATE nota = VALUES(nota), comentario = VALUES(comentario), atualizado_em = NOW()"
+            );
+            $avStmt->bind_param("iiis", $usuarioId, $aulaId, $nota, $comentario);
+            $avStmt->execute();
+            $avStmt->close();
+            flash('success', 'Avaliacao salva!');
+        } catch (mysqli_sql_exception $e) {
+            error_log('meu-curso.php avaliacao insert error: ' . $e->getMessage());
+            flash('error', 'Erro ao salvar avaliacao.');
+        }
+
+        redirect("meu-curso.php?curso_id={$cursoId}&aula={$aulaId}");
+    }
+
+    // ----- Progresso (concluir / desfazer) — bloqueado se expirado -----
+    if ($expirado) {
+        flash('error', 'Seu acesso a este curso expirou.');
+        redirect("meu-curso.php?curso_id={$cursoId}&aula={$aulaAtual}");
+    }
 
     if ($aulaId > 0) {
-        // Valida se aula pertence ao curso.
+        // Valida se aula pertence ao curso
         $valStmt = $cx->prepare(
             "SELECT a.id
              FROM aulas a
@@ -66,10 +129,38 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     $ins->execute();
                     $ins->close();
                     flash('success', 'Aula marcada como concluida.');
+
+                    // Verifica se o curso foi 100% completado
+                    $checkStmt = $cx->prepare(
+                        "SELECT COUNT(a.id) AS total,
+                                SUM(CASE WHEN pa.id IS NOT NULL THEN 1 ELSE 0 END) AS concluidas
+                         FROM aulas a
+                         INNER JOIN modulos m ON m.id = a.modulo_id
+                         LEFT JOIN progresso_aulas pa ON pa.aula_id = a.id AND pa.usuario_id = ?
+                         WHERE m.curso_id = ? AND m.ativo = 1 AND a.ativo = 1"
+                    );
+                    $checkStmt->bind_param("ii", $usuarioId, $cursoId);
+                    $checkStmt->execute();
+                    $checkRow = $checkStmt->get_result()->fetch_assoc();
+                    $checkStmt->close();
+
+                    if ($checkRow && (int) $checkRow['total'] > 0
+                        && (int) $checkRow['total'] === (int) $checkRow['concluidas']
+                    ) {
+                        $complStmt = $cx->prepare(
+                            "UPDATE inscricoes_cursos SET status = '" . STATUS_INSC_CONCLUIDO . "'
+                             WHERE usuario_id = ? AND curso_id = ? AND status != '" . STATUS_INSC_CONCLUIDO . "'"
+                        );
+                        $complStmt->bind_param("ii", $usuarioId, $cursoId);
+                        $complStmt->execute();
+                        $complStmt->close();
+                        flash('success', 'Curso concluido! Seu certificado esta disponivel.');
+                    }
                 } catch (mysqli_sql_exception $e) {
                     if ((int) $e->getCode() === 1062) {
                         flash('info', 'Essa aula ja estava marcada como concluida.');
                     } else {
+                        error_log('meu-curso.php progresso_aulas insert error: ' . $e->getMessage());
                         flash('error', 'Nao foi possivel atualizar o progresso.');
                     }
                 }
@@ -78,6 +169,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 $del->bind_param("ii", $usuarioId, $aulaId);
                 $del->execute();
                 $del->close();
+
+                // Se o curso estava como concluído, reverte para em andamento
+                $revStmt = $cx->prepare(
+                    "UPDATE inscricoes_cursos SET status = '" . STATUS_INSC_CONFIRMADO . "'
+                     WHERE usuario_id = ? AND curso_id = ? AND status = '" . STATUS_INSC_CONCLUIDO . "'"
+                );
+                $revStmt->bind_param("ii", $usuarioId, $cursoId);
+                $revStmt->execute();
+                $revStmt->close();
+
                 flash('info', 'Aula desmarcada.');
             }
         }
@@ -87,7 +188,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 }
 
 // Dados do curso
-$cursoStmt = $cx->prepare("SELECT id, titulo, descricao, carga_horaria, modalidade, nivel FROM cursos WHERE id = ? LIMIT 1");
+$cursoStmt = $cx->prepare(
+    "SELECT id, titulo, descricao, carga_horaria, modalidade, nivel FROM cursos WHERE id = ? LIMIT 1"
+);
 $cursoStmt->bind_param("i", $cursoId);
 $cursoStmt->execute();
 $curso = $cursoStmt->get_result()->fetch_assoc();
@@ -98,7 +201,7 @@ if (!$curso) {
     redirect('meus-cursos.php');
 }
 
-// Carrega modulos e aulas com status de progresso.
+// Módulos, aulas e progresso
 $itensStmt = $cx->prepare(
     "SELECT
         m.id AS modulo_id,
@@ -122,37 +225,39 @@ $itensStmt->bind_param("ii", $usuarioId, $cursoId);
 $itensStmt->execute();
 $res = $itensStmt->get_result();
 
-$modulos = [];
-$totAulas = 0;
-$totConcluidas = 0;
-$primeiraAula = null;
+$modulos        = [];
+$totAulas       = 0;
+$totConcluidas  = 0;
+$primeiraAula   = null;
 $aulaSelecionada = null;
+$aulaIds        = [];
 
 while ($row = $res->fetch_assoc()) {
     $mid = (int) $row['modulo_id'];
     if (!isset($modulos[$mid])) {
         $modulos[$mid] = [
-            'id' => $mid,
+            'id'     => $mid,
             'titulo' => $row['modulo_titulo'],
-            'ordem' => (int) $row['modulo_ordem'],
-            'aulas' => [],
+            'ordem'  => (int) $row['modulo_ordem'],
+            'aulas'  => [],
         ];
     }
 
     if (!empty($row['aula_id'])) {
         $concluida = !empty($row['progresso_id']);
         $aula = [
-            'id' => (int) $row['aula_id'],
-            'titulo' => $row['aula_titulo'],
-            'conteudo' => $row['aula_conteudo'] ?? '',
-            'video_url' => $row['aula_video_url'] ?? '',
+            'id'           => (int) $row['aula_id'],
+            'titulo'       => $row['aula_titulo'],
+            'conteudo'     => $row['aula_conteudo'] ?? '',
+            'video_url'    => $row['aula_video_url'] ?? '',
             'material_url' => $row['aula_material_url'] ?? '',
             'modulo_titulo' => $row['modulo_titulo'] ?? '',
-            'duracao_min' => (int) ($row['duracao_min'] ?? 0),
-            'ordem' => (int) ($row['aula_ordem'] ?? 0),
-            'concluida' => $concluida,
+            'duracao_min'  => (int) ($row['duracao_min'] ?? 0),
+            'ordem'        => (int) ($row['aula_ordem'] ?? 0),
+            'concluida'    => $concluida,
         ];
         $modulos[$mid]['aulas'][] = $aula;
+        $aulaIds[] = $aula['id'];
 
         if ($primeiraAula === null) {
             $primeiraAula = $aula;
@@ -174,22 +279,63 @@ if ($aulaSelecionada === null) {
     $aulaSelecionada = $primeiraAula;
 }
 
-function safe_http_url($url) {
+// Médias de avaliação por aula
+$mediaAvaliacoes = [];
+if ($aulaIds !== []) {
+    $placeholders = implode(',', array_fill(0, count($aulaIds), '?'));
+    $types        = str_repeat('i', count($aulaIds));
+    $avgStmt      = $cx->prepare(
+        "SELECT aula_id, ROUND(AVG(nota), 1) AS media, COUNT(*) AS total
+         FROM avaliacoes_aulas
+         WHERE aula_id IN ({$placeholders})
+         GROUP BY aula_id"
+    );
+    $avgStmt->bind_param($types, ...$aulaIds);
+    $avgStmt->execute();
+    $avgRes = $avgStmt->get_result();
+    while ($avgRow = $avgRes->fetch_assoc()) {
+        $mediaAvaliacoes[(int) $avgRow['aula_id']] = [
+            'media' => (float) $avgRow['media'],
+            'total' => (int) $avgRow['total'],
+        ];
+    }
+    $avgStmt->close();
+}
+
+// Avaliação do aluno na aula selecionada
+$minhaAvaliacao = null;
+if ($aulaSelecionada) {
+    $myRatingStmt = $cx->prepare(
+        "SELECT nota, comentario FROM avaliacoes_aulas WHERE usuario_id = ? AND aula_id = ? LIMIT 1"
+    );
+    $myRatingStmt->bind_param("ii", $usuarioId, (int) $aulaSelecionada['id']);
+    $myRatingStmt->execute();
+    $minhaAvaliacao = $myRatingStmt->get_result()->fetch_assoc();
+    $myRatingStmt->close();
+}
+
+/**
+ * Valida e retorna uma URL HTTP/HTTPS segura.
+ *
+ * Rejeita URLs com protocolos não-HTTP (javascript:, data:, etc.)
+ * para evitar vetores de XSS em src e href.
+ *
+ * @param mixed $url Valor bruto recebido do banco.
+ * @return string URL validada ou string vazia se inválida.
+ */
+function safe_http_url($url): string {
     $url = trim((string) $url);
     if ($url === '') {
         return '';
     }
-
     if (!filter_var($url, FILTER_VALIDATE_URL)) {
         return '';
     }
-
-    $parts = parse_url($url);
+    $parts  = parse_url($url);
     $scheme = strtolower((string) ($parts['scheme'] ?? ''));
     if ($scheme !== 'http' && $scheme !== 'https') {
         return '';
     }
-
     return $url;
 }
 ?>
@@ -201,167 +347,262 @@ function safe_http_url($url) {
     <title>Meu Curso - SkillConnect</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta2/css/all.min.css" rel="stylesheet">
-    <style>
-        .hero {
-            border-radius: 14px;
-            background: linear-gradient(120deg, #0f766e 0%, #1d4ed8 100%);
-            color: #fff;
-            padding: 22px;
-        }
-        .lesson-card {
-            border: 1px solid #e2e8f0;
-            border-radius: 12px;
-            background: #fff;
-            margin-bottom: 10px;
-        }
-        .lesson-done {
-            border-color: #86efac;
-            background: #f0fdf4;
-        }
-        .lesson-selected {
-            border-color: #93c5fd;
-            box-shadow: 0 0 0 2px rgba(59, 130, 246, .12);
-        }
-        .progress {
-            height: 10px;
-            border-radius: 999px;
-            background: #dbeafe;
-        }
-        .lesson-stage {
-            border: 1px dashed #cbd5e1;
-            border-radius: 12px;
-            min-height: 320px;
-            background: linear-gradient(180deg, #f8fafc 0%, #eef2f7 100%);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            padding: 22px;
-        }
-        .lesson-stage-note {
-            text-align: center;
-            color: #475569;
-            max-width: 560px;
-        }
-    </style>
 </head>
 <body class="bg-light">
 
 <?php include('../includes/header.php'); ?>
 
 <div class="container py-4">
-    <div class="hero mb-4">
-        <h1 class="h4 mb-1"><?php echo htmlspecialchars($curso['titulo']); ?></h1>
-        <p class="mb-2"><?php echo htmlspecialchars($curso['descricao'] ?? ''); ?></p>
+
+    <!-- Hero do curso -->
+    <div class="hero-meu-curso mb-4">
+        <h1 class="h4 mb-1"><?= htmlspecialchars($curso['titulo']) ?></h1>
+        <p class="mb-2"><?= htmlspecialchars((string) ($curso['descricao'] ?? '')) ?></p>
         <div class="small">
-            <?php echo htmlspecialchars($curso['modalidade'] ?? '-'); ?> |
-            <?php echo htmlspecialchars($curso['nivel'] ?? '-'); ?> |
-            <?php echo $curso['carga_horaria'] ? (int) $curso['carga_horaria'] . 'h' : '-'; ?>
+            <?= htmlspecialchars((string) ($curso['modalidade'] ?? '-')) ?> |
+            <?= htmlspecialchars((string) ($curso['nivel'] ?? '-')) ?> |
+            <?= $curso['carga_horaria'] ? (int) $curso['carga_horaria'] . 'h' : '-' ?>
         </div>
     </div>
 
+    <!-- Banner de expiração -->
+    <?php if ($expirado): ?>
+        <div class="expiry-alert-danger mb-4 d-flex align-items-center">
+            <i class="fas fa-lock text-danger fa-lg mr-3"></i>
+            <div>
+                <strong>Acesso expirado.</strong>
+                Seu prazo para este curso encerrou. O conteúdo está disponível para leitura, mas não é mais possível marcar aulas como concluídas.
+            </div>
+        </div>
+    <?php elseif ($expirandoBreve): ?>
+        <div class="expiry-alert-warn mb-4 d-flex align-items-center">
+            <i class="fas fa-exclamation-triangle text-warning fa-lg mr-3"></i>
+            <div>
+                <strong>Atenção:</strong> seu acesso a este curso expira em
+                <strong><?= $diasRestantes ?> dia<?= $diasRestantes === 1 ? '' : 's' ?></strong>.
+                Aproveite para concluir as aulas restantes.
+            </div>
+        </div>
+    <?php endif; ?>
+
+    <!-- Banner de conclusão -->
+    <?php if ($percentual >= 100): ?>
+        <div class="celebration-banner mb-4 d-flex align-items-center justify-content-between flex-wrap">
+            <div>
+                <span class="confetti">🎉</span>
+                <strong class="ml-2" style="font-size:16px;">Parabéns! Você concluiu este curso!</strong>
+                <div class="small mt-1 opacity-75">Seu certificado de conclusão está disponível.</div>
+            </div>
+            <a href="certificado.php?curso_id=<?= $cursoId ?>"
+               class="btn btn-light btn-sm mt-2 mt-md-0">
+                <i class="fas fa-certificate mr-1"></i> Ver certificado
+            </a>
+        </div>
+    <?php endif; ?>
+
+    <!-- Flash messages -->
+    <?php $fSuccess = get_flash('success'); if ($fSuccess): ?>
+        <div class="alert alert-success alert-dismissible">
+            <?= htmlspecialchars($fSuccess) ?>
+            <button type="button" class="close" data-dismiss="alert"><span>&times;</span></button>
+        </div>
+    <?php endif; ?>
+    <?php $fInfo = get_flash('info'); if ($fInfo): ?>
+        <div class="alert alert-info alert-dismissible">
+            <?= htmlspecialchars($fInfo) ?>
+            <button type="button" class="close" data-dismiss="alert"><span>&times;</span></button>
+        </div>
+    <?php endif; ?>
+    <?php $fError = get_flash('error'); if ($fError): ?>
+        <div class="alert alert-danger alert-dismissible">
+            <?= htmlspecialchars($fError) ?>
+            <button type="button" class="close" data-dismiss="alert"><span>&times;</span></button>
+        </div>
+    <?php endif; ?>
+
+    <!-- Barra de progresso -->
     <div class="card shadow-sm mb-4">
         <div class="card-body">
             <div class="d-flex justify-content-between align-items-center mb-2">
                 <strong>Seu progresso</strong>
-                <span><?php echo $totConcluidas; ?>/<?php echo $totAulas; ?> aulas (<?php echo $percentual; ?>%)</span>
+                <span><?= $totConcluidas ?>/<?= $totAulas ?> aulas (<?= $percentual ?>%)</span>
             </div>
             <div class="progress">
-                <div class="progress-bar bg-success" style="width: <?php echo $percentual; ?>%;"></div>
+                <div class="progress-bar bg-success" style="width:<?= $percentual ?>%;"></div>
             </div>
         </div>
     </div>
 
+    <!-- Área da aula selecionada -->
     <div class="card shadow-sm mb-4">
         <div class="card-body">
             <div class="d-flex justify-content-between align-items-start flex-wrap mb-3">
                 <div class="pr-3">
-                    <p class="text-muted mb-1 small">Area da aula</p>
+                    <p class="text-muted mb-1 small">Área da aula</p>
                     <?php if ($aulaSelecionada): ?>
-                        <h2 class="h5 mb-1"><?php echo htmlspecialchars($aulaSelecionada['titulo']); ?></h2>
-                        <p class="text-muted mb-0 small">Modulo: <?php echo htmlspecialchars($aulaSelecionada['modulo_titulo']); ?></p>
+                        <h2 class="h5 mb-1"><?= htmlspecialchars($aulaSelecionada['titulo']) ?></h2>
+                        <p class="text-muted mb-0 small">Módulo: <?= htmlspecialchars($aulaSelecionada['modulo_titulo']) ?></p>
                     <?php else: ?>
                         <h2 class="h5 mb-1">Nenhuma aula selecionada</h2>
                     <?php endif; ?>
                 </div>
                 <?php if ($aulaSelecionada && (int) $aulaSelecionada['duracao_min'] > 0): ?>
-                    <span class="badge badge-light"><i class="far fa-clock"></i> <?php echo (int) $aulaSelecionada['duracao_min']; ?> min</span>
+                    <span class="badge badge-light">
+                        <i class="far fa-clock"></i> <?= (int) $aulaSelecionada['duracao_min'] ?> min
+                    </span>
                 <?php endif; ?>
             </div>
 
             <?php
-                $videoUrl = $aulaSelecionada ? safe_http_url($aulaSelecionada['video_url']) : '';
+                $videoUrl    = $aulaSelecionada ? safe_http_url($aulaSelecionada['video_url']) : '';
                 $materialUrl = $aulaSelecionada ? safe_http_url($aulaSelecionada['material_url']) : '';
             ?>
 
             <?php if ($videoUrl !== ''): ?>
                 <div class="embed-responsive embed-responsive-16by9 border rounded">
-                    <iframe class="embed-responsive-item" src="<?php echo htmlspecialchars($videoUrl); ?>" allowfullscreen></iframe>
+                    <iframe class="embed-responsive-item"
+                            src="<?= htmlspecialchars($videoUrl) ?>"
+                            allowfullscreen></iframe>
                 </div>
             <?php else: ?>
                 <div class="lesson-stage">
                     <div class="lesson-stage-note">
                         <i class="fas fa-play-circle fa-2x mb-2 text-primary"></i>
-                        <h3 class="h6 mb-2">Espaco reservado para o video da aula</h3>
-                        <p class="mb-0">Quando o administrador cadastrar o link de video, ele sera exibido aqui.</p>
+                        <h3 class="h6 mb-2">Espaço reservado para o vídeo da aula</h3>
+                        <p class="mb-0">Quando o administrador cadastrar o link de vídeo, ele será exibido aqui.</p>
                     </div>
                 </div>
             <?php endif; ?>
 
             <?php if ($materialUrl !== ''): ?>
                 <div class="mt-3">
-                    <a class="btn btn-sm btn-outline-primary" href="<?php echo htmlspecialchars($materialUrl); ?>" target="_blank" rel="noopener noreferrer">
+                    <a class="btn btn-sm btn-outline-primary"
+                       href="<?= htmlspecialchars($materialUrl) ?>"
+                       target="_blank" rel="noopener noreferrer">
                         <i class="fas fa-link"></i> Abrir material da aula
                     </a>
+                </div>
+            <?php endif; ?>
+
+            <!-- Conteúdo da aula -->
+            <?php if ($aulaSelecionada && trim($aulaSelecionada['conteudo']) !== ''): ?>
+                <div class="mt-3 p-3" style="background:#f8fafc; border-radius:10px; border:1px solid #e2e8f0;">
+                    <h4 class="h6 text-primary mb-2"><i class="fas fa-align-left mr-1"></i> Conteúdo da aula</h4>
+                    <div style="line-height:1.7; color:#334155;">
+                        <?= nl2br(htmlspecialchars($aulaSelecionada['conteudo'])) ?>
+                    </div>
+                </div>
+            <?php endif; ?>
+
+            <!-- Widget de avaliação -->
+            <?php if ($aulaSelecionada): ?>
+                <div class="mt-4 p-3" style="border:1px solid #e2e8f0; border-radius:10px; background:#fff;">
+                    <h4 class="h6 mb-3"><i class="fas fa-star text-warning mr-1"></i> Avaliar esta aula</h4>
+                    <form method="POST" id="form-avaliacao">
+                        <?= csrf_field() ?>
+                        <input type="hidden" name="curso_id"   value="<?= $cursoId ?>">
+                        <input type="hidden" name="aula_atual" value="<?= (int) $aulaSelecionada['id'] ?>">
+                        <input type="hidden" name="aula_id"    value="<?= (int) $aulaSelecionada['id'] ?>">
+                        <input type="hidden" name="acao"       value="avaliar">
+
+                        <div class="stars-input mb-3" id="star-widget">
+                            <?php
+                            $notaAtual = (int) ($minhaAvaliacao['nota'] ?? 0);
+                            for ($s = 5; $s >= 1; $s--): ?>
+                                <input type="radio" id="star<?= $s ?>" name="nota" value="<?= $s ?>"
+                                       <?= $notaAtual === $s ? 'checked' : '' ?>>
+                                <label for="star<?= $s ?>" title="<?= $s ?> estrela<?= $s > 1 ? 's' : '' ?>">&#9733;</label>
+                            <?php endfor; ?>
+                        </div>
+
+                        <div class="form-group mb-2">
+                            <textarea name="comentario" class="form-control" rows="2"
+                                      placeholder="Comentário opcional..."
+                                      style="font-size:13px;"><?= htmlspecialchars((string) ($minhaAvaliacao['comentario'] ?? '')) ?></textarea>
+                        </div>
+                        <button type="submit" class="btn btn-sm btn-warning">
+                            <i class="fas fa-star mr-1"></i>
+                            <?= $minhaAvaliacao ? 'Atualizar avaliação' : 'Enviar avaliação' ?>
+                        </button>
+                        <?php if ($minhaAvaliacao): ?>
+                            <span class="small text-muted ml-2">
+                                Sua nota atual: <?= $notaAtual ?>/5
+                            </span>
+                        <?php endif; ?>
+                    </form>
                 </div>
             <?php endif; ?>
         </div>
     </div>
 
+    <!-- Lista de módulos e aulas -->
     <?php if (count($modulos) === 0): ?>
         <div class="card shadow-sm">
             <div class="card-body">
-                <p class="mb-0">Este curso ainda nao possui aulas cadastradas.</p>
+                <p class="mb-0">Este curso ainda não possui aulas cadastradas.</p>
             </div>
         </div>
     <?php else: ?>
         <?php foreach ($modulos as $mod): ?>
             <div class="card shadow-sm mb-3">
                 <div class="card-header bg-white">
-                    <strong>Modulo <?php echo (int) $mod['ordem']; ?>:</strong> <?php echo htmlspecialchars($mod['titulo']); ?>
+                    <strong>Módulo <?= (int) $mod['ordem'] ?>:</strong>
+                    <?= htmlspecialchars($mod['titulo']) ?>
                 </div>
                 <div class="card-body">
                     <?php if (count($mod['aulas']) === 0): ?>
-                        <p class="text-muted mb-0">Sem aulas neste modulo.</p>
+                        <p class="text-muted mb-0">Sem aulas neste módulo.</p>
                     <?php else: ?>
                         <?php foreach ($mod['aulas'] as $aula): ?>
-                            <div class="lesson-card <?php echo $aula['concluida'] ? 'lesson-done' : ''; ?> <?php echo ($aulaSelecionada && (int) $aulaSelecionada['id'] === (int) $aula['id']) ? 'lesson-selected' : ''; ?> p-3">
+                            <?php
+                                $isSelected = $aulaSelecionada && (int) $aulaSelecionada['id'] === (int) $aula['id'];
+                                $avgInfo    = $mediaAvaliacoes[(int) $aula['id']] ?? null;
+                            ?>
+                            <div class="lesson-card
+                                <?= $aula['concluida'] ? 'lesson-done' : '' ?>
+                                <?= $isSelected ? 'lesson-selected' : '' ?>
+                                p-3">
                                 <div class="d-flex justify-content-between align-items-start flex-wrap">
                                     <div class="pr-3">
-                                        <div class="font-weight-bold"><?php echo htmlspecialchars($aula['titulo']); ?></div>
-                                        <?php if ($aula['duracao_min'] > 0): ?>
-                                            <small class="text-muted"><i class="far fa-clock"></i> <?php echo $aula['duracao_min']; ?> min</small>
-                                        <?php endif; ?>
-                                        <?php if (trim($aula['conteudo']) !== ''): ?>
-                                            <p class="mb-0 mt-2 text-muted"><?php echo nl2br(htmlspecialchars($aula['conteudo'])); ?></p>
-                                        <?php endif; ?>
+                                        <div class="font-weight-bold">
+                                            <?= htmlspecialchars($aula['titulo']) ?>
+                                        </div>
+                                        <div class="d-flex align-items-center flex-wrap mt-1" style="gap:10px;">
+                                            <?php if ($aula['duracao_min'] > 0): ?>
+                                                <small class="text-muted">
+                                                    <i class="far fa-clock"></i> <?= $aula['duracao_min'] ?> min
+                                                </small>
+                                            <?php endif; ?>
+                                            <?php if ($avgInfo): ?>
+                                                <small class="text-muted" title="<?= $avgInfo['total'] ?> avaliação(ões)">
+                                                    <?php for ($s = 1; $s <= 5; $s++): ?>
+                                                        <i class="fas fa-star <?= $s <= round($avgInfo['media']) ? 'star-avg' : 'star-avg-empty' ?>" style="font-size:11px;"></i>
+                                                    <?php endfor; ?>
+                                                    <?= number_format($avgInfo['media'], 1) ?>
+                                                </small>
+                                            <?php endif; ?>
+                                        </div>
                                     </div>
                                     <div class="mt-2 mt-md-0 text-right">
-                                        <a class="btn btn-sm btn-outline-primary mb-2 mb-md-0 mr-md-2" href="meu-curso.php?curso_id=<?php echo $cursoId; ?>&aula=<?php echo (int) $aula['id']; ?>">
+                                        <a class="btn btn-sm btn-outline-primary mb-1 mr-md-2"
+                                           href="meu-curso.php?curso_id=<?= $cursoId ?>&aula=<?= (int) $aula['id'] ?>">
                                             Abrir aula
                                         </a>
-                                        <form method="POST" class="d-inline-block">
-                                            <?php echo csrf_field(); ?>
-                                            <input type="hidden" name="curso_id" value="<?php echo $cursoId; ?>">
-                                            <input type="hidden" name="aula_atual" value="<?php echo (int) $aula['id']; ?>">
-                                            <input type="hidden" name="aula_id" value="<?php echo (int) $aula['id']; ?>">
-                                            <?php if ($aula['concluida']): ?>
-                                                <input type="hidden" name="acao" value="desfazer">
-                                                <button class="btn btn-sm btn-outline-secondary">Desmarcar</button>
-                                            <?php else: ?>
-                                                <input type="hidden" name="acao" value="concluir">
-                                                <button class="btn btn-sm btn-success">Marcar concluida</button>
-                                            <?php endif; ?>
-                                        </form>
+                                        <?php if (!$expirado): ?>
+                                            <form method="POST" class="d-inline-block">
+                                                <?= csrf_field() ?>
+                                                <input type="hidden" name="curso_id"   value="<?= $cursoId ?>">
+                                                <input type="hidden" name="aula_atual" value="<?= (int) $aula['id'] ?>">
+                                                <input type="hidden" name="aula_id"    value="<?= (int) $aula['id'] ?>">
+                                                <?php if ($aula['concluida']): ?>
+                                                    <input type="hidden" name="acao" value="desfazer">
+                                                    <button class="btn btn-sm btn-outline-secondary">Desmarcar</button>
+                                                <?php else: ?>
+                                                    <input type="hidden" name="acao" value="concluir">
+                                                    <button class="btn btn-sm btn-success">Marcar concluída</button>
+                                                <?php endif; ?>
+                                            </form>
+                                        <?php endif; ?>
                                     </div>
                                 </div>
                             </div>
@@ -374,5 +615,8 @@ function safe_http_url($url) {
 </div>
 
 <?php include('../includes/footer.php'); ?>
+
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

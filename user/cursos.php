@@ -139,38 +139,6 @@ function resumo_curso(string $texto, int $limite = 135): string {
     <title>Cursos Disponiveis - SkillConnect</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta2/css/all.min.css" rel="stylesheet">
-    <style>
-        .hero-cursos {
-            background: linear-gradient(135deg, #0f766e 0%, #0ea5a4 60%, #67e8f9 100%);
-            color: #fff;
-            border-radius: 18px;
-            padding: 28px;
-        }
-        .filtros-box {
-            border: 1px solid #e5e7eb;
-            border-radius: 14px;
-            background: #fff;
-        }
-        .curso-card {
-            border: 1px solid #e5e7eb;
-            border-radius: 14px;
-            height: 100%;
-            transition: transform .18s ease, box-shadow .18s ease;
-        }
-        .curso-card:hover {
-            transform: translateY(-4px);
-            box-shadow: 0 10px 24px rgba(2, 132, 199, .12);
-        }
-        .badge-soft {
-            background: #ecfeff;
-            color: #155e75;
-            border: 1px solid #bae6fd;
-            border-radius: 999px;
-            font-size: 11px;
-            padding: 4px 9px;
-            margin-right: 6px;
-        }
-    </style>
 </head>
 <body class="bg-light">
 

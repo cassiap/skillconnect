@@ -93,6 +93,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                                 flash('info', 'Voce ja se candidatou a esta vaga.');
                                 redirect('minhas-candidaturas.php');
                             }
+                            error_log('candidatar.php candidatura insert error: ' . $e->getMessage());
                             $error = 'Erro ao salvar candidatura. Tente novamente.';
                         }
                     } else {

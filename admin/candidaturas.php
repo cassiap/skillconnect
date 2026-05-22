@@ -17,7 +17,7 @@ if (!function_exists('bind_params_dynamic')) {
     }
 }
 
-$status_validos = ['enviada', 'em_analise', 'aprovado', 'reprovado'];
+$status_validos = [STATUS_CAND_ENVIADA, STATUS_CAND_ANALISE, STATUS_CAND_APROVADO, STATUS_CAND_REPROVADO];
 $queryStringAtual = $_SERVER['QUERY_STRING'] ?? '';
 $redirectPosAcao = 'candidaturas.php' . ($queryStringAtual ? '?' . $queryStringAtual : '');
 
@@ -112,7 +112,7 @@ $stmt->execute();
 $res = $stmt->get_result();
 
 $candidaturas = [];
-$totais = ['enviada' => 0, 'em_analise' => 0, 'aprovado' => 0, 'reprovado' => 0];
+$totais = [STATUS_CAND_ENVIADA => 0, STATUS_CAND_ANALISE => 0, STATUS_CAND_APROVADO => 0, STATUS_CAND_REPROVADO => 0];
 
 while ($row = $res->fetch_assoc()) {
     $candidaturas[] = $row;
@@ -130,27 +130,6 @@ $stmt->close();
     <title>Candidaturas - SkillConnect</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta2/css/all.min.css" rel="stylesheet">
-    <style>
-        .hero-admin {
-            background: linear-gradient(135deg, #1e293b 0%, #0f172a 55%, #334155 100%);
-            color: #fff;
-            border-radius: 16px;
-            padding: 24px;
-        }
-        .stats-card {
-            border-radius: 12px;
-            border: 1px solid #e2e8f0;
-            background: #fff;
-        }
-        .filters-wrap {
-            border: 1px solid #e5e7eb;
-            border-radius: 12px;
-            background: #fff;
-        }
-        .table thead th {
-            white-space: nowrap;
-        }
-    </style>
 </head>
 <body class="bg-light">
 
@@ -256,10 +235,10 @@ $stmt->close();
                             <td>
                                 <?php
                                 $badges = [
-                                    'enviada' => 'badge-info',
-                                    'em_analise' => 'badge-warning',
-                                    'aprovado' => 'badge-success',
-                                    'reprovado' => 'badge-danger',
+                                    STATUS_CAND_ENVIADA   => 'badge-info',
+                                    STATUS_CAND_ANALISE   => 'badge-warning',
+                                    STATUS_CAND_APROVADO  => 'badge-success',
+                                    STATUS_CAND_REPROVADO => 'badge-danger',
                                 ];
                                 $classe = $badges[$row['status']] ?? 'badge-secondary';
                                 ?>
@@ -280,10 +259,10 @@ $stmt->close();
                                     <?php echo csrf_field(); ?>
                                     <input type="hidden" name="candidatura_id" value="<?php echo (int) $row['id']; ?>">
                                     <select name="novo_status" class="form-control form-control-sm mr-1">
-                                        <option value="enviada" <?php echo $row['status'] === 'enviada' ? 'selected' : ''; ?>>Enviada</option>
-                                        <option value="em_analise" <?php echo $row['status'] === 'em_analise' ? 'selected' : ''; ?>>Em Analise</option>
-                                        <option value="aprovado" <?php echo $row['status'] === 'aprovado' ? 'selected' : ''; ?>>Aprovado</option>
-                                        <option value="reprovado" <?php echo $row['status'] === 'reprovado' ? 'selected' : ''; ?>>Reprovado</option>
+                                        <option value="<?= STATUS_CAND_ENVIADA ?>"   <?php echo $row['status'] === STATUS_CAND_ENVIADA   ? 'selected' : ''; ?>>Enviada</option>
+                                        <option value="<?= STATUS_CAND_ANALISE ?>"   <?php echo $row['status'] === STATUS_CAND_ANALISE   ? 'selected' : ''; ?>>Em Analise</option>
+                                        <option value="<?= STATUS_CAND_APROVADO ?>"  <?php echo $row['status'] === STATUS_CAND_APROVADO  ? 'selected' : ''; ?>>Aprovado</option>
+                                        <option value="<?= STATUS_CAND_REPROVADO ?>" <?php echo $row['status'] === STATUS_CAND_REPROVADO ? 'selected' : ''; ?>>Reprovado</option>
                                     </select>
                                     <button type="submit" class="btn btn-sm btn-primary">
                                         <i class="fas fa-check"></i>

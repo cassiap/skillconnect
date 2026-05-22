@@ -138,31 +138,13 @@ function split_lines(string $text): array {
     <title>Meu Currículo - SkillConnect</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta2/css/all.min.css" rel="stylesheet">
-    <style>
-        .hero {
-            border-radius: 14px;
-            background: linear-gradient(120deg, #334155 0%, #0f766e 100%);
-            color: #fff;
-            padding: 22px;
-        }
-        .card-block {
-            border: 1px solid #e2e8f0;
-            border-radius: 12px;
-            background: #fff;
-        }
-        .file-name {
-            font-family: Consolas, monospace;
-            font-size: 12px;
-            color: #64748b;
-        }
-    </style>
 </head>
 <body class="bg-light">
 
 <?php include('../includes/header.php'); ?>
 
 <div class="container py-4">
-    <div class="hero mb-4">
+    <div class="hero-curriculo mb-4">
         <h1 class="h4 mb-1">Meu currículo profissional</h1>
         <p class="mb-0">Mantenha seu perfil atualizado para melhorar sua candidatura nas vagas.</p>
     </div>

@@ -4,9 +4,21 @@ require_once __DIR__ . '/../config/db.php';
 admin_check();
 
 if (!function_exists('admin_scalar')) {
+    /**
+     * Executes a static scalar COUNT or aggregate query for the admin panel.
+     *
+     * Intended for fixed KPI queries that contain no user-supplied input.
+     * For dynamic queries with user input, use parameterized prepared statements instead.
+     * Returns 0 and logs the error when the query fails.
+     *
+     * @param mysqli $cx  Active database connection.
+     * @param string $sql Static SQL query (no user input).
+     * @return int        First column of first row cast to int, or 0 on error.
+     */
     function admin_scalar(mysqli $cx, string $sql): int {
         $res = $cx->query($sql);
         if (!$res) {
+            error_log('admin_scalar query error: ' . $cx->error);
             return 0;
         }
         $row = $res->fetch_row();
@@ -39,6 +51,8 @@ if ($resRecentes = $cx->query($sqlRecentes)) {
         $candidaturasRecentes[] = $row;
     }
     $resRecentes->close();
+} else {
+    error_log('admin candidaturas recentes query error: ' . $cx->error);
 }
 
 $statusLabel = [
@@ -62,31 +76,6 @@ $statusClass = [
     <title>Painel Admin - SkillConnect</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta2/css/all.min.css" rel="stylesheet">
-    <style>
-        .hero-admin {
-            background: linear-gradient(125deg, #0f172a 0%, #1e293b 55%, #0f766e 100%);
-            color: #fff;
-            border-radius: 16px;
-            padding: 24px;
-        }
-        .kpi-card {
-            border: 1px solid #e5e7eb;
-            border-radius: 12px;
-            background: #fff;
-            height: 100%;
-        }
-        .kpi-value {
-            font-size: 1.7rem;
-            font-weight: 700;
-            line-height: 1.1;
-        }
-        .quick-card {
-            border: 1px solid #e5e7eb;
-            border-radius: 12px;
-            background: #fff;
-            height: 100%;
-        }
-    </style>
 </head>
 <body class="bg-light">
 

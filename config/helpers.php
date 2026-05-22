@@ -4,6 +4,11 @@
  * Este arquivo e incluido automaticamente via config/db.php
  */
 
+require_once __DIR__ . '/constants.php';
+
+/** Tempo máximo de inatividade em segundos antes de expirar a sessão autenticada. */
+define('SESSION_TIMEOUT', 1800);
+
 // ===== SESSION =====
 if (session_status() === PHP_SESSION_NONE) {
     $isHttps = (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off')
@@ -162,11 +167,41 @@ function app_absolute_url(string $path = ''): string {
 // ===== AUTH =====
 
 /**
- * Verifica se o usuário está autenticado, redirecionando para login se não estiver
+ * Verifica se a sessão autenticada expirou por inatividade e encerra se necessário.
+ *
+ * Deve ser chamada no início de auth_check() e admin_check(). Se o usuário estiver
+ * autenticado e a última atividade registrada exceder SESSION_TIMEOUT segundos,
+ * a sessão é destruída e o usuário é redirecionado para o login com aviso.
+ * Caso contrário, atualiza o timestamp de última atividade.
+ *
+ * @return void
+ */
+function session_check_timeout(): void {
+    if (empty($_SESSION['logado'])) {
+        return;
+    }
+
+    if (isset($_SESSION['last_activity']) && (time() - $_SESSION['last_activity']) > SESSION_TIMEOUT) {
+        session_unset();
+        session_destroy();
+        session_start();
+        flash('info', 'Sua sessao expirou por inatividade. Faca login novamente.');
+        redirect(app_url('auth/login.php'));
+    }
+
+    $_SESSION['last_activity'] = time();
+}
+
+/**
+ * Verifica se o usuário está autenticado, redirecionando para login se não estiver.
+ *
+ * Também encerra sessões expiradas por inatividade via session_check_timeout().
  *
  * @return void
  */
 function auth_check(): void {
+    session_check_timeout();
+
     if (empty($_SESSION['logado'])) {
         $_SESSION['url_destino'] = $_SERVER['REQUEST_URI'];
         redirect(app_url('auth/login.php'));
@@ -174,11 +209,15 @@ function auth_check(): void {
 }
 
 /**
- * Verifica se o usuário é administrador, redirecionando para login se não for
+ * Verifica se o usuário é administrador, redirecionando para login se não for.
+ *
+ * Também encerra sessões expiradas por inatividade via session_check_timeout().
  *
  * @return void
  */
 function admin_check(): void {
+    session_check_timeout();
+
     if (empty($_SESSION['logado']) || ($_SESSION['perfil'] ?? '') !== 'admin') {
         redirect(app_url('auth/login.php'));
     }

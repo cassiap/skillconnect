@@ -1,0 +1,363 @@
+/* ===================================================================
+   SkillConnect — Estilos globais da aplicação
+   Incluso via includes/header.php em todas as páginas autenticadas.
+   =================================================================== */
+
+/* ===== HEADER / NAVBAR ===== */
+
+.sc-header { background: #ffffff; border-bottom: 1px solid #e5e7eb; }
+
+.sc-brand { font-weight: 800; color: #0f172a !important; letter-spacing: .2px; }
+
+.sc-brand-mark {
+    width: 12px; height: 12px;
+    border-radius: 999px;
+    display: inline-block;
+    margin-right: 8px;
+    background: linear-gradient(135deg, #1d4ed8 0%, #0f766e 100%);
+    box-shadow: 0 0 0 4px rgba(29, 78, 216, .12);
+}
+
+.sc-nav-link {
+    color: #334155 !important;
+    font-weight: 500;
+    border-radius: 10px;
+    padding: 7px 11px !important;
+    margin-right: 3px;
+}
+.sc-nav-link:hover  { background: #f1f5f9; color: #0f172a !important; }
+.sc-nav-link.active { background: #eff6ff; color: #1d4ed8 !important; }
+
+.sc-auth-btn { border-radius: 999px; font-weight: 600; padding: 7px 14px !important; }
+.sc-auth-btn-login    { border: 1px solid #e2e8f0; color: #0f172a !important; margin-right: 8px; }
+.sc-auth-btn-register { border: 1px solid #bfdbfe; background: #eff6ff; color: #1e3a8a !important; }
+
+.sc-flash-wrap { max-width: 1140px; margin: 14px auto 0; padding: 0 15px; }
+
+/* ===== COMPONENTES COMPARTILHADOS ===== */
+
+.kpi-card  { border: 1px solid #e5e7eb; border-radius: 12px; background: #fff; height: 100%; }
+.kpi-value { font-size: 1.65rem; font-weight: 700; line-height: 1.1; }
+
+.panel-card { border: 1px solid #e5e7eb; border-radius: 12px; background: #fff; }
+.quick-card { border: 1px solid #e5e7eb; border-radius: 12px; background: #fff; height: 100%; }
+
+.badge-soft {
+    background: #f1f5f9;
+    color: #475569;
+    border-radius: 999px;
+    font-size: 11px;
+    padding: 3px 9px;
+    margin-right: 4px;
+    display: inline-block;
+}
+
+/* ===== HEROES (gradientes por página) ===== */
+
+.hero-painel {
+    border-radius: 18px;
+    background: linear-gradient(125deg, #1d4ed8 0%, #0e7490 55%, #0f766e 100%);
+    color: #fff;
+    padding: 26px;
+}
+
+.hero-cursos {
+    background: linear-gradient(135deg, #0f766e 0%, #0ea5a4 60%, #67e8f9 100%);
+    color: #fff;
+    border-radius: 18px;
+    padding: 28px;
+}
+
+.hero-meus-cursos {
+    border-radius: 16px;
+    background: linear-gradient(120deg, #1d4ed8 0%, #0f766e 100%);
+    color: #fff;
+    padding: 26px;
+}
+
+.hero-meu-curso {
+    border-radius: 14px;
+    background: linear-gradient(120deg, #0f766e 0%, #1d4ed8 100%);
+    color: #fff;
+    padding: 22px;
+}
+
+.hero-candidaturas {
+    border-radius: 14px;
+    background: linear-gradient(120deg, #0e7490 0%, #1d4ed8 100%);
+    color: #fff;
+    padding: 22px;
+}
+
+.hero-admin {
+    background: linear-gradient(125deg, #0f172a 0%, #1e293b 55%, #0f766e 100%);
+    color: #fff;
+    border-radius: 16px;
+    padding: 24px;
+}
+
+/* ===== PAINEL DO ALUNO ===== */
+
+/* (componentes partilhados: .kpi-card, .kpi-value, .panel-card acima) */
+
+/* ===== LISTAGEM DE CURSOS ===== */
+
+.filtros-box { border: 1px solid #e5e7eb; border-radius: 14px; background: #fff; }
+
+.curso-card {
+    border: 1px solid #e5e7eb;
+    border-radius: 14px;
+    height: 100%;
+    transition: transform .18s ease, box-shadow .18s ease;
+    background: #fff;
+}
+.curso-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 10px 24px rgba(2, 132, 199, .12);
+}
+
+/* ===== MEUS CURSOS (cards de inscrição) ===== */
+
+.curso-card.card-expirado  { border-color: #fca5a5; background: #fff5f5; }
+.curso-card.card-concluido { border-color: #86efac; }
+
+.ribbon {
+    position: absolute;
+    top: 16px; right: -30px;
+    background: #16a34a;
+    color: #fff;
+    font-size: 10px;
+    font-weight: 700;
+    padding: 4px 40px;
+    transform: rotate(45deg);
+    letter-spacing: .6px;
+    pointer-events: none;
+}
+
+.expiry-badge { font-size: 11px; padding: 3px 9px; border-radius: 999px; display: inline-block; }
+.expiry-ok     { background: #f0fdf4; color: #15803d; border: 1px solid #bbf7d0; }
+.expiry-warn   { background: #fffbeb; color: #b45309; border: 1px solid #fde68a; }
+.expiry-danger { background: #fef2f2; color: #b91c1c; border: 1px solid #fecaca; }
+
+.eta-text { font-size: 11px; color: #64748b; font-style: italic; }
+
+.empty-state { padding: 60px 20px; text-align: center; }
+.empty-state i { font-size: 48px; color: #cbd5e1; margin-bottom: 16px; }
+
+/* ===== MEU CURSO (player de aula) ===== */
+
+.lesson-card    { border: 1px solid #e2e8f0; border-radius: 12px; background: #fff; margin-bottom: 10px; }
+.lesson-done    { border-color: #86efac; background: #f0fdf4; }
+.lesson-selected { border-color: #93c5fd; box-shadow: 0 0 0 2px rgba(59, 130, 246, .12); }
+
+.lesson-stage {
+    border: 1px dashed #cbd5e1;
+    border-radius: 12px;
+    min-height: 320px;
+    background: linear-gradient(180deg, #f8fafc 0%, #eef2f7 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 22px;
+}
+.lesson-stage-note { text-align: center; color: #475569; max-width: 560px; }
+
+/* Stars (avaliação) */
+.stars-input { display: flex; flex-direction: row-reverse; justify-content: flex-end; }
+.stars-input input { display: none; }
+.stars-input label {
+    font-size: 26px;
+    color: #d1d5db;
+    cursor: pointer;
+    transition: color .15s;
+    padding: 0 2px;
+}
+.stars-input label:hover,
+.stars-input label:hover ~ label,
+.stars-input input:checked ~ label { color: #f59e0b; }
+
+.star-avg       { color: #f59e0b; }
+.star-avg-empty { color: #d1d5db; }
+
+/* Banner de conclusão */
+.celebration-banner {
+    border-radius: 14px;
+    background: linear-gradient(120deg, #065f46 0%, #0f766e 100%);
+    color: #fff;
+    padding: 20px 24px;
+}
+.celebration-banner .confetti { font-size: 28px; }
+
+/* Alertas de expiração inline (dentro da página do curso) */
+.expiry-alert-warn   { background: #fffbeb; border: 1px solid #fde68a; border-radius: 10px; padding: 12px 16px; }
+.expiry-alert-danger { background: #fef2f2; border: 1px solid #fecaca; border-radius: 10px; padding: 12px 16px; }
+
+/* ===== ASSISTENTE DE CARREIRA ===== */
+
+/* Hero animado */
+.hero-ai {
+    border-radius: 20px;
+    background: linear-gradient(135deg, #0f172a 0%, #1e1b4b 50%, #0c4a6e 100%);
+    background-size: 200% 200%;
+    animation: sc-gradient-shift 10s ease infinite;
+    color: #fff;
+    padding: 36px 32px;
+    position: relative;
+    overflow: hidden;
+}
+.hero-ai::before {
+    content: '';
+    position: absolute;
+    top: -40%; right: -5%;
+    width: 380px; height: 380px;
+    background: radial-gradient(circle, rgba(56,189,248,.18) 0%, transparent 70%);
+    border-radius: 50%;
+    pointer-events: none;
+}
+.hero-ai::after {
+    content: '';
+    position: absolute;
+    bottom: -30%; left: 10%;
+    width: 260px; height: 260px;
+    background: radial-gradient(circle, rgba(99,102,241,.14) 0%, transparent 70%);
+    border-radius: 50%;
+    pointer-events: none;
+}
+@keyframes sc-gradient-shift {
+    0%   { background-position: 0% 50%; }
+    50%  { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+}
+.hero-ai .badge-model {
+    background: rgba(255,255,255,.15);
+    border: 1px solid rgba(255,255,255,.25);
+    color: #e0f2fe;
+    font-size: 11px;
+    padding: 3px 10px;
+    border-radius: 999px;
+    backdrop-filter: blur(4px);
+}
+
+/* Cards de objetivo */
+.objetivo-card { cursor: pointer; }
+.objetivo-card input[type="radio"] { display: none; }
+.objetivo-inner {
+    border: 2px solid #e2e8f0;
+    border-radius: 14px;
+    padding: 16px 10px;
+    text-align: center;
+    transition: all .2s ease;
+    background: #fff;
+    font-size: 12px;
+    color: #64748b;
+    height: 100%;
+}
+.objetivo-inner i { display: block; font-size: 22px; margin-bottom: 8px; color: #94a3b8; transition: color .2s; }
+.objetivo-inner strong { display: block; color: #1e293b; font-size: 12px; margin-bottom: 2px; }
+.objetivo-card:hover .objetivo-inner { border-color: #38bdf8; background: #f0f9ff; }
+.objetivo-card:hover .objetivo-inner i { color: #0ea5e9; }
+.objetivo-card input:checked + .objetivo-inner {
+    border-color: #0ea5e9;
+    background: #f0f9ff;
+    box-shadow: 0 0 0 3px rgba(14,165,233,.15);
+}
+.objetivo-card input:checked + .objetivo-inner i { color: #0284c7; }
+
+/* Área de resposta */
+.response-box {
+    background: #f8fafc;
+    border: 1px solid #e2e8f0;
+    border-radius: 14px;
+    padding: 22px;
+    line-height: 1.75;
+    color: #0f172a;
+}
+.response-box h3, .response-box h4, .response-box h5 {
+    margin-top: 18px; margin-bottom: 10px; color: #0f766e; font-weight: 700;
+}
+.response-box h3:first-child { margin-top: 0; }
+.response-box p  { margin-bottom: 12px; }
+.response-box ul, .response-box ol { margin-bottom: 14px; padding-left: 22px; }
+.response-box li { margin-bottom: 6px; }
+.response-box code { background: #e2e8f0; border-radius: 5px; padding: 1px 6px; font-size: .91em; }
+
+/* Painel de perfil */
+.profile-panel { border: 1px solid #e2e8f0; border-radius: 14px; background: #fff; }
+.profile-panel .panel-header {
+    background: linear-gradient(120deg, #0f172a 0%, #1e293b 100%);
+    color: #fff;
+    border-radius: 12px 12px 0 0;
+    padding: 14px 16px;
+    font-size: 13px;
+    font-weight: 600;
+}
+.profile-panel .panel-header i { color: #38bdf8; }
+.profile-panel .panel-body { padding: 16px; }
+
+.mini-progress { height: 4px; border-radius: 999px; background: #e2e8f0; }
+
+/* Atalhos de prompt */
+.shortcut-chip {
+    display: inline-block;
+    background: #f1f5f9;
+    border: 1px solid #e2e8f0;
+    border-radius: 999px;
+    padding: 5px 14px;
+    font-size: 12px;
+    color: #475569;
+    cursor: pointer;
+    margin: 0 6px 6px 0;
+    transition: all .15s;
+}
+.shortcut-chip:hover { background: #e0f2fe; border-color: #7dd3fc; color: #0369a1; }
+
+/* Spinner de carregamento */
+#loading-overlay {
+    display: none;
+    position: fixed; inset: 0;
+    background: rgba(15,23,42,.65);
+    backdrop-filter: blur(3px);
+    z-index: 9999;
+    align-items: center;
+    justify-content: center;
+}
+#loading-overlay.active { display: flex; }
+.loading-card {
+    background: #fff;
+    border-radius: 18px;
+    padding: 36px 40px;
+    text-align: center;
+    max-width: 320px;
+    width: 90%;
+}
+.loading-card .spinner-ring {
+    width: 56px; height: 56px;
+    border: 4px solid #e2e8f0;
+    border-top-color: #0ea5e9;
+    border-radius: 50%;
+    animation: sc-spin .8s linear infinite;
+    margin: 0 auto 20px;
+}
+@keyframes sc-spin { to { transform: rotate(360deg); } }
+.loading-card .msg { font-size: 14px; color: #475569; min-height: 24px; }
+
+/* ===== ADMIN — PAINEL ===== */
+
+/* (hero-admin acima, kpi-card/kpi-value compartilhados) */
+
+/* ===== ADMIN — CANDIDATURAS ===== */
+
+.stats-card   { border-radius: 12px; border: 1px solid #e2e8f0; background: #fff; }
+.filters-wrap { border: 1px solid #e5e7eb; border-radius: 12px; background: #fff; }
+.filters-wrap .table thead th { white-space: nowrap; }
+
+/* ===== MEU CURRÍCULO ===== */
+
+.hero-curriculo {
+    border-radius: 14px;
+    background: linear-gradient(120deg, #334155 0%, #0f766e 100%);
+    color: #fff;
+    padding: 22px;
+}
+.card-block { border: 1px solid #e2e8f0; border-radius: 12px; background: #fff; }
+.file-name  { font-family: Consolas, monospace; font-size: 12px; color: #64748b; }

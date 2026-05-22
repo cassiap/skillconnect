@@ -12,35 +12,93 @@ $usuarioId = (int) ($_SESSION['user_id'] ?? 0);
 $nomeUsuario = trim((string) ($_SESSION['nome'] ?? 'Aluno'));
 
 if (!function_exists('painel_scalar')) {
-    function painel_scalar(mysqli $cx, string $sql): int {
+    /**
+     * Executes a scalar COUNT or aggregate query and returns the result as an integer.
+     *
+     * Supports parameterized queries via mysqli prepared statements to prevent SQL injection.
+     * Returns 0 on failure and logs the error for debugging.
+     *
+     * @param mysqli $cx     Active database connection.
+     * @param string $sql    SQL query with optional ? placeholders.
+     * @param string $types  bind_param type string (e.g. 'i', 'ss'). Empty for queries without parameters.
+     * @param array  $params Ordered values to bind. Must match $types.
+     * @return int           First column of first row cast to int, or 0 on error.
+     */
+    function painel_scalar(mysqli $cx, string $sql, string $types = '', array $params = []): int {
         try {
-            $res = $cx->query($sql);
-            if (!$res) {
-                return 0;
+            if ($types !== '' && count($params) > 0) {
+                $stmt = $cx->prepare($sql);
+                if (!$stmt) {
+                    error_log('painel_scalar prepare error: ' . $cx->error);
+                    return 0;
+                }
+                $stmt->bind_param($types, ...$params);
+                $stmt->execute();
+                $res = $stmt->get_result();
+                if (!$res) {
+                    error_log('painel_scalar get_result error: ' . $stmt->error);
+                    return 0;
+                }
+            } else {
+                $res = $cx->query($sql);
+                if (!$res) {
+                    error_log('painel_scalar query error: ' . $cx->error);
+                    return 0;
+                }
             }
             $row = $res->fetch_row();
             $res->close();
             return (int) ($row[0] ?? 0);
         } catch (Throwable $e) {
+            error_log('painel_scalar exception: ' . $e->getMessage());
             return 0;
         }
     }
 }
 
 if (!function_exists('painel_fetch_all')) {
-    function painel_fetch_all(mysqli $cx, string $sql): array {
+    /**
+     * Executes a SELECT query and returns all rows as an associative array.
+     *
+     * Supports parameterized queries via mysqli prepared statements to prevent SQL injection.
+     * Returns an empty array on failure and logs the error for debugging.
+     *
+     * @param mysqli $cx     Active database connection.
+     * @param string $sql    SQL query with optional ? placeholders.
+     * @param string $types  bind_param type string (e.g. 'i', 'ss'). Empty for queries without parameters.
+     * @param array  $params Ordered values to bind. Must match $types.
+     * @return array         Array of associative rows, or [] on error.
+     */
+    function painel_fetch_all(mysqli $cx, string $sql, string $types = '', array $params = []): array {
         try {
-            $rows = [];
-            $res = $cx->query($sql);
-            if (!$res) {
-                return $rows;
+            if ($types !== '' && count($params) > 0) {
+                $stmt = $cx->prepare($sql);
+                if (!$stmt) {
+                    error_log('painel_fetch_all prepare error: ' . $cx->error);
+                    return [];
+                }
+                $stmt->bind_param($types, ...$params);
+                $stmt->execute();
+                $res = $stmt->get_result();
+                if (!$res) {
+                    error_log('painel_fetch_all get_result error: ' . $stmt->error);
+                    return [];
+                }
+            } else {
+                $res = $cx->query($sql);
+                if (!$res) {
+                    error_log('painel_fetch_all query error: ' . $cx->error);
+                    return [];
+                }
             }
+            $rows = [];
             while ($row = $res->fetch_assoc()) {
                 $rows[] = $row;
             }
             $res->close();
             return $rows;
         } catch (Throwable $e) {
+            error_log('painel_fetch_all exception: ' . $e->getMessage());
             return [];
         }
     }
@@ -49,16 +107,18 @@ if (!function_exists('painel_fetch_all')) {
 $uid = (int) $usuarioId;
 
 $kpis = [
-    'inscricoes' => painel_scalar($cx, "SELECT COUNT(*) FROM inscricoes_cursos WHERE usuario_id = {$uid}"),
-    'cursos_concluidos' => painel_scalar($cx, "SELECT COUNT(*) FROM inscricoes_cursos WHERE usuario_id = {$uid} AND status = 'concluido'"),
-    'candidaturas' => painel_scalar($cx, "SELECT COUNT(*) FROM candidaturas WHERE usuario_id = {$uid}"),
-    'cand_analise' => painel_scalar($cx, "SELECT COUNT(*) FROM candidaturas WHERE usuario_id = {$uid} AND status = 'em_analise'"),
-    'cand_aprovadas' => painel_scalar($cx, "SELECT COUNT(*) FROM candidaturas WHERE usuario_id = {$uid} AND status = 'aprovado'"),
+    'inscricoes'        => painel_scalar($cx, "SELECT COUNT(*) FROM inscricoes_cursos WHERE usuario_id = ?", 'i', [$uid]),
+    'cursos_concluidos' => painel_scalar($cx, "SELECT COUNT(*) FROM inscricoes_cursos WHERE usuario_id = ? AND status = 'concluido'", 'i', [$uid]),
+    'candidaturas'      => painel_scalar($cx, "SELECT COUNT(*) FROM candidaturas WHERE usuario_id = ?", 'i', [$uid]),
+    'cand_analise'      => painel_scalar($cx, "SELECT COUNT(*) FROM candidaturas WHERE usuario_id = ? AND status = 'em_analise'", 'i', [$uid]),
+    'cand_aprovadas'    => painel_scalar($cx, "SELECT COUNT(*) FROM candidaturas WHERE usuario_id = ? AND status = 'aprovado'", 'i', [$uid]),
 ];
 
 $perfilRows = painel_fetch_all(
     $cx,
-    "SELECT telefone, cep, estado, cidade, logradouro, bairro FROM usuarios WHERE id = {$uid} LIMIT 1"
+    "SELECT telefone, cep, estado, cidade, logradouro, bairro FROM usuarios WHERE id = ? LIMIT 1",
+    'i',
+    [$uid]
 );
 $perfilDados = $perfilRows[0] ?? [];
 
@@ -87,8 +147,10 @@ $curriculoRows = painel_fetch_all(
     $cx,
     "SELECT titulo_profissional, resumo, habilidades, experiencias, formacao, links
      FROM curriculos
-     WHERE usuario_id = {$uid}
-     LIMIT 1"
+     WHERE usuario_id = ?
+     LIMIT 1",
+    'i',
+    [$uid]
 );
 $curriculo = $curriculoRows[0] ?? [];
 $temCurriculo = false;
@@ -106,9 +168,11 @@ $inscricoesRecentes = painel_fetch_all(
     "SELECT ic.status, ic.criado_em, c.id AS curso_id, c.titulo, c.modalidade, c.nivel
      FROM inscricoes_cursos ic
      INNER JOIN cursos c ON c.id = ic.curso_id
-     WHERE ic.usuario_id = {$uid}
+     WHERE ic.usuario_id = ?
      ORDER BY ic.criado_em DESC
-     LIMIT 5"
+     LIMIT 5",
+    'i',
+    [$uid]
 );
 
 $candidaturasRecentes = painel_fetch_all(
@@ -116,9 +180,11 @@ $candidaturasRecentes = painel_fetch_all(
     "SELECT c.status, c.criado_em, v.id AS vaga_id, v.titulo, v.empresa
      FROM candidaturas c
      INNER JOIN vagas v ON v.id = c.vaga_id
-     WHERE c.usuario_id = {$uid}
+     WHERE c.usuario_id = ?
      ORDER BY c.criado_em DESC
-     LIMIT 5"
+     LIMIT 5",
+    'i',
+    [$uid]
 );
 
 $scoreProntidao = 0;
@@ -194,29 +260,29 @@ $acoes[] = [
 ];
 
 $statusCurso = [
-    'pendente' => 'Pendente',
-    'confirmado' => 'Confirmado',
-    'cancelado' => 'Cancelado',
-    'concluido' => 'Concluido',
+    STATUS_INSC_PENDENTE   => 'Pendente',
+    STATUS_INSC_CONFIRMADO => 'Confirmado',
+    STATUS_INSC_CANCELADO  => 'Cancelado',
+    STATUS_INSC_CONCLUIDO  => 'Concluido',
 ];
 $badgeCurso = [
-    'pendente' => 'badge-warning',
-    'confirmado' => 'badge-success',
-    'cancelado' => 'badge-secondary',
-    'concluido' => 'badge-primary',
+    STATUS_INSC_PENDENTE   => 'badge-warning',
+    STATUS_INSC_CONFIRMADO => 'badge-success',
+    STATUS_INSC_CANCELADO  => 'badge-secondary',
+    STATUS_INSC_CONCLUIDO  => 'badge-primary',
 ];
 
 $statusCand = [
-    'enviada' => 'Enviada',
-    'em_analise' => 'Em analise',
-    'aprovado' => 'Aprovado',
-    'reprovado' => 'Reprovado',
+    STATUS_CAND_ENVIADA   => 'Enviada',
+    STATUS_CAND_ANALISE   => 'Em analise',
+    STATUS_CAND_APROVADO  => 'Aprovado',
+    STATUS_CAND_REPROVADO => 'Reprovado',
 ];
 $badgeCand = [
-    'enviada' => 'badge-info',
-    'em_analise' => 'badge-warning',
-    'aprovado' => 'badge-success',
-    'reprovado' => 'badge-danger',
+    STATUS_CAND_ENVIADA   => 'badge-info',
+    STATUS_CAND_ANALISE   => 'badge-warning',
+    STATUS_CAND_APROVADO  => 'badge-success',
+    STATUS_CAND_REPROVADO => 'badge-danger',
 ];
 ?>
 <!DOCTYPE html>
@@ -227,30 +293,6 @@ $badgeCand = [
     <title>Painel do Aluno - SkillConnect</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta2/css/all.min.css" rel="stylesheet">
-    <style>
-        .hero-painel {
-            border-radius: 18px;
-            background: linear-gradient(125deg, #1d4ed8 0%, #0e7490 55%, #0f766e 100%);
-            color: #fff;
-            padding: 26px;
-        }
-        .kpi-card {
-            border: 1px solid #e5e7eb;
-            border-radius: 12px;
-            background: #fff;
-            height: 100%;
-        }
-        .kpi-value {
-            font-size: 1.6rem;
-            font-weight: 700;
-            line-height: 1.1;
-        }
-        .panel-card {
-            border: 1px solid #e5e7eb;
-            border-radius: 12px;
-            background: #fff;
-        }
-    </style>
 </head>
 <body class="bg-light">
 

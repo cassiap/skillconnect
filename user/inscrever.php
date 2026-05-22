@@ -28,7 +28,7 @@ if ($curso_id <= 0) {
     redirect('cursos.php');
 }
 
-$cursoStmt = $cx->prepare("SELECT id, titulo FROM cursos WHERE id = ? AND ativo = 1 LIMIT 1");
+$cursoStmt = $cx->prepare("SELECT id, titulo, duracao_dias FROM cursos WHERE id = ? AND ativo = 1 LIMIT 1");
 $cursoStmt->bind_param("i", $curso_id);
 $cursoStmt->execute();
 $cursoRes = $cursoStmt->get_result();
@@ -58,8 +58,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 
     try {
-        $stmt = $cx->prepare("INSERT INTO inscricoes_cursos (usuario_id, curso_id) VALUES (?, ?)");
-        $stmt->bind_param("ii", $usuario_id, $curso_id);
+        // Calcula data de expiração com base no prazo do curso (NULL = sem prazo)
+        $duracaoDias = (int)($curso['duracao_dias'] ?? 0);
+        $expiraEm = $duracaoDias > 0
+            ? date('Y-m-d H:i:s', strtotime("+{$duracaoDias} days"))
+            : null;
+
+        $stmt = $cx->prepare("INSERT INTO inscricoes_cursos (usuario_id, curso_id, acesso_expira_em) VALUES (?, ?, ?)");
+        $stmt->bind_param("iis", $usuario_id, $curso_id, $expiraEm);
         $stmt->execute();
         $stmt->close();
 
@@ -70,6 +76,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             flash('info', 'Voce ja esta inscrito neste curso.');
             redirect('meus-cursos.php');
         }
+        error_log('inscrever.php inscricao insert error: ' . $e->getMessage());
         flash('error', 'Erro ao registrar inscricao.');
         redirect("inscrever.php?curso_id={$curso_id}");
     }

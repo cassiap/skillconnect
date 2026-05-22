@@ -38,16 +38,16 @@ while ($row = $res->fetch_assoc()) {
 $stmt->close();
 
 $statusLabel = [
-    'enviada' => 'Enviada',
-    'em_analise' => 'Em analise',
-    'aprovado' => 'Aprovado',
-    'reprovado' => 'Reprovado',
+    STATUS_CAND_ENVIADA   => 'Enviada',
+    STATUS_CAND_ANALISE   => 'Em analise',
+    STATUS_CAND_APROVADO  => 'Aprovado',
+    STATUS_CAND_REPROVADO => 'Reprovado',
 ];
 $statusClass = [
-    'enviada' => 'badge-info',
-    'em_analise' => 'badge-warning',
-    'aprovado' => 'badge-success',
-    'reprovado' => 'badge-danger',
+    STATUS_CAND_ENVIADA   => 'badge-info',
+    STATUS_CAND_ANALISE   => 'badge-warning',
+    STATUS_CAND_APROVADO  => 'badge-success',
+    STATUS_CAND_REPROVADO => 'badge-danger',
 ];
 ?>
 <!DOCTYPE html>
@@ -58,21 +58,13 @@ $statusClass = [
     <title>Minhas Vagas - SkillConnect</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta2/css/all.min.css" rel="stylesheet">
-    <style>
-        .hero {
-            border-radius: 14px;
-            background: linear-gradient(120deg, #0e7490 0%, #1d4ed8 100%);
-            color: #fff;
-            padding: 22px;
-        }
-    </style>
 </head>
 <body class="bg-light">
 
 <?php include('../includes/header.php'); ?>
 
 <div class="container py-4">
-    <div class="hero mb-4">
+    <div class="hero-candidaturas mb-4">
         <h1 class="h4 mb-1">Minhas vagas</h1>
         <p class="mb-0">Veja o andamento das vagas em que voce se candidatou.</p>
     </div>

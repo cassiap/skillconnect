@@ -1,9 +1,51 @@
-# Bloqueia acesso ao .env via navegador
+# SkillConnect — Configuração Apache
+
+# ===== SEGURANÇA: bloqueio de arquivos sensíveis =====
+
 <Files ".env">
     Require all denied
 </Files>
 
-# Desativa exibicao de erros em producao
+<Files "composer.json">
+    Require all denied
+</Files>
+
+<Files "composer.lock">
+    Require all denied
+</Files>
+
+<Files "phpunit.xml">
+    Require all denied
+</Files>
+
+# ===== HTTPS: redireciona HTTP → HTTPS em produção =====
+# A condição HTTPS=off evita loop em XAMPP local (que não usa HTTPS)
+
+RewriteEngine On
+RewriteCond %{HTTPS} off
+RewriteCond %{HTTP_HOST} !^localhost [NC]
+RewriteCond %{HTTP_HOST} !^127\.0\.0\.1 [NC]
+RewriteRule ^ https://%{HTTP_HOST}%{REQUEST_URI} [R=301,L]
+
+# ===== ERROS: oculta detalhes em produção =====
+
 php_flag display_errors off
 php_flag display_startup_errors off
 php_value error_reporting 0
+
+# ===== HEADERS DE SEGURANÇA =====
+
+<IfModule mod_headers.c>
+    # Previne clickjacking
+    Header always set X-Frame-Options "SAMEORIGIN"
+
+    # Previne MIME sniffing
+    Header always set X-Content-Type-Options "nosniff"
+
+    # Habilita proteção XSS no navegador (fallback para navegadores antigos)
+    Header always set X-XSS-Protection "1; mode=block"
+
+    # Remove assinatura do servidor
+    Header always unset X-Powered-By
+    Header always unset Server
+</IfModule>

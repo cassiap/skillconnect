@@ -19,16 +19,20 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         redirect('cadastracurso.php');
     }
 
-    $titulo    = trim($_POST['titulo'] ?? '');
-    $descricao = trim($_POST['descricao'] ?? '');
-    $carga     = intval($_POST['carga_horaria'] ?? 0);
-    $modalidade = $_POST['modalidade'] ?? 'online';
-    $nivel     = $_POST['nivel'] ?? 'basico';
-    $preco     = floatval($_POST['preco'] ?? 0);
-    $vagas     = intval($_POST['vagas'] ?? 0);
+    $titulo      = trim($_POST['titulo'] ?? '');
+    $descricao   = trim($_POST['descricao'] ?? '');
+    $carga       = intval($_POST['carga_horaria'] ?? 0);
+    $modalidade  = $_POST['modalidade'] ?? 'online';
+    $nivel       = $_POST['nivel'] ?? 'basico';
+    $preco       = floatval($_POST['preco'] ?? 0);
+    $vagas       = intval($_POST['vagas'] ?? 0);
+    $duracaoDias = intval($_POST['duracao_dias'] ?? 180);
+    $duracaoDias = max(0, $duracaoDias);
+    // NULL = sem prazo; 0 digitado pelo admin também vira NULL
+    $duracaoDiasDb = $duracaoDias > 0 ? $duracaoDias : null;
 
-    $stmt = $cx->prepare("INSERT INTO cursos (titulo, descricao, carga_horaria, modalidade, nivel, preco, vagas) VALUES (?,?,?,?,?,?,?)");
-    $stmt->bind_param("ssissdi", $titulo, $descricao, $carga, $modalidade, $nivel, $preco, $vagas);
+    $stmt = $cx->prepare("INSERT INTO cursos (titulo, descricao, carga_horaria, modalidade, nivel, preco, vagas, duracao_dias) VALUES (?,?,?,?,?,?,?,?)");
+    $stmt->bind_param("ssissdii", $titulo, $descricao, $carga, $modalidade, $nivel, $preco, $vagas, $duracaoDiasDb);
 
     if ($stmt->execute()) {
         $stmt->close();
@@ -88,13 +92,18 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             </div>
         </div>
         <div class="form-row">
-            <div class="form-group col-md-6">
+            <div class="form-group col-md-4">
                 <label for="preco">Preço (R$)</label>
                 <input type="number" class="form-control" name="preco" id="preco" step="0.01" min="0" value="0.00">
             </div>
-            <div class="form-group col-md-6">
+            <div class="form-group col-md-4">
                 <label for="vagas">Vagas Disponíveis</label>
                 <input type="number" class="form-control" name="vagas" id="vagas" min="0" value="0">
+            </div>
+            <div class="form-group col-md-4">
+                <label for="duracao_dias">Prazo para conclusão (dias)</label>
+                <input type="number" class="form-control" name="duracao_dias" id="duracao_dias" min="0" value="180">
+                <small class="form-text text-muted">0 = sem prazo. Padrão: 180 dias.</small>
             </div>
         </div>
         <button type="submit" class="btn btn-success">Salvar Curso</button>

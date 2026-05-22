@@ -1,13 +1,11 @@
 <?php
 /**
- * Página de listagem de cursos do usuário
- * 
- * Este arquivo exibe todos os cursos em que o usuário está inscrito,
- * mostrando o status da inscrição, progresso nas aulas e informações
- * detalhadas de cada curso.
- * 
- * @author Sistema SkillConnect
- * @version 1.0
+ * Listagem de cursos inscritos pelo aluno
+ *
+ * Exibe os cursos em formato de cards com progresso colorido, alertas de expiração,
+ * estimativa de conclusão, badge de curso concluído e atalho para certificado.
+ *
+ * @package SkillConnect
  */
 
 require_once __DIR__ . '/../config/db.php';
@@ -27,12 +25,13 @@ $sql = "
         ic.id,
         ic.status,
         ic.criado_em,
+        ic.acesso_expira_em,
         c.id AS curso_id,
         c.titulo,
         c.modalidade,
         c.nivel,
         c.carga_horaria,
-        COALESCE(a.total_aulas, 0) AS total_aulas,
+        COALESCE(a.total_aulas, 0)      AS total_aulas,
         COALESCE(p.total_concluidas, 0) AS total_concluidas
     FROM inscricoes_cursos ic
     INNER JOIN cursos c ON c.id = ic.curso_id
@@ -64,16 +63,16 @@ while ($row = $res->fetch_assoc()) {
 $stmt->close();
 
 $statusLabel = [
-    'pendente' => 'Pendente',
-    'confirmado' => 'Confirmado',
-    'cancelado' => 'Cancelado',
-    'concluido' => 'Concluido',
+    STATUS_INSC_PENDENTE   => 'Pendente',
+    STATUS_INSC_CONFIRMADO => 'Em andamento',
+    STATUS_INSC_CANCELADO  => 'Cancelado',
+    STATUS_INSC_CONCLUIDO  => 'Concluído',
 ];
 $statusClass = [
-    'pendente' => 'badge-warning',
-    'confirmado' => 'badge-success',
-    'cancelado' => 'badge-secondary',
-    'concluido' => 'badge-primary',
+    STATUS_INSC_PENDENTE   => 'badge-warning',
+    STATUS_INSC_CONFIRMADO => 'badge-primary',
+    STATUS_INSC_CANCELADO  => 'badge-secondary',
+    STATUS_INSC_CONCLUIDO  => 'badge-success',
 ];
 ?>
 <!DOCTYPE html>
@@ -84,102 +83,186 @@ $statusClass = [
     <title>Meus Cursos - SkillConnect</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta2/css/all.min.css" rel="stylesheet">
-    <style>
-        .hero {
-            border-radius: 14px;
-            background: linear-gradient(120deg, #1d4ed8 0%, #0f766e 100%);
-            color: #fff;
-            padding: 22px;
-        }
-        .progress {
-            height: 10px;
-            border-radius: 999px;
-            background: #e2e8f0;
-        }
-    </style>
 </head>
 <body class="bg-light">
 
 <?php include('../includes/header.php'); ?>
 
 <div class="container py-4">
-    <div class="hero mb-4">
+    <div class="hero-meus-cursos mb-4">
         <h1 class="h4 mb-1">Meus cursos</h1>
-        <p class="mb-0">Acompanhe suas inscricoes e avance pelas aulas.</p>
+        <p class="mb-0">Acompanhe suas inscrições, progresso e validade de acesso.</p>
     </div>
+
+    <?php $flashInfo = get_flash('info'); if ($flashInfo): ?>
+        <div class="alert alert-info alert-dismissible">
+            <?= htmlspecialchars($flashInfo) ?>
+            <button type="button" class="close" data-dismiss="alert"><span>&times;</span></button>
+        </div>
+    <?php endif; ?>
+    <?php $flashSuccess = get_flash('success'); if ($flashSuccess): ?>
+        <div class="alert alert-success alert-dismissible">
+            <?= htmlspecialchars($flashSuccess) ?>
+            <button type="button" class="close" data-dismiss="alert"><span>&times;</span></button>
+        </div>
+    <?php endif; ?>
 
     <?php if (count($inscricoes) === 0): ?>
         <div class="card shadow-sm">
-            <div class="card-body">
-                <p class="mb-3">Voce ainda nao tem inscricoes em cursos.</p>
-                <a href="cursos.php" class="btn btn-primary"><i class="fas fa-search"></i> Explorar cursos</a>
+            <div class="card-body empty-state">
+                <i class="fas fa-graduation-cap"></i>
+                <p class="text-muted mb-3">Você ainda não tem inscrições em cursos.</p>
+                <a href="cursos.php" class="btn btn-primary"><i class="fas fa-search mr-1"></i> Explorar cursos</a>
             </div>
         </div>
     <?php else: ?>
-        <div class="card shadow-sm">
-            <div class="card-body p-0">
-                <div class="table-responsive">
-                    <table class="table mb-0">
-                        <thead class="thead-light">
-                            <tr>
-                                <th>Curso</th>
-                                <th>Status</th>
-                                <th>Progresso</th>
-                                <th>Inscrito em</th>
-                                <th></th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                        <?php foreach ($inscricoes as $i): ?>
-                            <?php
-                                $totalAulas = (int) $i['total_aulas'];
-                                $concluidas = (int) $i['total_concluidas'];
-                                $percent = $totalAulas > 0 ? (int) floor(($concluidas * 100) / $totalAulas) : 0;
-                            ?>
-                            <tr>
-                                <td>
-                                    <div class="font-weight-bold"><?php echo htmlspecialchars($i['titulo']); ?></div>
-                                    <small class="text-muted">
-                                        <?php echo htmlspecialchars($i['modalidade']); ?> |
-                                        <?php echo htmlspecialchars($i['nivel']); ?> |
-                                        <?php echo $i['carga_horaria'] ? (int) $i['carga_horaria'] . 'h' : '-'; ?>
-                                    </small>
-                                </td>
-                                <td>
-                                    <?php $st = $i['status']; ?>
-                                    <span class="badge <?php echo $statusClass[$st] ?? 'badge-secondary'; ?>">
-                                        <?php echo htmlspecialchars($statusLabel[$st] ?? $st); ?>
-                                    </span>
-                                </td>
-                                <td style="min-width:220px;">
-                                    <?php if ($totalAulas <= 0): ?>
-                                        <small class="text-muted">Aulas em configuracao</small>
+        <div class="row">
+            <?php foreach ($inscricoes as $i): ?>
+                <?php
+                    $totalAulas = (int) $i['total_aulas'];
+                    $concluidas = (int) $i['total_concluidas'];
+                    $percent = $totalAulas > 0 ? (int) floor($concluidas * 100 / $totalAulas) : 0;
+                    $st = (string) ($i['status'] ?? 'pendente');
+
+                    // Cor da barra de progresso por faixa
+                    $barClass = 'bg-danger';
+                    if ($percent >= 100)     $barClass = 'bg-success';
+                    elseif ($percent >= 67)  $barClass = 'bg-primary';
+                    elseif ($percent >= 34)  $barClass = 'bg-warning';
+
+                    // Expiração
+                    $expirado      = false;
+                    $expirandoBreve = false;
+                    $diasRestantes = null;
+                    $expiraTexto   = null;
+                    if (!empty($i['acesso_expira_em'])) {
+                        $expiraTs = strtotime((string) $i['acesso_expira_em']);
+                        $agora    = time();
+                        $expirado = $agora > $expiraTs;
+                        if (!$expirado) {
+                            $diasRestantes  = (int) ceil(($expiraTs - $agora) / 86400);
+                            $expirandoBreve = $diasRestantes <= 7;
+                            $expiraTexto    = date('d/m/Y', $expiraTs);
+                        }
+                    }
+
+                    // Estimativa de conclusão
+                    $etaText = '';
+                    if ($totalAulas > 0 && $concluidas > 0 && $concluidas < $totalAulas) {
+                        $diasDesde = max(1, (int) ceil((time() - strtotime((string) $i['criado_em'])) / 86400));
+                        $rate = $concluidas / $diasDesde;
+                        if ($rate > 0) {
+                            $etaDias = (int) ceil(($totalAulas - $concluidas) / $rate);
+                            if ($etaDias > 0 && $etaDias <= 365) {
+                                $etaText = 'Neste ritmo, termina em ~' . $etaDias . ' dia' . ($etaDias === 1 ? '' : 's');
+                            }
+                        }
+                    }
+
+                    $cardClass = '';
+                    if ($expirado)       $cardClass = 'card-expirado';
+                    elseif ($percent >= 100) $cardClass = 'card-concluido';
+                ?>
+                <div class="col-md-6 col-lg-4 mb-4">
+                    <div class="curso-card <?= $cardClass ?> d-flex flex-column p-3">
+                        <?php if ($percent >= 100): ?>
+                            <div class="ribbon">CONCLUÍDO</div>
+                        <?php endif; ?>
+
+                        <!-- Badges de nível e modalidade -->
+                        <div class="mb-2">
+                            <span class="badge-soft"><?= htmlspecialchars(ucfirst((string) ($i['modalidade'] ?: 'Geral'))) ?></span>
+                            <span class="badge-soft"><?= htmlspecialchars(ucfirst((string) ($i['nivel'] ?: 'Livre'))) ?></span>
+                            <span class="badge <?= $statusClass[$st] ?? 'badge-secondary' ?>" style="font-size:10px;">
+                                <?= htmlspecialchars($statusLabel[$st] ?? $st) ?>
+                            </span>
+                        </div>
+
+                        <!-- Título -->
+                        <h5 class="font-weight-bold mb-1" style="font-size:15px; line-height:1.3; flex-grow:0;">
+                            <?= htmlspecialchars((string) ($i['titulo'] ?? '')) ?>
+                        </h5>
+                        <div class="small text-muted mb-3">
+                            <i class="far fa-clock"></i>
+                            <?= $i['carga_horaria'] ? (int) $i['carga_horaria'] . 'h' : '—' ?>
+                            &nbsp;·&nbsp; Inscrito em <?= date('d/m/Y', strtotime((string) $i['criado_em'])) ?>
+                        </div>
+
+                        <!-- Progresso -->
+                        <?php if ($totalAulas > 0): ?>
+                            <div class="d-flex justify-content-between small mb-1">
+                                <span><?= $concluidas ?>/<?= $totalAulas ?> aulas</span>
+                                <strong><?= $percent ?>%</strong>
+                            </div>
+                            <div class="progress mb-1">
+                                <div class="progress-bar <?= $barClass ?>" style="width:<?= $percent ?>%;"></div>
+                            </div>
+                            <?php if ($etaText): ?>
+                                <div class="eta-text mb-2"><?= htmlspecialchars($etaText) ?></div>
+                            <?php else: ?>
+                                <div class="mb-2"></div>
+                            <?php endif; ?>
+                        <?php else: ?>
+                            <div class="small text-muted mb-3">Aulas em configuração</div>
+                        <?php endif; ?>
+
+                        <!-- Badge de validade -->
+                        <?php if (!empty($i['acesso_expira_em'])): ?>
+                            <?php if ($expirado): ?>
+                                <span class="expiry-badge expiry-danger mb-3">
+                                    <i class="fas fa-lock"></i> Acesso expirado
+                                </span>
+                            <?php elseif ($expirandoBreve): ?>
+                                <span class="expiry-badge expiry-warn mb-3">
+                                    <i class="fas fa-exclamation-triangle"></i>
+                                    Expira em <?= $diasRestantes ?> dia<?= $diasRestantes === 1 ? '' : 's' ?> (<?= $expiraTexto ?>)
+                                </span>
+                            <?php else: ?>
+                                <span class="expiry-badge expiry-ok mb-3">
+                                    <i class="fas fa-calendar-check"></i> Válido até <?= $expiraTexto ?>
+                                </span>
+                            <?php endif; ?>
+                        <?php else: ?>
+                            <div class="mb-1"></div>
+                        <?php endif; ?>
+
+                        <!-- Botões de ação -->
+                        <div class="mt-auto d-flex" style="gap:8px;">
+                            <?php if (!$expirado): ?>
+                                <a class="btn btn-sm btn-primary flex-grow-1"
+                                   href="meu-curso.php?curso_id=<?= (int) $i['curso_id'] ?>">
+                                    <?php if ($percent === 0): ?>
+                                        <i class="fas fa-play mr-1"></i> Começar
+                                    <?php elseif ($percent >= 100): ?>
+                                        <i class="fas fa-redo mr-1"></i> Revisar
                                     <?php else: ?>
-                                        <div class="d-flex justify-content-between small mb-1">
-                                            <span><?php echo $concluidas; ?>/<?php echo $totalAulas; ?> aulas</span>
-                                            <span><?php echo $percent; ?>%</span>
-                                        </div>
-                                        <div class="progress">
-                                            <div class="progress-bar bg-success" role="progressbar" style="width: <?php echo $percent; ?>%;"></div>
-                                        </div>
+                                        <i class="fas fa-arrow-right mr-1"></i> Continuar
                                     <?php endif; ?>
-                                </td>
-                                <td><?php echo date('d/m/Y H:i', strtotime($i['criado_em'])); ?></td>
-                                <td class="text-right">
-                                    <a class="btn btn-sm btn-outline-primary" href="meu-curso.php?curso_id=<?php echo (int) $i['curso_id']; ?>">
-                                        Continuar
-                                    </a>
-                                </td>
-                            </tr>
-                        <?php endforeach; ?>
-                        </tbody>
-                    </table>
+                                </a>
+                            <?php else: ?>
+                                <span class="btn btn-sm btn-outline-secondary flex-grow-1 disabled">
+                                    <i class="fas fa-lock mr-1"></i> Expirado
+                                </span>
+                            <?php endif; ?>
+
+                            <?php if ($percent >= 100): ?>
+                                <a class="btn btn-sm btn-outline-success"
+                                   href="certificado.php?curso_id=<?= (int) $i['curso_id'] ?>"
+                                   title="Ver certificado">
+                                    <i class="fas fa-certificate"></i>
+                                </a>
+                            <?php endif; ?>
+                        </div>
+                    </div>
                 </div>
-            </div>
+            <?php endforeach; ?>
         </div>
     <?php endif; ?>
 </div>
 
 <?php include('../includes/footer.php'); ?>
+
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
