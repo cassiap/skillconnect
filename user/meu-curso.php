@@ -101,6 +101,34 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         redirect("meu-curso.php?curso_id={$cursoId}&aula={$aulaId}");
     }
 
+    // ----- Avaliação do curso como um todo -----
+    if ($acao === 'avaliar_curso') {
+        $nota       = (int) ($_POST['nota'] ?? 0);
+        $comentario = trim((string) ($_POST['comentario'] ?? ''));
+
+        if ($nota < 1 || $nota > 5) {
+            flash('error', 'Avaliacao invalida.');
+            redirect("meu-curso.php?curso_id={$cursoId}&aula={$aulaAtual}");
+        }
+
+        try {
+            $avcStmt = $cx->prepare(
+                "INSERT INTO avaliacoes_cursos (usuario_id, curso_id, nota, comentario)
+                 VALUES (?, ?, ?, ?)
+                 ON DUPLICATE KEY UPDATE nota = VALUES(nota), comentario = VALUES(comentario), atualizado_em = NOW()"
+            );
+            $avcStmt->bind_param("iiis", $usuarioId, $cursoId, $nota, $comentario);
+            $avcStmt->execute();
+            $avcStmt->close();
+            flash('success', 'Avaliacao do curso salva. Obrigado pelo feedback!');
+        } catch (mysqli_sql_exception $e) {
+            error_log('meu-curso.php avaliacao curso insert error: ' . $e->getMessage());
+            flash('error', 'Erro ao salvar a avaliacao do curso.');
+        }
+
+        redirect("meu-curso.php?curso_id={$cursoId}&aula={$aulaAtual}");
+    }
+
     // ----- Progresso (concluir / desfazer) — bloqueado se expirado -----
     if ($expirado) {
         flash('error', 'Seu acesso a este curso expirou.');
@@ -302,16 +330,63 @@ if ($aulaIds !== []) {
     $avgStmt->close();
 }
 
+// Avaliação do curso: a do aluno e a média geral
+$minhaAvaliacaoCurso = null;
+$myCursoStmt = $cx->prepare(
+    "SELECT nota, comentario FROM avaliacoes_cursos WHERE usuario_id = ? AND curso_id = ? LIMIT 1"
+);
+$myCursoStmt->bind_param("ii", $usuarioId, $cursoId);
+$myCursoStmt->execute();
+$minhaAvaliacaoCurso = $myCursoStmt->get_result()->fetch_assoc();
+$myCursoStmt->close();
+
+$mediaCurso = null;
+$avgCursoStmt = $cx->prepare(
+    "SELECT ROUND(AVG(nota), 1) AS media, COUNT(*) AS total FROM avaliacoes_cursos WHERE curso_id = ?"
+);
+$avgCursoStmt->bind_param("i", $cursoId);
+$avgCursoStmt->execute();
+$avgCursoRow = $avgCursoStmt->get_result()->fetch_assoc();
+$avgCursoStmt->close();
+if ($avgCursoRow && (int) $avgCursoRow['total'] > 0) {
+    $mediaCurso = [
+        'media' => (float) $avgCursoRow['media'],
+        'total' => (int) $avgCursoRow['total'],
+    ];
+}
+
 // Avaliação do aluno na aula selecionada
 $minhaAvaliacao = null;
 if ($aulaSelecionada) {
     $myRatingStmt = $cx->prepare(
         "SELECT nota, comentario FROM avaliacoes_aulas WHERE usuario_id = ? AND aula_id = ? LIMIT 1"
     );
-    $myRatingStmt->bind_param("ii", $usuarioId, (int) $aulaSelecionada['id']);
+    $aulaSelecionadaId = (int) $aulaSelecionada['id'];
+    $myRatingStmt->bind_param("ii", $usuarioId, $aulaSelecionadaId);
     $myRatingStmt->execute();
     $minhaAvaliacao = $myRatingStmt->get_result()->fetch_assoc();
     $myRatingStmt->close();
+}
+
+// Comentários dos alunos na aula selecionada (avaliações que têm texto)
+$comentariosAula = [];
+if ($aulaSelecionada) {
+    $comStmt = $cx->prepare(
+        "SELECT av.nota, av.comentario, av.atualizado_em, u.nome
+         FROM avaliacoes_aulas av
+         INNER JOIN usuarios u ON u.id = av.usuario_id
+         WHERE av.aula_id = ? AND av.comentario IS NOT NULL AND av.comentario <> ''
+         ORDER BY av.atualizado_em DESC
+         LIMIT 10"
+    );
+    $aulaSelecionadaIdAtual = (int) $aulaSelecionada['id'];
+    $comStmt->bind_param("i", $aulaSelecionadaIdAtual);
+    $comStmt->execute();
+    $comRes = $comStmt->get_result();
+    while ($comRow = $comRes->fetch_assoc()) {
+        $comentariosAula[] = $comRow;
+    }
+    $comStmt->close();
 }
 
 /**
@@ -362,6 +437,13 @@ function safe_http_url($url): string {
             <?= htmlspecialchars((string) ($curso['modalidade'] ?? '-')) ?> |
             <?= htmlspecialchars((string) ($curso['nivel'] ?? '-')) ?> |
             <?= $curso['carga_horaria'] ? (int) $curso['carga_horaria'] . 'h' : '-' ?>
+            <?php if ($mediaCurso): ?>
+                |
+                <?php for ($s = 1; $s <= 5; $s++): ?>
+                    <i class="fas fa-star" style="font-size:11px; color:<?= $s <= round($mediaCurso['media']) ? '#fbbf24' : 'rgba(255,255,255,.35)' ?>;"></i>
+                <?php endfor; ?>
+                <?= number_format($mediaCurso['media'], 1) ?> (<?= $mediaCurso['total'] ?> avaliação<?= $mediaCurso['total'] > 1 ? 'ões' : '' ?>)
+            <?php endif; ?>
         </div>
     </div>
 
@@ -454,7 +536,8 @@ function safe_http_url($url): string {
             </div>
 
             <?php
-                $videoUrl    = $aulaSelecionada ? safe_http_url($aulaSelecionada['video_url']) : '';
+                // video_embed_url() valida a URL e converte links do YouTube para o formato embed
+                $videoUrl    = $aulaSelecionada ? video_embed_url($aulaSelecionada['video_url']) : '';
                 $materialUrl = $aulaSelecionada ? safe_http_url($aulaSelecionada['material_url']) : '';
             ?>
 
@@ -531,6 +614,33 @@ function safe_http_url($url): string {
                         <?php endif; ?>
                     </form>
                 </div>
+
+                <!-- Comentários dos alunos sobre esta aula -->
+                <?php if (count($comentariosAula) > 0): ?>
+                    <div class="mt-4">
+                        <h4 class="h6 mb-3">
+                            <i class="far fa-comments text-primary mr-1"></i>
+                            O que os alunos acharam desta aula
+                            <span class="text-muted small font-weight-normal">(<?= count($comentariosAula) ?>)</span>
+                        </h4>
+                        <?php foreach ($comentariosAula as $com): ?>
+                            <div class="p-3 mb-2" style="background:#f8fafc; border:1px solid #e2e8f0; border-radius:10px;">
+                                <div class="d-flex justify-content-between align-items-center flex-wrap mb-1">
+                                    <strong class="small"><?= htmlspecialchars($com['nome']) ?></strong>
+                                    <span class="small text-muted">
+                                        <?php for ($s = 1; $s <= 5; $s++): ?>
+                                            <i class="fas fa-star <?= $s <= (int) $com['nota'] ? 'star-avg' : 'star-avg-empty' ?>" style="font-size:11px;"></i>
+                                        <?php endfor; ?>
+                                        · <?= date('d/m/Y', strtotime((string) $com['atualizado_em'])) ?>
+                                    </span>
+                                </div>
+                                <div class="small" style="color:#334155; line-height:1.6;">
+                                    <?= nl2br(htmlspecialchars((string) $com['comentario'])) ?>
+                                </div>
+                            </div>
+                        <?php endforeach; ?>
+                    </div>
+                <?php endif; ?>
             <?php endif; ?>
         </div>
     </div>
@@ -612,6 +722,45 @@ function safe_http_url($url): string {
             </div>
         <?php endforeach; ?>
     <?php endif; ?>
+
+    <!-- Avaliação do curso como um todo -->
+    <div class="card shadow-sm mb-3">
+        <div class="card-body">
+            <h4 class="h6 mb-3"><i class="fas fa-award text-warning mr-1"></i> Avaliar este curso</h4>
+            <p class="text-muted small mb-3">
+                Sua opinião sobre o curso completo ajuda outros alunos a escolherem melhor.
+            </p>
+            <form method="POST">
+                <?= csrf_field() ?>
+                <input type="hidden" name="curso_id"   value="<?= $cursoId ?>">
+                <input type="hidden" name="aula_atual" value="<?= $aulaSelecionada ? (int) $aulaSelecionada['id'] : 0 ?>">
+                <input type="hidden" name="acao"       value="avaliar_curso">
+
+                <div class="stars-input mb-3">
+                    <?php
+                    $notaCursoAtual = (int) ($minhaAvaliacaoCurso['nota'] ?? 0);
+                    for ($s = 5; $s >= 1; $s--): ?>
+                        <input type="radio" id="cstar<?= $s ?>" name="nota" value="<?= $s ?>"
+                               <?= $notaCursoAtual === $s ? 'checked' : '' ?>>
+                        <label for="cstar<?= $s ?>" title="<?= $s ?> estrela<?= $s > 1 ? 's' : '' ?>">&#9733;</label>
+                    <?php endfor; ?>
+                </div>
+
+                <div class="form-group mb-2">
+                    <textarea name="comentario" class="form-control" rows="2"
+                              placeholder="O que você achou do curso? (opcional)"
+                              style="font-size:13px;"><?= htmlspecialchars((string) ($minhaAvaliacaoCurso['comentario'] ?? '')) ?></textarea>
+                </div>
+                <button type="submit" class="btn btn-sm btn-warning">
+                    <i class="fas fa-star mr-1"></i>
+                    <?= $minhaAvaliacaoCurso ? 'Atualizar avaliação do curso' : 'Avaliar curso' ?>
+                </button>
+                <?php if ($minhaAvaliacaoCurso): ?>
+                    <span class="small text-muted ml-2">Sua nota atual: <?= $notaCursoAtual ?>/5</span>
+                <?php endif; ?>
+            </form>
+        </div>
+    </div>
 </div>
 
 <?php include('../includes/footer.php'); ?>

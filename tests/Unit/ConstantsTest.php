@@ -37,17 +37,23 @@ class ConstantsTest extends TestCase
         $this->assertSame('reprovado', STATUS_CAND_REPROVADO);
     }
 
+    public function testStatusCandCanceladaValue(): void
+    {
+        $this->assertSame('cancelada', STATUS_CAND_CANCELADA);
+    }
+
     public function testAllCandidaturaConstantsAreStrings(): void
     {
         $this->assertIsString(STATUS_CAND_ENVIADA);
         $this->assertIsString(STATUS_CAND_ANALISE);
         $this->assertIsString(STATUS_CAND_APROVADO);
         $this->assertIsString(STATUS_CAND_REPROVADO);
+        $this->assertIsString(STATUS_CAND_CANCELADA);
     }
 
     public function testCandidaturaStatusAreDistinct(): void
     {
-        $values = [STATUS_CAND_ENVIADA, STATUS_CAND_ANALISE, STATUS_CAND_APROVADO, STATUS_CAND_REPROVADO];
+        $values = [STATUS_CAND_ENVIADA, STATUS_CAND_ANALISE, STATUS_CAND_APROVADO, STATUS_CAND_REPROVADO, STATUS_CAND_CANCELADA];
         $this->assertSame(count($values), count(array_unique($values)), 'Cada status de candidatura deve ter valor único');
     }
 

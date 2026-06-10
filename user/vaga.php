@@ -33,6 +33,8 @@ if ($resultado->num_rows === 0) {
 
 $vaga = $resultado->fetch_assoc();
 $stmt->close();
+
+$candidaturasEncerradas = prazo_encerrado($vaga['candidaturas_ate'] ?? null);
 ?>
 <!DOCTYPE html>
 <html lang="pt-br">
@@ -73,6 +75,14 @@ $stmt->close();
                 </p>
             <?php endif; ?>
 
+            <?php if (!empty($vaga['candidaturas_ate'])): ?>
+                <?php if ($candidaturasEncerradas): ?>
+                    <p class="mb-1"><span class="badge badge-danger">Candidaturas encerradas em <?php echo date('d/m/Y', strtotime($vaga['candidaturas_ate'])); ?></span></p>
+                <?php else: ?>
+                    <p class="mb-1"><span class="badge badge-info">Candidaturas abertas ate <?php echo date('d/m/Y', strtotime($vaga['candidaturas_ate'])); ?></span></p>
+                <?php endif; ?>
+            <?php endif; ?>
+
             <h5 class="mt-4">Descrição da vaga</h5>
             <p><?php echo nl2br(htmlspecialchars($vaga['descricao'])); ?></p>
 
@@ -82,9 +92,13 @@ $stmt->close();
             <?php endif; ?>
 
             <?php if (!$isAdmin): ?>
-                <a href="candidatar.php?vaga_id=<?php echo $vaga['id']; ?>" class="btn btn-success mt-3">
-                    Quero me candidatar
-                </a>
+                <?php if ($candidaturasEncerradas): ?>
+                    <button class="btn btn-secondary mt-3" disabled>Candidaturas encerradas</button>
+                <?php else: ?>
+                    <a href="candidatar.php?vaga_id=<?php echo $vaga['id']; ?>" class="btn btn-success mt-3">
+                        Quero me candidatar
+                    </a>
+                <?php endif; ?>
             <?php else: ?>
                 <div class="alert alert-info mt-3 mb-0">
                     Visualizacao administrativa. Administradores nao se candidatam a vagas.

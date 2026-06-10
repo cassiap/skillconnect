@@ -31,8 +31,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     // NULL = sem prazo; 0 digitado pelo admin também vira NULL
     $duracaoDiasDb = $duracaoDias > 0 ? $duracaoDias : null;
 
-    $stmt = $cx->prepare("INSERT INTO cursos (titulo, descricao, carga_horaria, modalidade, nivel, preco, vagas, duracao_dias) VALUES (?,?,?,?,?,?,?,?)");
-    $stmt->bind_param("ssissdii", $titulo, $descricao, $carga, $modalidade, $nivel, $preco, $vagas, $duracaoDiasDb);
+    // Data limite de inscrição: vazio = sem prazo (NULL)
+    $inscricoesAte = trim($_POST['inscricoes_ate'] ?? '');
+    $inscricoesAteDb = ($inscricoesAte !== '' && strtotime($inscricoesAte) !== false) ? $inscricoesAte : null;
+
+    $stmt = $cx->prepare("INSERT INTO cursos (titulo, descricao, carga_horaria, modalidade, nivel, preco, vagas, duracao_dias, inscricoes_ate) VALUES (?,?,?,?,?,?,?,?,?)");
+    $stmt->bind_param("ssissdiis", $titulo, $descricao, $carga, $modalidade, $nivel, $preco, $vagas, $duracaoDiasDb, $inscricoesAteDb);
 
     if ($stmt->execute()) {
         $stmt->close();
@@ -104,6 +108,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 <label for="duracao_dias">Prazo para conclusão (dias)</label>
                 <input type="number" class="form-control" name="duracao_dias" id="duracao_dias" min="0" value="180">
                 <small class="form-text text-muted">0 = sem prazo. Padrão: 180 dias.</small>
+            </div>
+        </div>
+        <div class="form-row">
+            <div class="form-group col-md-4">
+                <label for="inscricoes_ate">Inscrições abertas até</label>
+                <input type="date" class="form-control" name="inscricoes_ate" id="inscricoes_ate">
+                <small class="form-text text-muted">Em branco = inscrições sempre abertas.</small>
             </div>
         </div>
         <button type="submit" class="btn btn-success">Salvar Curso</button>

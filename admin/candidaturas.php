@@ -18,6 +18,8 @@ if (!function_exists('bind_params_dynamic')) {
 }
 
 $status_validos = [STATUS_CAND_ENVIADA, STATUS_CAND_ANALISE, STATUS_CAND_APROVADO, STATUS_CAND_REPROVADO];
+// 'cancelada' é ação exclusiva do aluno: o admin pode filtrar por ela, mas não defini-la.
+$status_filtraveis = array_merge($status_validos, [STATUS_CAND_CANCELADA]);
 $queryStringAtual = $_SERVER['QUERY_STRING'] ?? '';
 $redirectPosAcao = 'candidaturas.php' . ($queryStringAtual ? '?' . $queryStringAtual : '');
 
@@ -52,7 +54,7 @@ $f_q = trim($_GET['q'] ?? '');
 $f_de = trim($_GET['de'] ?? '');
 $f_ate = trim($_GET['ate'] ?? '');
 
-if (!in_array($f_status, $status_validos, true)) {
+if (!in_array($f_status, $status_filtraveis, true)) {
     $f_status = '';
 }
 if (!preg_match('/^\d{4}-\d{2}-\d{2}$/', $f_de)) {
@@ -182,6 +184,7 @@ $stmt->close();
                     <option value="em_analise" <?php echo $f_status === 'em_analise' ? 'selected' : ''; ?>>Em Analise</option>
                     <option value="aprovado" <?php echo $f_status === 'aprovado' ? 'selected' : ''; ?>>Aprovado</option>
                     <option value="reprovado" <?php echo $f_status === 'reprovado' ? 'selected' : ''; ?>>Reprovado</option>
+                    <option value="cancelada" <?php echo $f_status === 'cancelada' ? 'selected' : ''; ?>>Cancelada</option>
                 </select>
             </div>
             <div class="col-md-3 mb-2">
@@ -239,6 +242,7 @@ $stmt->close();
                                     STATUS_CAND_ANALISE   => 'badge-warning',
                                     STATUS_CAND_APROVADO  => 'badge-success',
                                     STATUS_CAND_REPROVADO => 'badge-danger',
+                                    STATUS_CAND_CANCELADA => 'badge-secondary',
                                 ];
                                 $classe = $badges[$row['status']] ?? 'badge-secondary';
                                 ?>

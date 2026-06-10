@@ -72,7 +72,7 @@ if ($statusFiltro === 'ativas') {
 $qLike = '%' . $q . '%';
 $cidadeLike = '%' . $cidade . '%';
 
-$sql = "SELECT v.id, v.titulo, v.empresa, v.tipo, v.modalidade, v.salario, v.cidade, v.estado, v.descricao, v.requisitos, v.ativo
+$sql = "SELECT v.id, v.titulo, v.empresa, v.tipo, v.modalidade, v.salario, v.cidade, v.estado, v.descricao, v.requisitos, v.ativo, v.candidaturas_ate
         FROM vagas v
         WHERE (? = '' OR v.titulo LIKE ? OR v.empresa LIKE ? OR v.descricao LIKE ? OR v.requisitos LIKE ?)
           AND (? = '' OR v.tipo = ?)
@@ -277,6 +277,13 @@ function resumo_vaga(string $texto, int $limite = 125): string {
                             <div class="small text-muted mb-3">
                                 <div><i class="fas fa-map-marker-alt"></i> <?php echo htmlspecialchars(trim(($vaga['cidade'] ?? '') . ' / ' . ($vaga['estado'] ?? ''), ' /')); ?></div>
                                 <div><i class="fas fa-dollar-sign"></i> <?php echo htmlspecialchars($vaga['salario'] ?: 'Salario a combinar'); ?></div>
+                                <?php if (!empty($vaga['candidaturas_ate'])): ?>
+                                    <?php if (prazo_encerrado($vaga['candidaturas_ate'])): ?>
+                                        <div class="text-danger"><i class="far fa-calendar-times"></i> Candidaturas encerradas</div>
+                                    <?php else: ?>
+                                        <div><i class="far fa-calendar-alt"></i> Candidaturas ate <?php echo date('d/m/Y', strtotime($vaga['candidaturas_ate'])); ?></div>
+                                    <?php endif; ?>
+                                <?php endif; ?>
                             </div>
                             <a href="vaga.php?id=<?php echo (int) $vaga['id']; ?>" class="btn btn-outline-primary mt-auto">
                                 Ver detalhes

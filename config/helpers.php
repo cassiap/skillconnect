@@ -164,6 +164,84 @@ function app_absolute_url(string $path = ''): string {
     return $scheme . '://' . $host . app_url($path);
 }
 
+// ===== PRAZOS =====
+
+/**
+ * Verifica se uma data limite (prazo) já passou.
+ *
+ * O prazo é inclusivo: no próprio dia da data limite a ação ainda é permitida;
+ * o prazo só é considerado encerrado a partir do dia seguinte.
+ *
+ * @param string|null $dataLimite Data limite no formato Y-m-d (NULL ou vazio = sem prazo)
+ * @param int|null $agora Timestamp de referência (NULL = time()), usado nos testes
+ * @return bool True se o prazo existe e já passou, false caso contrário
+ */
+function prazo_encerrado(?string $dataLimite, ?int $agora = null): bool {
+    if ($dataLimite === null || trim($dataLimite) === '') {
+        return false;
+    }
+
+    $fimDoDia = strtotime(trim($dataLimite) . ' 23:59:59');
+    if ($fimDoDia === false) {
+        return false;
+    }
+
+    return ($agora ?? time()) > $fimDoDia;
+}
+
+// ===== VIDEO =====
+
+/**
+ * Converte uma URL de vídeo para o formato adequado para embed em <iframe>.
+ *
+ * Links do YouTube nos formatos watch?v=, youtu.be/, shorts/ e embed/ são
+ * convertidos para https://www.youtube-nocookie.com/embed/{id} — o domínio
+ * nocookie usa o modo de privacidade aprimorada do YouTube (não grava cookies
+ * de rastreamento até o play). Links de vídeo normais do YouTube não funcionam
+ * em iframe (bloqueados via X-Frame-Options), por isso a conversão é necessária.
+ *
+ * Outras URLs HTTP/HTTPS (ex.: Vimeo embed) são retornadas como estão.
+ * URLs inválidas ou com protocolo não-HTTP retornam string vazia.
+ *
+ * @param string|null $url URL bruta cadastrada em aulas.video_url
+ * @return string URL pronta para o src do iframe, ou vazia se inválida
+ */
+function video_embed_url(?string $url): string {
+    $url = trim((string) $url);
+    if ($url === '' || !filter_var($url, FILTER_VALIDATE_URL)) {
+        return '';
+    }
+
+    $parts  = parse_url($url);
+    $scheme = strtolower((string) ($parts['scheme'] ?? ''));
+    if ($scheme !== 'http' && $scheme !== 'https') {
+        return '';
+    }
+
+    $host = strtolower((string) ($parts['host'] ?? ''));
+    $host = preg_replace('/^www\./', '', $host);
+
+    $videoId = '';
+    if ($host === 'youtu.be') {
+        $videoId = ltrim((string) ($parts['path'] ?? ''), '/');
+    } elseif ($host === 'youtube.com' || $host === 'youtube-nocookie.com' || $host === 'm.youtube.com') {
+        $path = (string) ($parts['path'] ?? '');
+        if ($path === '/watch') {
+            parse_str((string) ($parts['query'] ?? ''), $query);
+            $videoId = (string) ($query['v'] ?? '');
+        } elseif (preg_match('#^/(embed|shorts|live)/([^/?]+)#', $path, $m)) {
+            $videoId = $m[2];
+        }
+    }
+
+    if ($videoId !== '' && preg_match('/^[A-Za-z0-9_-]{11}$/', $videoId)) {
+        return 'https://www.youtube-nocookie.com/embed/' . $videoId;
+    }
+
+    // Não é YouTube (ou ID não reconhecido): devolve a URL original validada
+    return $url;
+}
+
 // ===== AUTH =====
 
 /**

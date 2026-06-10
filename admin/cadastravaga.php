@@ -30,8 +30,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['titulo'])) {
     $cidade     = trim($_POST['cidade'] ?? '');
     $estado     = trim($_POST['estado'] ?? '');
 
-    $stmt = $cx->prepare("INSERT INTO vagas (titulo, empresa, descricao, requisitos, tipo, modalidade, salario, cidade, estado) VALUES (?,?,?,?,?,?,?,?,?)");
-    $stmt->bind_param("sssssssss", $titulo, $empresa, $descricao, $requisitos, $tipo, $modalidade, $salario, $cidade, $estado);
+    // Data limite de candidatura: vazio = sem prazo (NULL)
+    $candidaturasAte = trim($_POST['candidaturas_ate'] ?? '');
+    $candidaturasAteDb = ($candidaturasAte !== '' && strtotime($candidaturasAte) !== false) ? $candidaturasAte : null;
+
+    $stmt = $cx->prepare("INSERT INTO vagas (titulo, empresa, descricao, requisitos, tipo, modalidade, salario, cidade, estado, candidaturas_ate) VALUES (?,?,?,?,?,?,?,?,?,?)");
+    $stmt->bind_param("ssssssssss", $titulo, $empresa, $descricao, $requisitos, $tipo, $modalidade, $salario, $cidade, $estado, $candidaturasAteDb);
 
     if ($stmt->execute()) {
         $stmt->close();
@@ -108,6 +112,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['titulo'])) {
             <div class="form-group col-md-4">
                 <label for="estado">Estado</label>
                 <input type="text" class="form-control" name="estado" id="estado" maxlength="2" placeholder="SP">
+            </div>
+        </div>
+        <div class="form-row">
+            <div class="form-group col-md-4">
+                <label for="candidaturas_ate">Candidaturas abertas até</label>
+                <input type="date" class="form-control" name="candidaturas_ate" id="candidaturas_ate">
+                <small class="form-text text-muted">Em branco = candidaturas sempre abertas.</small>
             </div>
         </div>
         <button type="submit" class="btn btn-success">Salvar Vaga</button>

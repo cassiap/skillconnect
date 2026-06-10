@@ -30,7 +30,7 @@ if ($vaga_id <= 0) {
 }
 
 // Garante que a vaga existe e esta ativa.
-$vagaStmt = $cx->prepare("SELECT id, titulo FROM vagas WHERE id = ? AND ativo = 1 LIMIT 1");
+$vagaStmt = $cx->prepare("SELECT id, titulo, candidaturas_ate FROM vagas WHERE id = ? AND ativo = 1 LIMIT 1");
 $vagaStmt->bind_param("i", $vaga_id);
 $vagaStmt->execute();
 $vagaRes = $vagaStmt->get_result();
@@ -42,14 +42,22 @@ if (!$vaga) {
     redirect('vagas.php');
 }
 
-// Se ja houver candidatura, evita abrir/submeter novamente.
-$jaCandStmt = $cx->prepare("SELECT id FROM candidaturas WHERE usuario_id = ? AND vaga_id = ? LIMIT 1");
+if (prazo_encerrado($vaga['candidaturas_ate'] ?? null)) {
+    flash('error', 'O prazo de candidatura desta vaga encerrou em ' . date('d/m/Y', strtotime($vaga['candidaturas_ate'])) . '.');
+    redirect('vagas.php');
+}
+
+// Se ja houver candidatura ativa, evita abrir/submeter novamente.
+// Candidatura cancelada pelo aluno pode ser reenviada.
+$jaCandStmt = $cx->prepare("SELECT id, status, curriculo_path FROM candidaturas WHERE usuario_id = ? AND vaga_id = ? LIMIT 1");
 $jaCandStmt->bind_param("ii", $usuario_id, $vaga_id);
 $jaCandStmt->execute();
 $jaCand = $jaCandStmt->get_result()->fetch_assoc();
 $jaCandStmt->close();
 
-if ($jaCand) {
+$recandidatura = $jaCand && $jaCand['status'] === STATUS_CAND_CANCELADA;
+
+if ($jaCand && !$recandidatura) {
     flash('info', 'Voce ja se candidatou a esta vaga. Acompanhe em Minhas candidaturas.');
     redirect('minhas-candidaturas.php');
 }
@@ -78,6 +86,24 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
                     if (move_uploaded_file($_FILES['curriculo']['tmp_name'], $destino)) {
                         try {
+                            if ($recandidatura) {
+                                // Reativa a candidatura cancelada com o novo curriculo.
+                                $candidaturaId = (int) $jaCand['id'];
+                                $stmt = $cx->prepare("UPDATE candidaturas SET status = 'enviada', curriculo_path = ?, criado_em = NOW() WHERE id = ?");
+                                $stmt->bind_param("si", $novoNome, $candidaturaId);
+                                $stmt->execute();
+                                $stmt->close();
+
+                                // Remove o curriculo antigo, que nao e mais referenciado.
+                                $antigoPath = (string) ($jaCand['curriculo_path'] ?? '');
+                                if ($antigoPath !== '' && is_file($pasta . $antigoPath)) {
+                                    @unlink($pasta . $antigoPath);
+                                }
+
+                                flash('success', 'Candidatura reenviada com sucesso!');
+                                redirect('minhas-candidaturas.php');
+                            }
+
                             $stmt = $cx->prepare("INSERT INTO candidaturas (usuario_id, vaga_id, curriculo_path) VALUES (?, ?, ?)");
                             $stmt->bind_param("iis", $usuario_id, $vaga_id, $novoNome);
                             $stmt->execute();
@@ -139,6 +165,19 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <div class="container py-5">
     <h2 class="mb-2 text-primary">Quero me candidatar</h2>
     <p class="text-muted mb-4">Vaga: <?php echo htmlspecialchars($vaga['titulo']); ?></p>
+
+    <?php if (!empty($vaga['candidaturas_ate'])): ?>
+        <p class="text-muted small">
+            <i class="far fa-calendar-alt"></i>
+            Candidaturas abertas ate <?php echo date('d/m/Y', strtotime($vaga['candidaturas_ate'])); ?>.
+        </p>
+    <?php endif; ?>
+
+    <?php if ($recandidatura): ?>
+        <div class="alert alert-info">
+            Voce cancelou sua candidatura a esta vaga anteriormente. Envie um novo curriculo para se candidatar de novo.
+        </div>
+    <?php endif; ?>
 
     <?php if ($error !== ''): ?>
         <div class="alert alert-danger"><?php echo htmlspecialchars($error); ?></div>

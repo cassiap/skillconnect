@@ -72,8 +72,14 @@ if ($statusFiltro === 'ativos') {
 
 $qLike = '%' . $q . '%';
 
-$sql = "SELECT c.id, c.titulo, c.descricao, c.carga_horaria, c.modalidade, c.nivel, c.preco, c.vagas, c.ativo
+$sql = "SELECT c.id, c.titulo, c.descricao, c.carga_horaria, c.modalidade, c.nivel, c.preco, c.vagas, c.ativo, c.inscricoes_ate,
+               av.media_avaliacao, av.total_avaliacoes
         FROM cursos c
+        LEFT JOIN (
+            SELECT curso_id, ROUND(AVG(nota), 1) AS media_avaliacao, COUNT(*) AS total_avaliacoes
+            FROM avaliacoes_cursos
+            GROUP BY curso_id
+        ) av ON av.curso_id = c.id
         WHERE (? = '' OR c.titulo LIKE ? OR c.descricao LIKE ?)
           AND (? = '' OR c.modalidade = ?)
           AND (? = '' OR c.nivel = ?)
@@ -237,16 +243,35 @@ function resumo_curso(string $texto, int $limite = 135): string {
                                 <?php endif; ?>
                             </div>
                             <h5 class="text-dark"><?php echo htmlspecialchars($curso['titulo']); ?></h5>
+                            <?php if (!empty($curso['total_avaliacoes'])): ?>
+                                <div class="small mb-1">
+                                    <?php for ($s = 1; $s <= 5; $s++): ?>
+                                        <i class="fas fa-star" style="font-size:11px; color:<?php echo $s <= round((float) $curso['media_avaliacao']) ? '#f59e0b' : '#d1d5db'; ?>;"></i>
+                                    <?php endfor; ?>
+                                    <span class="text-muted"><?php echo number_format((float) $curso['media_avaliacao'], 1); ?> (<?php echo (int) $curso['total_avaliacoes']; ?>)</span>
+                                </div>
+                            <?php endif; ?>
                             <p class="text-muted small mb-3"><?php echo htmlspecialchars(resumo_curso((string) ($curso['descricao'] ?? ''))); ?></p>
                             <div class="small text-muted mb-3">
                                 <div><i class="far fa-clock"></i> <?php echo $curso['carga_horaria'] ? (int) $curso['carga_horaria'] . 'h' : 'Carga nao informada'; ?></div>
                                 <div><i class="fas fa-users"></i> <?php echo ((int) $curso['vagas'] > 0) ? (int) $curso['vagas'] . ' vagas' : 'Vagas ilimitadas'; ?></div>
                                 <div><i class="fas fa-dollar-sign"></i> <?php echo ((float) $curso['preco'] > 0) ? 'R$ ' . number_format((float) $curso['preco'], 2, ',', '.') : 'Gratuito'; ?></div>
+                                <?php if (!empty($curso['inscricoes_ate'])): ?>
+                                    <?php if (prazo_encerrado($curso['inscricoes_ate'])): ?>
+                                        <div class="text-danger"><i class="far fa-calendar-times"></i> Inscricoes encerradas</div>
+                                    <?php else: ?>
+                                        <div><i class="far fa-calendar-alt"></i> Inscricoes ate <?php echo date('d/m/Y', strtotime($curso['inscricoes_ate'])); ?></div>
+                                    <?php endif; ?>
+                                <?php endif; ?>
                             </div>
                             <a href="curso.php?id=<?php echo (int) $curso['id']; ?>" class="btn btn-outline-primary mt-auto">
                                 Ver detalhes
                             </a>
                             <?php if ($isAdmin): ?>
+                                <a href="../admin/curso-conteudo.php?curso_id=<?php echo (int) $curso['id']; ?>"
+                                   class="btn btn-sm btn-outline-info btn-block mt-2">
+                                    <i class="fas fa-list"></i> Gerenciar conteúdo (módulos/aulas)
+                                </a>
                                 <form method="POST" class="mt-2">
                                     <?php echo csrf_field(); ?>
                                     <input type="hidden" name="curso_id" value="<?php echo (int) $curso['id']; ?>">

@@ -106,6 +106,12 @@ $statusClass = [
             <button type="button" class="close" data-dismiss="alert"><span>&times;</span></button>
         </div>
     <?php endif; ?>
+    <?php $flashError = get_flash('error'); if ($flashError): ?>
+        <div class="alert alert-danger alert-dismissible">
+            <?= htmlspecialchars($flashError) ?>
+            <button type="button" class="close" data-dismiss="alert"><span>&times;</span></button>
+        </div>
+    <?php endif; ?>
 
     <?php if (count($inscricoes) === 0): ?>
         <div class="card shadow-sm">
@@ -228,7 +234,12 @@ $statusClass = [
 
                         <!-- Botões de ação -->
                         <div class="mt-auto d-flex" style="gap:8px;">
-                            <?php if (!$expirado): ?>
+                            <?php if ($st === STATUS_INSC_CANCELADO): ?>
+                                <a class="btn btn-sm btn-outline-success flex-grow-1"
+                                   href="inscrever.php?curso_id=<?= (int) $i['curso_id'] ?>">
+                                    <i class="fas fa-redo mr-1"></i> Reativar inscrição
+                                </a>
+                            <?php elseif (!$expirado): ?>
                                 <a class="btn btn-sm btn-primary flex-grow-1"
                                    href="meu-curso.php?curso_id=<?= (int) $i['curso_id'] ?>">
                                     <?php if ($percent === 0): ?>
@@ -251,6 +262,18 @@ $statusClass = [
                                    title="Ver certificado">
                                     <i class="fas fa-certificate"></i>
                                 </a>
+                            <?php endif; ?>
+
+                            <?php if (in_array($st, [STATUS_INSC_PENDENTE, STATUS_INSC_CONFIRMADO], true)): ?>
+                                <form method="POST" action="cancelar-inscricao.php" class="d-inline">
+                                    <?php echo csrf_field(); ?>
+                                    <input type="hidden" name="inscricao_id" value="<?= (int) $i['id'] ?>">
+                                    <button type="submit" class="btn btn-sm btn-outline-danger"
+                                            title="Cancelar inscrição"
+                                            onclick="return confirm('Deseja cancelar sua inscrição neste curso? Seu progresso ficará salvo caso você se inscreva novamente.');">
+                                        <i class="fas fa-times"></i>
+                                    </button>
+                                </form>
                             <?php endif; ?>
                         </div>
                     </div>

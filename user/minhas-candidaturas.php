@@ -42,12 +42,14 @@ $statusLabel = [
     STATUS_CAND_ANALISE   => 'Em analise',
     STATUS_CAND_APROVADO  => 'Aprovado',
     STATUS_CAND_REPROVADO => 'Reprovado',
+    STATUS_CAND_CANCELADA => 'Cancelada',
 ];
 $statusClass = [
     STATUS_CAND_ENVIADA   => 'badge-info',
     STATUS_CAND_ANALISE   => 'badge-warning',
     STATUS_CAND_APROVADO  => 'badge-success',
     STATUS_CAND_REPROVADO => 'badge-danger',
+    STATUS_CAND_CANCELADA => 'badge-secondary',
 ];
 ?>
 <!DOCTYPE html>
@@ -68,6 +70,25 @@ $statusClass = [
         <h1 class="h4 mb-1">Minhas vagas</h1>
         <p class="mb-0">Veja o andamento das vagas em que voce se candidatou.</p>
     </div>
+
+    <?php $flashInfo = get_flash('info'); if ($flashInfo): ?>
+        <div class="alert alert-info alert-dismissible">
+            <?= htmlspecialchars($flashInfo) ?>
+            <button type="button" class="close" data-dismiss="alert"><span>&times;</span></button>
+        </div>
+    <?php endif; ?>
+    <?php $flashSuccess = get_flash('success'); if ($flashSuccess): ?>
+        <div class="alert alert-success alert-dismissible">
+            <?= htmlspecialchars($flashSuccess) ?>
+            <button type="button" class="close" data-dismiss="alert"><span>&times;</span></button>
+        </div>
+    <?php endif; ?>
+    <?php $flashError = get_flash('error'); if ($flashError): ?>
+        <div class="alert alert-danger alert-dismissible">
+            <?= htmlspecialchars($flashError) ?>
+            <button type="button" class="close" data-dismiss="alert"><span>&times;</span></button>
+        </div>
+    <?php endif; ?>
 
     <?php if (count($candidaturas) === 0): ?>
         <div class="card shadow-sm">
@@ -114,8 +135,22 @@ $statusClass = [
                                         <span class="text-muted">-</span>
                                     <?php endif; ?>
                                 </td>
-                                <td class="text-right">
+                                <td class="text-right text-nowrap">
                                     <a class="btn btn-sm btn-outline-primary" href="vaga.php?id=<?php echo (int) $c['vaga_id']; ?>">Ver vaga</a>
+                                    <?php if (in_array($st, [STATUS_CAND_ENVIADA, STATUS_CAND_ANALISE], true)): ?>
+                                        <form method="POST" action="cancelar-candidatura.php" class="d-inline">
+                                            <?php echo csrf_field(); ?>
+                                            <input type="hidden" name="candidatura_id" value="<?php echo (int) $c['id']; ?>">
+                                            <button type="submit" class="btn btn-sm btn-outline-danger"
+                                                    onclick="return confirm('Deseja cancelar esta candidatura?');">
+                                                <i class="fas fa-times"></i> Cancelar
+                                            </button>
+                                        </form>
+                                    <?php elseif ($st === STATUS_CAND_CANCELADA): ?>
+                                        <a class="btn btn-sm btn-outline-success" href="candidatar.php?vaga_id=<?php echo (int) $c['vaga_id']; ?>">
+                                            <i class="fas fa-redo"></i> Candidatar de novo
+                                        </a>
+                                    <?php endif; ?>
                                 </td>
                             </tr>
                         <?php endforeach; ?>

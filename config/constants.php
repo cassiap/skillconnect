@@ -24,6 +24,9 @@ const STATUS_CAND_APROVADO  = 'aprovado';
 /** Candidato não selecionado para a vaga. */
 const STATUS_CAND_REPROVADO = 'reprovado';
 
+/** Candidatura cancelada pelo próprio aluno. */
+const STATUS_CAND_CANCELADA = 'cancelada';
+
 // ===== Status de inscrições em cursos =====
 
 /** Inscrição registrada, aguardando confirmação. */
