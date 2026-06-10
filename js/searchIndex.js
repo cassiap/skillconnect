@@ -11,6 +11,11 @@ Search.appendIndex(
             "summary": "",
             "url": "namespaces/default.html#function_bind_params_dynamic"
         },                {
+            "fqsen": "\\modulo_pertence_ao_curso\u0028\u0029",
+            "name": "modulo_pertence_ao_curso",
+            "summary": "Verifica\u0020se\u0020um\u0020m\u00F3dulo\u0020pertence\u0020ao\u0020curso\u0020em\u0020edi\u00E7\u00E3o.",
+            "url": "namespaces/default.html#function_modulo_pertence_ao_curso"
+        },                {
             "fqsen": "\\validaCPF\u0028\u0029",
             "name": "validaCPF",
             "summary": "Valida\u0020um\u0020n\u00FAmero\u0020de\u0020CPF\u0020atrav\u00E9s\u0020do\u0020algoritmo\u0020de\u0020d\u00EDgitos\u0020verificadores",
@@ -35,6 +40,11 @@ Search.appendIndex(
             "name": "STATUS_CAND_REPROVADO",
             "summary": "Candidato\u0020n\u00E3o\u0020selecionado\u0020para\u0020a\u0020vaga.",
             "url": "namespaces/default.html#constant_STATUS_CAND_REPROVADO"
+        },                {
+            "fqsen": "\\STATUS_CAND_CANCELADA",
+            "name": "STATUS_CAND_CANCELADA",
+            "summary": "Candidatura\u0020cancelada\u0020pelo\u0020pr\u00F3prio\u0020aluno.",
+            "url": "namespaces/default.html#constant_STATUS_CAND_CANCELADA"
         },                {
             "fqsen": "\\STATUS_INSC_PENDENTE",
             "name": "STATUS_INSC_PENDENTE",
@@ -116,6 +126,16 @@ Search.appendIndex(
             "summary": "Gera\u0020uma\u0020URL\u0020absoluta\u0020da\u0020aplica\u00E7\u00E3o",
             "url": "namespaces/default.html#function_app_absolute_url"
         },                {
+            "fqsen": "\\prazo_encerrado\u0028\u0029",
+            "name": "prazo_encerrado",
+            "summary": "Verifica\u0020se\u0020uma\u0020data\u0020limite\u0020\u0028prazo\u0029\u0020j\u00E1\u0020passou.",
+            "url": "namespaces/default.html#function_prazo_encerrado"
+        },                {
+            "fqsen": "\\video_embed_url\u0028\u0029",
+            "name": "video_embed_url",
+            "summary": "Converte\u0020uma\u0020URL\u0020de\u0020v\u00EDdeo\u0020para\u0020o\u0020formato\u0020adequado\u0020para\u0020embed\u0020em\u0020\u003Ciframe\u003E.",
+            "url": "namespaces/default.html#function_video_embed_url"
+        },                {
             "fqsen": "\\session_check_timeout\u0028\u0029",
             "name": "session_check_timeout",
             "summary": "Verifica\u0020se\u0020a\u0020sess\u00E3o\u0020autenticada\u0020expirou\u0020por\u0020inatividade\u0020e\u0020encerra\u0020se\u0020necess\u00E1rio.",
@@ -165,6 +185,11 @@ Search.appendIndex(
             "name": "testStatusCandReprovadoValue",
             "summary": "",
             "url": "classes/Tests-Unit-ConstantsTest.html#method_testStatusCandReprovadoValue"
+        },                {
+            "fqsen": "\\Tests\\Unit\\ConstantsTest\u003A\u003AtestStatusCandCanceladaValue\u0028\u0029",
+            "name": "testStatusCandCanceladaValue",
+            "summary": "",
+            "url": "classes/Tests-Unit-ConstantsTest.html#method_testStatusCandCanceladaValue"
         },                {
             "fqsen": "\\Tests\\Unit\\ConstantsTest\u003A\u003AtestAllCandidaturaConstantsAreStrings\u0028\u0029",
             "name": "testAllCandidaturaConstantsAreStrings",
@@ -340,6 +365,111 @@ Search.appendIndex(
             "name": "testSessionCheckTimeoutSetsLastActivityOnFirstAuthenticatedRequest",
             "summary": "",
             "url": "classes/Tests-Unit-HelpersTest.html#method_testSessionCheckTimeoutSetsLastActivityOnFirstAuthenticatedRequest"
+        },                {
+            "fqsen": "\\Tests\\Unit\\PrazoTest",
+            "name": "PrazoTest",
+            "summary": "Testes\u0020da\u0020fun\u00E7\u00E3o\u0020prazo_encerrado\u0028\u0029,\u0020usada\u0020para\u0020bloquear\u0020inscri\u00E7\u00F5es\u0020em\ncursos\u0020e\u0020candidaturas\u0020a\u0020vagas\u0020ap\u00F3s\u0020a\u0020data\u0020limite\u0020definida\u0020pelo\u0020admin.",
+            "url": "classes/Tests-Unit-PrazoTest.html"
+        },                {
+            "fqsen": "\\Tests\\Unit\\PrazoTest\u003A\u003AtestSemPrazoNuncaEncerra\u0028\u0029",
+            "name": "testSemPrazoNuncaEncerra",
+            "summary": "",
+            "url": "classes/Tests-Unit-PrazoTest.html#method_testSemPrazoNuncaEncerra"
+        },                {
+            "fqsen": "\\Tests\\Unit\\PrazoTest\u003A\u003AtestStringVaziaNuncaEncerra\u0028\u0029",
+            "name": "testStringVaziaNuncaEncerra",
+            "summary": "",
+            "url": "classes/Tests-Unit-PrazoTest.html#method_testStringVaziaNuncaEncerra"
+        },                {
+            "fqsen": "\\Tests\\Unit\\PrazoTest\u003A\u003AtestDataInvalidaNuncaEncerra\u0028\u0029",
+            "name": "testDataInvalidaNuncaEncerra",
+            "summary": "",
+            "url": "classes/Tests-Unit-PrazoTest.html#method_testDataInvalidaNuncaEncerra"
+        },                {
+            "fqsen": "\\Tests\\Unit\\PrazoTest\u003A\u003AtestPrazoFuturoNaoEncerrado\u0028\u0029",
+            "name": "testPrazoFuturoNaoEncerrado",
+            "summary": "",
+            "url": "classes/Tests-Unit-PrazoTest.html#method_testPrazoFuturoNaoEncerrado"
+        },                {
+            "fqsen": "\\Tests\\Unit\\PrazoTest\u003A\u003AtestPrazoNoProprioDiaAindaValido\u0028\u0029",
+            "name": "testPrazoNoProprioDiaAindaValido",
+            "summary": "",
+            "url": "classes/Tests-Unit-PrazoTest.html#method_testPrazoNoProprioDiaAindaValido"
+        },                {
+            "fqsen": "\\Tests\\Unit\\PrazoTest\u003A\u003AtestPrazoValidoAteUltimoSegundoDoDia\u0028\u0029",
+            "name": "testPrazoValidoAteUltimoSegundoDoDia",
+            "summary": "",
+            "url": "classes/Tests-Unit-PrazoTest.html#method_testPrazoValidoAteUltimoSegundoDoDia"
+        },                {
+            "fqsen": "\\Tests\\Unit\\PrazoTest\u003A\u003AtestPrazoEncerraNoDiaSeguinte\u0028\u0029",
+            "name": "testPrazoEncerraNoDiaSeguinte",
+            "summary": "",
+            "url": "classes/Tests-Unit-PrazoTest.html#method_testPrazoEncerraNoDiaSeguinte"
+        },                {
+            "fqsen": "\\Tests\\Unit\\PrazoTest\u003A\u003AtestPrazoEncerraUmSegundoAposFimDoDia\u0028\u0029",
+            "name": "testPrazoEncerraUmSegundoAposFimDoDia",
+            "summary": "",
+            "url": "classes/Tests-Unit-PrazoTest.html#method_testPrazoEncerraUmSegundoAposFimDoDia"
+        },                {
+            "fqsen": "\\Tests\\Unit\\PrazoTest\u003A\u003AtestPrazoMuitoAntigoEncerrado\u0028\u0029",
+            "name": "testPrazoMuitoAntigoEncerrado",
+            "summary": "",
+            "url": "classes/Tests-Unit-PrazoTest.html#method_testPrazoMuitoAntigoEncerrado"
+        },                {
+            "fqsen": "\\Tests\\Unit\\VideoEmbedTest",
+            "name": "VideoEmbedTest",
+            "summary": "Testes\u0020da\u0020fun\u00E7\u00E3o\u0020video_embed_url\u0028\u0029,\u0020que\u0020converte\u0020links\u0020do\u0020YouTube\u0020para\u0020o\nformato\u0020embed\u0020\u0028youtube\u002Dnocookie.com\u0029\u0020aceito\u0020em\u0020\u003Ciframe\u003E\u0020e\u0020rejeita\u0020URLs\ninv\u00E1lidas\u0020ou\u0020com\u0020protocolos\u0020perigosos.",
+            "url": "classes/Tests-Unit-VideoEmbedTest.html"
+        },                {
+            "fqsen": "\\Tests\\Unit\\VideoEmbedTest\u003A\u003AtestWatchUrlConvertida\u0028\u0029",
+            "name": "testWatchUrlConvertida",
+            "summary": "",
+            "url": "classes/Tests-Unit-VideoEmbedTest.html#method_testWatchUrlConvertida"
+        },                {
+            "fqsen": "\\Tests\\Unit\\VideoEmbedTest\u003A\u003AtestWatchUrlComParametrosExtras\u0028\u0029",
+            "name": "testWatchUrlComParametrosExtras",
+            "summary": "",
+            "url": "classes/Tests-Unit-VideoEmbedTest.html#method_testWatchUrlComParametrosExtras"
+        },                {
+            "fqsen": "\\Tests\\Unit\\VideoEmbedTest\u003A\u003AtestYoutuBeConvertida\u0028\u0029",
+            "name": "testYoutuBeConvertida",
+            "summary": "",
+            "url": "classes/Tests-Unit-VideoEmbedTest.html#method_testYoutuBeConvertida"
+        },                {
+            "fqsen": "\\Tests\\Unit\\VideoEmbedTest\u003A\u003AtestShortsConvertida\u0028\u0029",
+            "name": "testShortsConvertida",
+            "summary": "",
+            "url": "classes/Tests-Unit-VideoEmbedTest.html#method_testShortsConvertida"
+        },                {
+            "fqsen": "\\Tests\\Unit\\VideoEmbedTest\u003A\u003AtestEmbedNormalizadaParaNocookie\u0028\u0029",
+            "name": "testEmbedNormalizadaParaNocookie",
+            "summary": "",
+            "url": "classes/Tests-Unit-VideoEmbedTest.html#method_testEmbedNormalizadaParaNocookie"
+        },                {
+            "fqsen": "\\Tests\\Unit\\VideoEmbedTest\u003A\u003AtestMobileYoutubeConvertida\u0028\u0029",
+            "name": "testMobileYoutubeConvertida",
+            "summary": "",
+            "url": "classes/Tests-Unit-VideoEmbedTest.html#method_testMobileYoutubeConvertida"
+        },                {
+            "fqsen": "\\Tests\\Unit\\VideoEmbedTest\u003A\u003AtestUrlNaoYoutubePassaDireto\u0028\u0029",
+            "name": "testUrlNaoYoutubePassaDireto",
+            "summary": "",
+            "url": "classes/Tests-Unit-VideoEmbedTest.html#method_testUrlNaoYoutubePassaDireto"
+        },                {
+            "fqsen": "\\Tests\\Unit\\VideoEmbedTest\u003A\u003AtestVaziaOuNulaRetornaVazio\u0028\u0029",
+            "name": "testVaziaOuNulaRetornaVazio",
+            "summary": "",
+            "url": "classes/Tests-Unit-VideoEmbedTest.html#method_testVaziaOuNulaRetornaVazio"
+        },                {
+            "fqsen": "\\Tests\\Unit\\VideoEmbedTest\u003A\u003AtestUrlInvalidaRetornaVazio\u0028\u0029",
+            "name": "testUrlInvalidaRetornaVazio",
+            "summary": "",
+            "url": "classes/Tests-Unit-VideoEmbedTest.html#method_testUrlInvalidaRetornaVazio"
+        },                {
+            "fqsen": "\\Tests\\Unit\\VideoEmbedTest\u003A\u003AtestProtocoloPerigosoRejeitado\u0028\u0029",
+            "name": "testProtocoloPerigosoRejeitado",
+            "summary": "",
+            "url": "classes/Tests-Unit-VideoEmbedTest.html#method_testProtocoloPerigosoRejeitado"
         },                {
             "fqsen": "\\anthropic_chat_with_fallback\u0028\u0029",
             "name": "anthropic_chat_with_fallback",

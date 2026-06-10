@@ -120,7 +120,10 @@
     </h4>
     <dl class="phpdocumentor-table-of-contents">
                     <dt class="phpdocumentor-table-of-contents__entry -class"><a href="classes/Tests-Unit-ConstantsTest.html"><abbr title="\Tests\Unit\ConstantsTest">ConstantsTest</abbr></a></dt><dd>Verifica que todas as constantes de status e perfil do SkillConnect
-mantêm os valores exatos esperados pelo banco de dados.</dd>            <dt class="phpdocumentor-table-of-contents__entry -class"><a href="classes/Tests-Unit-HelpersTest.html"><abbr title="\Tests\Unit\HelpersTest">HelpersTest</abbr></a></dt><dd>Testes unitários para as funções auxiliares globais (config/helpers.php).</dd>    </dl>
+mantêm os valores exatos esperados pelo banco de dados.</dd>            <dt class="phpdocumentor-table-of-contents__entry -class"><a href="classes/Tests-Unit-HelpersTest.html"><abbr title="\Tests\Unit\HelpersTest">HelpersTest</abbr></a></dt><dd>Testes unitários para as funções auxiliares globais (config/helpers.php).</dd>            <dt class="phpdocumentor-table-of-contents__entry -class"><a href="classes/Tests-Unit-PrazoTest.html"><abbr title="\Tests\Unit\PrazoTest">PrazoTest</abbr></a></dt><dd>Testes da função prazo_encerrado(), usada para bloquear inscrições em
+cursos e candidaturas a vagas após a data limite definida pelo admin.</dd>            <dt class="phpdocumentor-table-of-contents__entry -class"><a href="classes/Tests-Unit-VideoEmbedTest.html"><abbr title="\Tests\Unit\VideoEmbedTest">VideoEmbedTest</abbr></a></dt><dd>Testes da função video_embed_url(), que converte links do YouTube para o
+formato embed (youtube-nocookie.com) aceito em &lt;iframe&gt; e rejeita URLs
+inválidas ou com protocolos perigosos.</dd>    </dl>
 
 
 
@@ -230,6 +233,20 @@ mantêm os valores exatos esperados pelo banco de dados.</dd>            <dt cla
                                 &nbsp;: string    </span>
 </dt>
 <dd>Gera uma URL absoluta da aplicação</dd>
+
+            <dt class="phpdocumentor-table-of-contents__entry -function -">
+    <a class="" href="namespaces/default.html#function_prazo_encerrado">prazo_encerrado()</a>
+    <span>
+                                &nbsp;: bool    </span>
+</dt>
+<dd>Verifica se uma data limite (prazo) já passou.</dd>
+
+            <dt class="phpdocumentor-table-of-contents__entry -function -">
+    <a class="" href="namespaces/default.html#function_video_embed_url">video_embed_url()</a>
+    <span>
+                                &nbsp;: string    </span>
+</dt>
+<dd>Converte uma URL de vídeo para o formato adequado para embed em &lt;iframe&gt;.</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -function -">
     <a class="" href="namespaces/default.html#function_session_check_timeout">session_check_timeout()</a>
@@ -880,6 +897,118 @@ Returns 0 and logs the error when the query fails.</p>
 
 </article>
                     <article class="phpdocumentor-element -function - ">
+    <h4 class="phpdocumentor-element__name" id="function_prazo_encerrado">
+        prazo_encerrado()
+        <a href="namespaces/default.html#function_prazo_encerrado" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h4>
+    <aside class="phpdocumentor-element-found-in">
+    <abbr class="phpdocumentor-element-found-in__file" title="config/helpers.php"><a href="files/config-helpers.html"><abbr title="config/helpers.php">helpers.php</abbr></a></abbr>
+    :
+    <span class="phpdocumentor-element-found-in__line">179</span>
+
+    </aside>
+
+        <p class="phpdocumentor-summary">Verifica se uma data limite (prazo) já passou.</p>
+
+    
+    <code class="phpdocumentor-code phpdocumentor-signature ">
+    <span class="phpdocumentor-signature__visibility"></span>
+                    <span class="phpdocumentor-signature__name">prazo_encerrado</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__type">string|null&nbsp;</span><span class="phpdocumentor-signature__argument__name">$dataLimite</span></span><span class="phpdocumentor-signature__argument"><span>[</span><span>, </span><span class="phpdocumentor-signature__argument__type">int|null&nbsp;</span><span class="phpdocumentor-signature__argument__name">$agora</span><span> = </span><span class="phpdocumentor-signature__argument__default-value">null</span><span> ]</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">bool</span></code>
+
+        <section class="phpdocumentor-description"><p>O prazo é inclusivo: no próprio dia da data limite a ação ainda é permitida;
+o prazo só é considerado encerrado a partir do dia seguinte.</p>
+</section>
+
+        <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
+    <dl class="phpdocumentor-argument-list">
+                    <dt class="phpdocumentor-argument-list__entry">
+                <span class="phpdocumentor-argument-list__argument__name">$dataLimite</span>
+                : <span class="phpdocumentor-argument-list__argument__type">string|null</span>
+                            </dt>
+            <dd class="phpdocumentor-argument-list__definition">
+                    <section class="phpdocumentor-description"><p>Data limite no formato Y-m-d (NULL ou vazio = sem prazo)</p>
+</section>
+
+            </dd>
+                    <dt class="phpdocumentor-argument-list__entry">
+                <span class="phpdocumentor-argument-list__argument__name">$agora</span>
+                : <span class="phpdocumentor-argument-list__argument__type">int|null</span>
+                 = <span class="phpdocumentor-argument-list__argument__default-value">null</span>            </dt>
+            <dd class="phpdocumentor-argument-list__definition">
+                    <section class="phpdocumentor-description"><p>Timestamp de referência (NULL = time()), usado nos testes</p>
+</section>
+
+            </dd>
+            </dl>
+
+    
+
+            <section>
+        <h5 class="phpdocumentor-return-value__heading">Return values</h5>
+        <span class="phpdocumentor-signature__response_type">bool</span>
+                    &mdash;
+                <section class="phpdocumentor-description"><p>True se o prazo existe e já passou, false caso contrário</p>
+</section>
+
+            </section>
+
+</article>
+                    <article class="phpdocumentor-element -function - ">
+    <h4 class="phpdocumentor-element__name" id="function_video_embed_url">
+        video_embed_url()
+        <a href="namespaces/default.html#function_video_embed_url" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h4>
+    <aside class="phpdocumentor-element-found-in">
+    <abbr class="phpdocumentor-element-found-in__file" title="config/helpers.php"><a href="files/config-helpers.html"><abbr title="config/helpers.php">helpers.php</abbr></a></abbr>
+    :
+    <span class="phpdocumentor-element-found-in__line">209</span>
+
+    </aside>
+
+        <p class="phpdocumentor-summary">Converte uma URL de vídeo para o formato adequado para embed em &lt;iframe&gt;.</p>
+
+    
+    <code class="phpdocumentor-code phpdocumentor-signature ">
+    <span class="phpdocumentor-signature__visibility"></span>
+                    <span class="phpdocumentor-signature__name">video_embed_url</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__type">string|null&nbsp;</span><span class="phpdocumentor-signature__argument__name">$url</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">string</span></code>
+
+        <section class="phpdocumentor-description"><p>Links do YouTube nos formatos watch?v=, youtu.be/, shorts/ e embed/ são
+convertidos para https://www.youtube-nocookie.com/embed/{id} — o domínio
+nocookie usa o modo de privacidade aprimorada do YouTube (não grava cookies
+de rastreamento até o play). Links de vídeo normais do YouTube não funcionam
+em iframe (bloqueados via X-Frame-Options), por isso a conversão é necessária.</p>
+<p>Outras URLs HTTP/HTTPS (ex.: Vimeo embed) são retornadas como estão.
+URLs inválidas ou com protocolo não-HTTP retornam string vazia.</p>
+</section>
+
+        <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
+    <dl class="phpdocumentor-argument-list">
+                    <dt class="phpdocumentor-argument-list__entry">
+                <span class="phpdocumentor-argument-list__argument__name">$url</span>
+                : <span class="phpdocumentor-argument-list__argument__type">string|null</span>
+                            </dt>
+            <dd class="phpdocumentor-argument-list__definition">
+                    <section class="phpdocumentor-description"><p>URL bruta cadastrada em aulas.video_url</p>
+</section>
+
+            </dd>
+            </dl>
+
+    
+
+            <section>
+        <h5 class="phpdocumentor-return-value__heading">Return values</h5>
+        <span class="phpdocumentor-signature__response_type">string</span>
+                    &mdash;
+                <section class="phpdocumentor-description"><p>URL pronta para o src do iframe, ou vazia se inválida</p>
+</section>
+
+            </section>
+
+</article>
+                    <article class="phpdocumentor-element -function - ">
     <h4 class="phpdocumentor-element__name" id="function_session_check_timeout">
         session_check_timeout()
         <a href="namespaces/default.html#function_session_check_timeout" class="headerlink"><i class="fas fa-link"></i></a>
@@ -888,7 +1017,7 @@ Returns 0 and logs the error when the query fails.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="config/helpers.php"><a href="files/config-helpers.html"><abbr title="config/helpers.php">helpers.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">179</span>
+    <span class="phpdocumentor-element-found-in__line">257</span>
 
     </aside>
 
@@ -919,7 +1048,7 @@ Caso contrário, atualiza o timestamp de última atividade.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="config/helpers.php"><a href="files/config-helpers.html"><abbr title="config/helpers.php">helpers.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">202</span>
+    <span class="phpdocumentor-element-found-in__line">280</span>
 
     </aside>
 
@@ -947,7 +1076,7 @@ Caso contrário, atualiza o timestamp de última atividade.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="config/helpers.php"><a href="files/config-helpers.html"><abbr title="config/helpers.php">helpers.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">218</span>
+    <span class="phpdocumentor-element-found-in__line">296</span>
 
     </aside>
 
@@ -975,7 +1104,7 @@ Caso contrário, atualiza o timestamp de última atividade.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="config/helpers.php"><a href="files/config-helpers.html"><abbr title="config/helpers.php">helpers.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">234</span>
+    <span class="phpdocumentor-element-found-in__line">312</span>
 
     </aside>
 
@@ -1071,7 +1200,7 @@ quando necessário. Utiliza funções multibyte quando disponíveis.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="user/cursos.php"><a href="files/user-cursos.html"><abbr title="user/cursos.php">cursos.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">117</span>
+    <span class="phpdocumentor-element-found-in__line">123</span>
 
     </aside>
 
@@ -1421,6 +1550,7 @@ adicionando reticências quando necessário. Suporta multibyte strings.</p>
                                                     <li class=""><a href="namespaces/default.html#function_get_flash">get_flash()</a></li>
                                                     <li class=""><a href="namespaces/default.html#function_painel_fetch_all">painel_fetch_all()</a></li>
                                                     <li class=""><a href="namespaces/default.html#function_painel_scalar">painel_scalar()</a></li>
+                                                    <li class=""><a href="namespaces/default.html#function_prazo_encerrado">prazo_encerrado()</a></li>
                                                     <li class=""><a href="namespaces/default.html#function_redirect">redirect()</a></li>
                                                     <li class=""><a href="namespaces/default.html#function_resumo_curso">resumo_curso()</a></li>
                                                     <li class=""><a href="namespaces/default.html#function_resumo_home">resumo_home()</a></li>
@@ -1428,6 +1558,7 @@ adicionando reticências quando necessário. Suporta multibyte strings.</p>
                                                     <li class=""><a href="namespaces/default.html#function_session_check_timeout">session_check_timeout()</a></li>
                                                     <li class=""><a href="namespaces/default.html#function_split_lines">split_lines()</a></li>
                                                     <li class=""><a href="namespaces/default.html#function_validaCPF">validaCPF()</a></li>
+                                                    <li class=""><a href="namespaces/default.html#function_video_embed_url">video_embed_url()</a></li>
                                             </ul>
                 </li>
                     </ul>

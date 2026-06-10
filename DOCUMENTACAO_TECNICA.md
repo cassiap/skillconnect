@@ -70,6 +70,8 @@ skillconnect/
 │   ├── vagas.php                      # Catálogo de vagas
 │   ├── vaga.php                       # Detalhe de uma vaga
 │   ├── candidatar.php                 # Candidatura a vaga
+│   ├── cancelar-inscricao.php         # Cancelamento de inscrição pelo aluno (POST)
+│   ├── cancelar-candidatura.php       # Cancelamento de candidatura pelo aluno (POST)
 │   ├── minhas-candidaturas.php        # Candidaturas do aluno
 │   ├── meu-curriculo.php              # Currículo digital
 │   ├── meus-dados.php                 # Perfil e dados pessoais
@@ -80,6 +82,7 @@ skillconnect/
 ├── admin/
 │   ├── admin.php                      # Dashboard administrativo
 │   ├── cadastracurso.php              # Cadastro de cursos
+│   ├── curso-conteudo.php             # Gestão de módulos e aulas (vídeos, materiais)
 │   ├── cadastravaga.php               # Cadastro de vagas
 │   ├── candidaturas.php               # Gestão de candidaturas
 │   ├── listarclientes.php             # Listagem de usuários
@@ -94,13 +97,17 @@ skillconnect/
 │   └── migrations/
 │       ├── 2026-02-24_mvp_aluno.sql              # Schema: módulos, aulas, progresso, currículo
 │       ├── 2026-02-24_railway_seed_utf8.sql       # Seed completo com dados iniciais
-│       └── 2026-05-22_expiracao_avaliacoes.sql    # Expiração de acesso + avaliações de aulas
+│       ├── 2026-05-22_expiracao_avaliacoes.sql    # Expiração de acesso + avaliações de aulas
+│       ├── 2026-06-10_prazos_cancelamento.sql     # Prazos de inscrição/candidatura + status cancelada
+│       └── 2026-06-10_avaliacao_curso.sql         # Avaliação do curso (1–5 estrelas + comentário)
 │
 ├── tests/
 │   ├── bootstrap.php                  # Setup da suíte PHPUnit
 │   └── Unit/
 │       ├── ConstantsTest.php          # Testa integridade das constantes de status
-│       └── HelpersTest.php            # Testa CSRF, flash, URL helpers, session timeout
+│       ├── HelpersTest.php            # Testa CSRF, flash, URL helpers, session timeout
+│       ├── PrazoTest.php              # Testa regra de prazo de inscrição/candidatura
+│       └── VideoEmbedTest.php         # Testa conversão de links do YouTube para embed
 │
 └── .github/
     └── workflows/
@@ -152,6 +159,22 @@ usuarios
 |--------|--------|------|-----------|
 | `cursos` | `duracao_dias` | `INT UNSIGNED NULL DEFAULT 180` | Prazo em dias para conclusão a partir da inscrição. NULL = sem prazo. |
 | `inscricoes_cursos` | `acesso_expira_em` | `DATETIME NULL` | Data-limite calculada na inscrição com base em `duracao_dias`. |
+
+### Colunas adicionadas (migração 2026-06-10)
+
+| Tabela | Coluna | Tipo | Descrição |
+|--------|--------|------|-----------|
+| `cursos` | `inscricoes_ate` | `DATE NULL` | Data limite para novas inscrições. NULL = sempre abertas. Prazo inclusivo (válido até 23:59:59 do dia). |
+| `vagas` | `candidaturas_ate` | `DATE NULL` | Data limite para novas candidaturas. NULL = sempre abertas. |
+| `candidaturas` | `status` | `ENUM(+'cancelada')` | Novo valor `cancelada` no ENUM, exclusivo para cancelamento pelo próprio aluno. |
+
+### Tabela adicionada (migração 2026-06-10, avaliação de curso)
+
+`avaliacoes_cursos` — avaliação do curso como um todo (1–5 estrelas + comentário), uma por aluno
+(UNIQUE usuario+curso), espelhando a estrutura de `avaliacoes_aulas`. A média aparece na vitrine
+de cursos (`cursos.php`), na página de detalhe (`curso.php`, com depoimentos dos alunos) e no hero
+de `meu-curso.php`. Comentários das avaliações de aulas também passaram a ser exibidos publicamente
+na área da aula ("O que os alunos acharam desta aula", últimos 10).
 
 ---
 
@@ -269,9 +292,11 @@ GET  /user/inscrever.php?curso_id=X  → exibe confirmação
 POST /user/inscrever.php
   1. csrf_validate()
   2. Verifica se curso existe e está ativo
-  3. Verifica inscrição duplicada
-  4. INSERT com acesso_expira_em = NOW() + duracao_dias
-  5. Captura erro 1062 (duplicate) → flash info
+  3. Verifica prazo: prazo_encerrado(inscricoes_ate) → bloqueia se encerrado
+  4. Verifica inscrição duplicada (cancelada pelo aluno NÃO bloqueia)
+  5. Se reativação: UPDATE status='pendente' + novo acesso_expira_em
+     Se nova: INSERT com acesso_expira_em = NOW() + duracao_dias
+  6. Captura erro 1062 (duplicate) → flash info
 ```
 
 ### 6.3 Fluxo de Candidatura a Vaga
@@ -279,12 +304,32 @@ POST /user/inscrever.php
 ```
 POST /user/candidatar.php
   1. csrf_validate()
-  2. Verifica vaga ativa + candidatura duplicada
+  2. Verifica vaga ativa + prazo (candidaturas_ate) + candidatura duplicada
+     (candidatura cancelada pelo aluno permite reenvio)
   3. Valida arquivo: UPLOAD_ERR_OK + tamanho ≤5MB + MIME=application/pdf
   4. move_uploaded_file() para /uploads/
-  5. INSERT candidatura com nome do arquivo gerado
+  5. Se reenvio: UPDATE status='enviada' + novo currículo (antigo deletado)
+     Se nova: INSERT candidatura com nome do arquivo gerado
   6. Captura erro 1062 (duplicate) → flash info + remove arquivo
 ```
+
+### 6.5 Fluxo de Cancelamento (inscrição e candidatura)
+
+```
+POST /user/cancelar-inscricao.php   (ou cancelar-candidatura.php)
+  1. auth_check() + bloqueio de admin + só aceita POST
+  2. csrf_validate()
+  3. Busca o registro garantindo que pertence ao usuário logado (WHERE usuario_id = ?)
+  4. Valida o status atual:
+     - inscrição: só cancela 'pendente' ou 'confirmado' (concluído não pode)
+     - candidatura: só cancela 'enviada' ou 'em_analise' (resultado definido não pode)
+  5. UPDATE status → 'cancelado' / 'cancelada' (histórico preservado, sem DELETE)
+  6. flash + redirect para a listagem
+```
+
+O cancelamento é reversível pelo próprio aluno: a inscrição cancelada pode ser
+reativada em `inscrever.php` (mantém o progresso nas aulas) e a candidatura
+cancelada pode ser reenviada em `candidatar.php` com um novo currículo.
 
 ### 6.4 Fluxo do Assistente de IA
 
@@ -441,8 +486,9 @@ vendor/bin/phpunit --testdox
 
 | Arquivo de Teste | O que cobre |
 |------------------|-------------|
-| `tests/Unit/ConstantsTest.php` | Integridade de todos os 10 valores de constantes de status e perfil. Protege contra renomeações que quebrariam queries SQL. |
+| `tests/Unit/ConstantsTest.php` | Integridade de todos os 11 valores de constantes de status e perfil. Protege contra renomeações que quebrariam queries SQL. |
 | `tests/Unit/HelpersTest.php` | Geração e validação de token CSRF; mensagens flash (set/get/consume); geração de URLs; constante SESSION_TIMEOUT; caminho não-expirado de session_check_timeout. |
+| `tests/Unit/PrazoTest.php` | Regra de prazo de inscrição/candidatura (`prazo_encerrado()`): sem prazo, data inválida, prazo futuro, validade inclusiva até 23:59:59 do dia limite e encerramento no dia seguinte. |
 
 ### O que não é testado unitariamente (e por quê)
 
@@ -480,6 +526,8 @@ vendor/bin/phpunit --testdox
    database/migrations/2026-02-24_mvp_aluno.sql
    database/migrations/2026-02-24_railway_seed_utf8.sql
    database/migrations/2026-05-22_expiracao_avaliacoes.sql
+   database/migrations/2026-06-10_prazos_cancelamento.sql
+   database/migrations/2026-06-10_avaliacao_curso.sql
    ```
 
 ### Variáveis obrigatórias em produção

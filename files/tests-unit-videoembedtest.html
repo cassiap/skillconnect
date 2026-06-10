@@ -101,51 +101,33 @@
     </ul>
 
     <article class="phpdocumentor-element -file">
-        <h2 class="phpdocumentor-content__title">cursos.php</h2>
-
-            <p class="phpdocumentor-summary">Página de listagem e busca de cursos profissionalizantes</p>
+        <h2 class="phpdocumentor-content__title">VideoEmbedTest.php</h2>
 
         
-            <section class="phpdocumentor-description"><p>Este arquivo exibe uma página com filtros de busca, ordenação e listagem
-dos cursos ativos cadastrados no sistema. Permite filtrar por modalidade,
-nível e busca textual, além de diferentes opções de ordenação.</p>
-</section>
-
         
-    <h5 class="phpdocumentor-tag-list__heading" id="tags">
-        Tags
-        <a href="files/user-cursos.html#tags" class="headerlink"><i class="fas fa-link"></i></a>
-
-    </h5>
-    <dl class="phpdocumentor-tag-list">
-                    <dt class="phpdocumentor-tag-list__entry">
-                <span class="phpdocumentor-tag__name">author</span>
-            </dt>
-                            <dd class="phpdocumentor-tag-list__definition">
-                                                                                                            <section class="phpdocumentor-description"><p>Sistema SkillConnect</p>
-</section>
-
-                                    </dd>
-                                <dt class="phpdocumentor-tag-list__entry">
-                <span class="phpdocumentor-tag__name">version</span>
-            </dt>
-                            <dd class="phpdocumentor-tag-list__definition">
-                                            <span class="phpdocumentor-tag-link">1.0</span>
-                                                                                                        
-                                    </dd>
-                        </dl>
+        
+        
 
 
         
 <h3 id="toc">
     Table of Contents
-    <a href="files/user-cursos.html#toc" class="headerlink"><i class="fas fa-link"></i></a>
+    <a href="files/tests-unit-videoembedtest.html#toc" class="headerlink"><i class="fas fa-link"></i></a>
 
 </h3>
 
 
 
 
+    <h4 id="toc-classes">
+        Classes
+        <a href="files/tests-unit-videoembedtest.html#toc-classes" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h4>
+    <dl class="phpdocumentor-table-of-contents">
+                    <dt class="phpdocumentor-table-of-contents__entry -class"><a href="classes/Tests-Unit-VideoEmbedTest.html"><abbr title="\Tests\Unit\VideoEmbedTest">VideoEmbedTest</abbr></a></dt><dd>Testes da função video_embed_url(), que converte links do YouTube para o
+formato embed (youtube-nocookie.com) aceito em &lt;iframe&gt; e rejeita URLs
+inválidas ou com protocolos perigosos.</dd>    </dl>
 
 
 
@@ -153,90 +135,11 @@ nível e busca textual, além de diferentes opções de ordenação.</p>
 
 
 
-<h4 id="toc-functions">
-    Functions
-    <a href="files/user-cursos.html#toc-functions" class="headerlink"><i class="fas fa-link"></i></a>
-
-</h4>
-<dl class="phpdocumentor-table-of-contents">
-            <dt class="phpdocumentor-table-of-contents__entry -function -">
-    <a class="" href="namespaces/default.html#function_resumo_curso">resumo_curso()</a>
-    <span>
-                                &nbsp;: string    </span>
-</dt>
-<dd>Cria um resumo truncado de um texto para exibição em cards de curso</dd>
-
-    </dl>
 
 
         
 
-            <section class="phpdocumentor-functions">
-        <h3 class="phpdocumentor-elements__header" id="functions">
-            Functions
-            <a href="files/user-cursos.html#functions" class="headerlink"><i class="fas fa-link"></i></a>
-
-        </h3>
-                    <article class="phpdocumentor-element -function - ">
-    <h4 class="phpdocumentor-element__name" id="function_resumo_curso">
-        resumo_curso()
-        <a href="namespaces/default.html#function_resumo_curso" class="headerlink"><i class="fas fa-link"></i></a>
-
-    </h4>
-    <aside class="phpdocumentor-element-found-in">
-    <abbr class="phpdocumentor-element-found-in__file" title="user/cursos.php"><a href="files/user-cursos.html"><abbr title="user/cursos.php">cursos.php</abbr></a></abbr>
-    :
-    <span class="phpdocumentor-element-found-in__line">123</span>
-
-    </aside>
-
-        <p class="phpdocumentor-summary">Cria um resumo truncado de um texto para exibição em cards de curso</p>
-
-    
-    <code class="phpdocumentor-code phpdocumentor-signature ">
-    <span class="phpdocumentor-signature__visibility"></span>
-                    <span class="phpdocumentor-signature__name">resumo_curso</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__type">string&nbsp;</span><span class="phpdocumentor-signature__argument__name">$texto</span></span><span class="phpdocumentor-signature__argument"><span>[</span><span>, </span><span class="phpdocumentor-signature__argument__type">int&nbsp;</span><span class="phpdocumentor-signature__argument__name">$limite</span><span> = </span><span class="phpdocumentor-signature__argument__default-value">135</span><span> ]</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">string</span></code>
-
-        <section class="phpdocumentor-description"><p>Remove tags HTML, limita o comprimento do texto e adiciona reticências
-quando necessário. Utiliza funções multibyte quando disponíveis.</p>
-</section>
-
-        <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
-    <dl class="phpdocumentor-argument-list">
-                    <dt class="phpdocumentor-argument-list__entry">
-                <span class="phpdocumentor-argument-list__argument__name">$texto</span>
-                : <span class="phpdocumentor-argument-list__argument__type">string</span>
-                            </dt>
-            <dd class="phpdocumentor-argument-list__definition">
-                    <section class="phpdocumentor-description"><p>O texto original a ser resumido</p>
-</section>
-
-            </dd>
-                    <dt class="phpdocumentor-argument-list__entry">
-                <span class="phpdocumentor-argument-list__argument__name">$limite</span>
-                : <span class="phpdocumentor-argument-list__argument__type">int</span>
-                 = <span class="phpdocumentor-argument-list__argument__default-value">135</span>            </dt>
-            <dd class="phpdocumentor-argument-list__definition">
-                    <section class="phpdocumentor-description"><p>Número máximo de caracteres para o resumo (padrão: 135)</p>
-</section>
-
-            </dd>
-            </dl>
-
-    
-
-            <section>
-        <h5 class="phpdocumentor-return-value__heading">Return values</h5>
-        <span class="phpdocumentor-signature__response_type">string</span>
-                    &mdash;
-                <section class="phpdocumentor-description"><p>O texto resumido com reticências se truncado, ou mensagem padrão se vazio</p>
-</section>
-
-            </section>
-
-</article>
-            </section>
-
+        
         
     </article>
                                 </section>
@@ -249,17 +152,11 @@ quando necessário. Utiliza funções multibyte quando disponíveis.</p>
             <li class="phpdocumentor-on-this-page-section__title">Table Of Contents</li>
             <li>
                 <ul class="phpdocumentor-list -clean">
-                                                                                                                                                                                        <li><a href="files/user-cursos.html#toc-functions">Functions</a></li>
-                                    </ul>
+                                                                                                        <li><a href="files/tests-unit-videoembedtest.html#toc-classes">Classes</a></li>
+                                                                                                                    </ul>
             </li>
 
             
-                            <li class="phpdocumentor-on-this-page-section__title">Functions</li>
-                <li>
-                    <ul class="phpdocumentor-list -clean">
-                                                    <li class=""><a href="namespaces/default.html#function_resumo_curso">resumo_curso()</a></li>
-                                            </ul>
-                </li>
                     </ul>
     </section>
 
@@ -277,7 +174,7 @@ quando necessário. Utiliza funções multibyte quando disponíveis.</p>
     </section>
 </section>
         </div>
-        <a href="files/user-cursos.html#top" class="phpdocumentor-back-to-top"><i class="fas fa-chevron-circle-up"></i></a>
+        <a href="files/tests-unit-videoembedtest.html#top" class="phpdocumentor-back-to-top"><i class="fas fa-chevron-circle-up"></i></a>
 
     </main>
 

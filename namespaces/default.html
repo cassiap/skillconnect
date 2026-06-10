@@ -166,6 +166,13 @@
 <dd>Candidato aprovado para a vaga.</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -constant -public">
+    <a class="" href="namespaces/default.html#constant_STATUS_CAND_CANCELADA">STATUS_CAND_CANCELADA</a>
+    <span>
+        &nbsp;: mixed&nbsp;= &#039;cancelada&#039;                            </span>
+</dt>
+<dd>Candidatura cancelada pelo próprio aluno.</dd>
+
+            <dt class="phpdocumentor-table-of-contents__entry -constant -public">
     <a class="" href="namespaces/default.html#constant_STATUS_CAND_ENVIADA">STATUS_CAND_ENVIADA</a>
     <span>
         &nbsp;: mixed&nbsp;= &#039;enviada&#039;                            </span>
@@ -230,6 +237,13 @@
     <span>
                                 &nbsp;: void    </span>
 </dt>
+
+            <dt class="phpdocumentor-table-of-contents__entry -function -">
+    <a class="" href="namespaces/default.html#function_modulo_pertence_ao_curso">modulo_pertence_ao_curso()</a>
+    <span>
+                                &nbsp;: bool    </span>
+</dt>
+<dd>Verifica se um módulo pertence ao curso em edição.</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -function -">
     <a class="" href="namespaces/default.html#function_validaCPF">validaCPF()</a>
@@ -300,6 +314,20 @@
                                 &nbsp;: string    </span>
 </dt>
 <dd>Gera uma URL absoluta da aplicação</dd>
+
+            <dt class="phpdocumentor-table-of-contents__entry -function -">
+    <a class="" href="namespaces/default.html#function_prazo_encerrado">prazo_encerrado()</a>
+    <span>
+                                &nbsp;: bool    </span>
+</dt>
+<dd>Verifica se uma data limite (prazo) já passou.</dd>
+
+            <dt class="phpdocumentor-table-of-contents__entry -function -">
+    <a class="" href="namespaces/default.html#function_video_embed_url">video_embed_url()</a>
+    <span>
+                                &nbsp;: string    </span>
+</dt>
+<dd>Converte uma URL de vídeo para o formato adequado para embed em &lt;iframe&gt;.</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -function -">
     <a class="" href="namespaces/default.html#function_session_check_timeout">session_check_timeout()</a>
@@ -446,7 +474,7 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="config/constants.php"><a href="files/config-constants.html"><abbr title="config/constants.php">constants.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">47</span>
+    <span class="phpdocumentor-element-found-in__line">50</span>
 
     </aside>
 
@@ -477,7 +505,7 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="config/constants.php"><a href="files/config-constants.html"><abbr title="config/constants.php">constants.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">44</span>
+    <span class="phpdocumentor-element-found-in__line">47</span>
 
     </aside>
 
@@ -592,6 +620,37 @@
         
     </article>
                     <article class="phpdocumentor-element -constant -public ">
+    <h4 class="phpdocumentor-element__name" id="constant_STATUS_CAND_CANCELADA">
+        STATUS_CAND_CANCELADA
+        <a href="namespaces/default.html#constant_STATUS_CAND_CANCELADA" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h4>
+
+    <aside class="phpdocumentor-element-found-in">
+    <abbr class="phpdocumentor-element-found-in__file" title="config/constants.php"><a href="files/config-constants.html"><abbr title="config/constants.php">constants.php</abbr></a></abbr>
+    :
+    <span class="phpdocumentor-element-found-in__line">28</span>
+
+    </aside>
+
+        <p class="phpdocumentor-summary">Candidatura cancelada pelo próprio aluno.</p>
+
+    
+    <code class="phpdocumentor-signature phpdocumentor-code ">
+    <span class="phpdocumentor-signature__visibility">public</span>
+        <span class="phpdocumentor-signature__type">mixed</span>
+    <span class="phpdocumentor-signature__name">STATUS_CAND_CANCELADA</span>
+    = <span class="phpdocumentor-signature__default-value">&#039;cancelada&#039;</span>
+</code>
+
+
+    
+    
+    
+
+        
+    </article>
+                    <article class="phpdocumentor-element -constant -public ">
     <h4 class="phpdocumentor-element__name" id="constant_STATUS_CAND_ENVIADA">
         STATUS_CAND_ENVIADA
         <a href="namespaces/default.html#constant_STATUS_CAND_ENVIADA" class="headerlink"><i class="fas fa-link"></i></a>
@@ -663,7 +722,7 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="config/constants.php"><a href="files/config-constants.html"><abbr title="config/constants.php">constants.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">36</span>
+    <span class="phpdocumentor-element-found-in__line">39</span>
 
     </aside>
 
@@ -694,7 +753,7 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="config/constants.php"><a href="files/config-constants.html"><abbr title="config/constants.php">constants.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">39</span>
+    <span class="phpdocumentor-element-found-in__line">42</span>
 
     </aside>
 
@@ -725,7 +784,7 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="config/constants.php"><a href="files/config-constants.html"><abbr title="config/constants.php">constants.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">33</span>
+    <span class="phpdocumentor-element-found-in__line">36</span>
 
     </aside>
 
@@ -756,7 +815,7 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="config/constants.php"><a href="files/config-constants.html"><abbr title="config/constants.php">constants.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">30</span>
+    <span class="phpdocumentor-element-found-in__line">33</span>
 
     </aside>
 
@@ -892,6 +951,70 @@ Returns 0 and logs the error when the query fails.</p>
     
 
     
+</article>
+                    <article class="phpdocumentor-element -function - ">
+    <h4 class="phpdocumentor-element__name" id="function_modulo_pertence_ao_curso">
+        modulo_pertence_ao_curso()
+        <a href="namespaces/default.html#function_modulo_pertence_ao_curso" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h4>
+    <aside class="phpdocumentor-element-found-in">
+    <abbr class="phpdocumentor-element-found-in__file" title="admin/curso-conteudo.php"><a href="files/admin-curso-conteudo.html"><abbr title="admin/curso-conteudo.php">curso-conteudo.php</abbr></a></abbr>
+    :
+    <span class="phpdocumentor-element-found-in__line">44</span>
+
+    </aside>
+
+        <p class="phpdocumentor-summary">Verifica se um módulo pertence ao curso em edição.</p>
+
+    
+    <code class="phpdocumentor-code phpdocumentor-signature ">
+    <span class="phpdocumentor-signature__visibility"></span>
+                    <span class="phpdocumentor-signature__name">modulo_pertence_ao_curso</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__type"><abbr title="\mysqli">mysqli</abbr>&nbsp;</span><span class="phpdocumentor-signature__argument__name">$cx</span></span><span class="phpdocumentor-signature__argument"><span>, </span><span class="phpdocumentor-signature__argument__type">int&nbsp;</span><span class="phpdocumentor-signature__argument__name">$moduloId</span></span><span class="phpdocumentor-signature__argument"><span>, </span><span class="phpdocumentor-signature__argument__type">int&nbsp;</span><span class="phpdocumentor-signature__argument__name">$cursoId</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">bool</span></code>
+
+    
+        <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
+    <dl class="phpdocumentor-argument-list">
+                    <dt class="phpdocumentor-argument-list__entry">
+                <span class="phpdocumentor-argument-list__argument__name">$cx</span>
+                : <span class="phpdocumentor-argument-list__argument__type"><abbr title="\mysqli">mysqli</abbr></span>
+                            </dt>
+            <dd class="phpdocumentor-argument-list__definition">
+                    <section class="phpdocumentor-description"><p>Conexão ativa</p>
+</section>
+
+            </dd>
+                    <dt class="phpdocumentor-argument-list__entry">
+                <span class="phpdocumentor-argument-list__argument__name">$moduloId</span>
+                : <span class="phpdocumentor-argument-list__argument__type">int</span>
+                            </dt>
+            <dd class="phpdocumentor-argument-list__definition">
+                    <section class="phpdocumentor-description"><p>ID do módulo</p>
+</section>
+
+            </dd>
+                    <dt class="phpdocumentor-argument-list__entry">
+                <span class="phpdocumentor-argument-list__argument__name">$cursoId</span>
+                : <span class="phpdocumentor-argument-list__argument__type">int</span>
+                            </dt>
+            <dd class="phpdocumentor-argument-list__definition">
+                    <section class="phpdocumentor-description"><p>ID do curso</p>
+</section>
+
+            </dd>
+            </dl>
+
+    
+
+            <section>
+        <h5 class="phpdocumentor-return-value__heading">Return values</h5>
+        <span class="phpdocumentor-signature__response_type">bool</span>
+                    &mdash;
+                <section class="phpdocumentor-description"><p>True se o módulo existe e pertence ao curso</p>
+</section>
+
+            </section>
+
 </article>
                     <article class="phpdocumentor-element -function - ">
     <h4 class="phpdocumentor-element__name" id="function_validaCPF">
@@ -1316,6 +1439,118 @@ Returns 0 and logs the error when the query fails.</p>
 
 </article>
                     <article class="phpdocumentor-element -function - ">
+    <h4 class="phpdocumentor-element__name" id="function_prazo_encerrado">
+        prazo_encerrado()
+        <a href="namespaces/default.html#function_prazo_encerrado" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h4>
+    <aside class="phpdocumentor-element-found-in">
+    <abbr class="phpdocumentor-element-found-in__file" title="config/helpers.php"><a href="files/config-helpers.html"><abbr title="config/helpers.php">helpers.php</abbr></a></abbr>
+    :
+    <span class="phpdocumentor-element-found-in__line">179</span>
+
+    </aside>
+
+        <p class="phpdocumentor-summary">Verifica se uma data limite (prazo) já passou.</p>
+
+    
+    <code class="phpdocumentor-code phpdocumentor-signature ">
+    <span class="phpdocumentor-signature__visibility"></span>
+                    <span class="phpdocumentor-signature__name">prazo_encerrado</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__type">string|null&nbsp;</span><span class="phpdocumentor-signature__argument__name">$dataLimite</span></span><span class="phpdocumentor-signature__argument"><span>[</span><span>, </span><span class="phpdocumentor-signature__argument__type">int|null&nbsp;</span><span class="phpdocumentor-signature__argument__name">$agora</span><span> = </span><span class="phpdocumentor-signature__argument__default-value">null</span><span> ]</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">bool</span></code>
+
+        <section class="phpdocumentor-description"><p>O prazo é inclusivo: no próprio dia da data limite a ação ainda é permitida;
+o prazo só é considerado encerrado a partir do dia seguinte.</p>
+</section>
+
+        <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
+    <dl class="phpdocumentor-argument-list">
+                    <dt class="phpdocumentor-argument-list__entry">
+                <span class="phpdocumentor-argument-list__argument__name">$dataLimite</span>
+                : <span class="phpdocumentor-argument-list__argument__type">string|null</span>
+                            </dt>
+            <dd class="phpdocumentor-argument-list__definition">
+                    <section class="phpdocumentor-description"><p>Data limite no formato Y-m-d (NULL ou vazio = sem prazo)</p>
+</section>
+
+            </dd>
+                    <dt class="phpdocumentor-argument-list__entry">
+                <span class="phpdocumentor-argument-list__argument__name">$agora</span>
+                : <span class="phpdocumentor-argument-list__argument__type">int|null</span>
+                 = <span class="phpdocumentor-argument-list__argument__default-value">null</span>            </dt>
+            <dd class="phpdocumentor-argument-list__definition">
+                    <section class="phpdocumentor-description"><p>Timestamp de referência (NULL = time()), usado nos testes</p>
+</section>
+
+            </dd>
+            </dl>
+
+    
+
+            <section>
+        <h5 class="phpdocumentor-return-value__heading">Return values</h5>
+        <span class="phpdocumentor-signature__response_type">bool</span>
+                    &mdash;
+                <section class="phpdocumentor-description"><p>True se o prazo existe e já passou, false caso contrário</p>
+</section>
+
+            </section>
+
+</article>
+                    <article class="phpdocumentor-element -function - ">
+    <h4 class="phpdocumentor-element__name" id="function_video_embed_url">
+        video_embed_url()
+        <a href="namespaces/default.html#function_video_embed_url" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h4>
+    <aside class="phpdocumentor-element-found-in">
+    <abbr class="phpdocumentor-element-found-in__file" title="config/helpers.php"><a href="files/config-helpers.html"><abbr title="config/helpers.php">helpers.php</abbr></a></abbr>
+    :
+    <span class="phpdocumentor-element-found-in__line">209</span>
+
+    </aside>
+
+        <p class="phpdocumentor-summary">Converte uma URL de vídeo para o formato adequado para embed em &lt;iframe&gt;.</p>
+
+    
+    <code class="phpdocumentor-code phpdocumentor-signature ">
+    <span class="phpdocumentor-signature__visibility"></span>
+                    <span class="phpdocumentor-signature__name">video_embed_url</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__type">string|null&nbsp;</span><span class="phpdocumentor-signature__argument__name">$url</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">string</span></code>
+
+        <section class="phpdocumentor-description"><p>Links do YouTube nos formatos watch?v=, youtu.be/, shorts/ e embed/ são
+convertidos para https://www.youtube-nocookie.com/embed/{id} — o domínio
+nocookie usa o modo de privacidade aprimorada do YouTube (não grava cookies
+de rastreamento até o play). Links de vídeo normais do YouTube não funcionam
+em iframe (bloqueados via X-Frame-Options), por isso a conversão é necessária.</p>
+<p>Outras URLs HTTP/HTTPS (ex.: Vimeo embed) são retornadas como estão.
+URLs inválidas ou com protocolo não-HTTP retornam string vazia.</p>
+</section>
+
+        <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
+    <dl class="phpdocumentor-argument-list">
+                    <dt class="phpdocumentor-argument-list__entry">
+                <span class="phpdocumentor-argument-list__argument__name">$url</span>
+                : <span class="phpdocumentor-argument-list__argument__type">string|null</span>
+                            </dt>
+            <dd class="phpdocumentor-argument-list__definition">
+                    <section class="phpdocumentor-description"><p>URL bruta cadastrada em aulas.video_url</p>
+</section>
+
+            </dd>
+            </dl>
+
+    
+
+            <section>
+        <h5 class="phpdocumentor-return-value__heading">Return values</h5>
+        <span class="phpdocumentor-signature__response_type">string</span>
+                    &mdash;
+                <section class="phpdocumentor-description"><p>URL pronta para o src do iframe, ou vazia se inválida</p>
+</section>
+
+            </section>
+
+</article>
+                    <article class="phpdocumentor-element -function - ">
     <h4 class="phpdocumentor-element__name" id="function_session_check_timeout">
         session_check_timeout()
         <a href="namespaces/default.html#function_session_check_timeout" class="headerlink"><i class="fas fa-link"></i></a>
@@ -1324,7 +1559,7 @@ Returns 0 and logs the error when the query fails.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="config/helpers.php"><a href="files/config-helpers.html"><abbr title="config/helpers.php">helpers.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">179</span>
+    <span class="phpdocumentor-element-found-in__line">257</span>
 
     </aside>
 
@@ -1355,7 +1590,7 @@ Caso contrário, atualiza o timestamp de última atividade.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="config/helpers.php"><a href="files/config-helpers.html"><abbr title="config/helpers.php">helpers.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">202</span>
+    <span class="phpdocumentor-element-found-in__line">280</span>
 
     </aside>
 
@@ -1383,7 +1618,7 @@ Caso contrário, atualiza o timestamp de última atividade.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="config/helpers.php"><a href="files/config-helpers.html"><abbr title="config/helpers.php">helpers.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">218</span>
+    <span class="phpdocumentor-element-found-in__line">296</span>
 
     </aside>
 
@@ -1411,7 +1646,7 @@ Caso contrário, atualiza o timestamp de última atividade.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="config/helpers.php"><a href="files/config-helpers.html"><abbr title="config/helpers.php">helpers.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">234</span>
+    <span class="phpdocumentor-element-found-in__line">312</span>
 
     </aside>
 
@@ -1862,7 +2097,7 @@ a ai_format_inline() para segurança contra XSS.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="user/cursos.php"><a href="files/user-cursos.html"><abbr title="user/cursos.php">cursos.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">117</span>
+    <span class="phpdocumentor-element-found-in__line">123</span>
 
     </aside>
 
@@ -1966,7 +2201,7 @@ quando necessário. Utiliza funções multibyte quando disponíveis.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="user/meu-curso.php"><a href="files/user-meu-curso.html"><abbr title="user/meu-curso.php">meu-curso.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">326</span>
+    <span class="phpdocumentor-element-found-in__line">401</span>
 
     </aside>
 
@@ -2243,6 +2478,7 @@ adicionando reticências quando necessário. Suporta multibyte strings.</p>
                                                     <li class=""><a href="namespaces/default.html#constant_SESSION_TIMEOUT">SESSION_TIMEOUT</a></li>
                                                     <li class=""><a href="namespaces/default.html#constant_STATUS_CAND_ANALISE">STATUS_CAND_ANALISE</a></li>
                                                     <li class=""><a href="namespaces/default.html#constant_STATUS_CAND_APROVADO">STATUS_CAND_APROVADO</a></li>
+                                                    <li class=""><a href="namespaces/default.html#constant_STATUS_CAND_CANCELADA">STATUS_CAND_CANCELADA</a></li>
                                                     <li class=""><a href="namespaces/default.html#constant_STATUS_CAND_ENVIADA">STATUS_CAND_ENVIADA</a></li>
                                                     <li class=""><a href="namespaces/default.html#constant_STATUS_CAND_REPROVADO">STATUS_CAND_REPROVADO</a></li>
                                                     <li class=""><a href="namespaces/default.html#constant_STATUS_INSC_CANCELADO">STATUS_INSC_CANCELADO</a></li>
@@ -2275,8 +2511,10 @@ adicionando reticências quando necessário. Suporta multibyte strings.</p>
                                                     <li class=""><a href="namespaces/default.html#function_env">env()</a></li>
                                                     <li class=""><a href="namespaces/default.html#function_flash">flash()</a></li>
                                                     <li class=""><a href="namespaces/default.html#function_get_flash">get_flash()</a></li>
+                                                    <li class=""><a href="namespaces/default.html#function_modulo_pertence_ao_curso">modulo_pertence_ao_curso()</a></li>
                                                     <li class=""><a href="namespaces/default.html#function_painel_fetch_all">painel_fetch_all()</a></li>
                                                     <li class=""><a href="namespaces/default.html#function_painel_scalar">painel_scalar()</a></li>
+                                                    <li class=""><a href="namespaces/default.html#function_prazo_encerrado">prazo_encerrado()</a></li>
                                                     <li class=""><a href="namespaces/default.html#function_redirect">redirect()</a></li>
                                                     <li class=""><a href="namespaces/default.html#function_resumo_curso">resumo_curso()</a></li>
                                                     <li class=""><a href="namespaces/default.html#function_resumo_home">resumo_home()</a></li>
@@ -2285,6 +2523,7 @@ adicionando reticências quando necessário. Suporta multibyte strings.</p>
                                                     <li class=""><a href="namespaces/default.html#function_session_check_timeout">session_check_timeout()</a></li>
                                                     <li class=""><a href="namespaces/default.html#function_split_lines">split_lines()</a></li>
                                                     <li class=""><a href="namespaces/default.html#function_validaCPF">validaCPF()</a></li>
+                                                    <li class=""><a href="namespaces/default.html#function_video_embed_url">video_embed_url()</a></li>
                                             </ul>
                 </li>
                     </ul>

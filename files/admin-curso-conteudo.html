@@ -101,45 +101,25 @@
     </ul>
 
     <article class="phpdocumentor-element -file">
-        <h2 class="phpdocumentor-content__title">cursos.php</h2>
+        <h2 class="phpdocumentor-content__title">curso-conteudo.php</h2>
 
-            <p class="phpdocumentor-summary">Página de listagem e busca de cursos profissionalizantes</p>
+            <p class="phpdocumentor-summary">Gestão de conteúdo do curso (módulos e aulas) pelo administrador</p>
 
         
-            <section class="phpdocumentor-description"><p>Este arquivo exibe uma página com filtros de busca, ordenação e listagem
-dos cursos ativos cadastrados no sistema. Permite filtrar por modalidade,
-nível e busca textual, além de diferentes opções de ordenação.</p>
+            <section class="phpdocumentor-description"><p>Permite cadastrar módulos, cadastrar e editar aulas (título, conteúdo,
+link de vídeo, material e duração) e ativar/desativar itens. O link de
+vídeo aceita qualquer formato do YouTube (watch, youtu.be, shorts) —
+a conversão para o formato embed é feita por video_embed_url() na
+exibição ao aluno.</p>
 </section>
 
         
-    <h5 class="phpdocumentor-tag-list__heading" id="tags">
-        Tags
-        <a href="files/user-cursos.html#tags" class="headerlink"><i class="fas fa-link"></i></a>
-
-    </h5>
-    <dl class="phpdocumentor-tag-list">
-                    <dt class="phpdocumentor-tag-list__entry">
-                <span class="phpdocumentor-tag__name">author</span>
-            </dt>
-                            <dd class="phpdocumentor-tag-list__definition">
-                                                                                                            <section class="phpdocumentor-description"><p>Sistema SkillConnect</p>
-</section>
-
-                                    </dd>
-                                <dt class="phpdocumentor-tag-list__entry">
-                <span class="phpdocumentor-tag__name">version</span>
-            </dt>
-                            <dd class="phpdocumentor-tag-list__definition">
-                                            <span class="phpdocumentor-tag-link">1.0</span>
-                                                                                                        
-                                    </dd>
-                        </dl>
 
 
         
 <h3 id="toc">
     Table of Contents
-    <a href="files/user-cursos.html#toc" class="headerlink"><i class="fas fa-link"></i></a>
+    <a href="files/admin-curso-conteudo.html#toc" class="headerlink"><i class="fas fa-link"></i></a>
 
 </h3>
 
@@ -155,16 +135,16 @@ nível e busca textual, além de diferentes opções de ordenação.</p>
 
 <h4 id="toc-functions">
     Functions
-    <a href="files/user-cursos.html#toc-functions" class="headerlink"><i class="fas fa-link"></i></a>
+    <a href="files/admin-curso-conteudo.html#toc-functions" class="headerlink"><i class="fas fa-link"></i></a>
 
 </h4>
 <dl class="phpdocumentor-table-of-contents">
             <dt class="phpdocumentor-table-of-contents__entry -function -">
-    <a class="" href="namespaces/default.html#function_resumo_curso">resumo_curso()</a>
+    <a class="" href="namespaces/default.html#function_modulo_pertence_ao_curso">modulo_pertence_ao_curso()</a>
     <span>
-                                &nbsp;: string    </span>
+                                &nbsp;: bool    </span>
 </dt>
-<dd>Cria um resumo truncado de um texto para exibição em cards de curso</dd>
+<dd>Verifica se um módulo pertence ao curso em edição.</dd>
 
     </dl>
 
@@ -174,50 +154,56 @@ nível e busca textual, além de diferentes opções de ordenação.</p>
             <section class="phpdocumentor-functions">
         <h3 class="phpdocumentor-elements__header" id="functions">
             Functions
-            <a href="files/user-cursos.html#functions" class="headerlink"><i class="fas fa-link"></i></a>
+            <a href="files/admin-curso-conteudo.html#functions" class="headerlink"><i class="fas fa-link"></i></a>
 
         </h3>
                     <article class="phpdocumentor-element -function - ">
-    <h4 class="phpdocumentor-element__name" id="function_resumo_curso">
-        resumo_curso()
-        <a href="namespaces/default.html#function_resumo_curso" class="headerlink"><i class="fas fa-link"></i></a>
+    <h4 class="phpdocumentor-element__name" id="function_modulo_pertence_ao_curso">
+        modulo_pertence_ao_curso()
+        <a href="namespaces/default.html#function_modulo_pertence_ao_curso" class="headerlink"><i class="fas fa-link"></i></a>
 
     </h4>
     <aside class="phpdocumentor-element-found-in">
-    <abbr class="phpdocumentor-element-found-in__file" title="user/cursos.php"><a href="files/user-cursos.html"><abbr title="user/cursos.php">cursos.php</abbr></a></abbr>
+    <abbr class="phpdocumentor-element-found-in__file" title="admin/curso-conteudo.php"><a href="files/admin-curso-conteudo.html"><abbr title="admin/curso-conteudo.php">curso-conteudo.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">123</span>
+    <span class="phpdocumentor-element-found-in__line">44</span>
 
     </aside>
 
-        <p class="phpdocumentor-summary">Cria um resumo truncado de um texto para exibição em cards de curso</p>
+        <p class="phpdocumentor-summary">Verifica se um módulo pertence ao curso em edição.</p>
 
     
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility"></span>
-                    <span class="phpdocumentor-signature__name">resumo_curso</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__type">string&nbsp;</span><span class="phpdocumentor-signature__argument__name">$texto</span></span><span class="phpdocumentor-signature__argument"><span>[</span><span>, </span><span class="phpdocumentor-signature__argument__type">int&nbsp;</span><span class="phpdocumentor-signature__argument__name">$limite</span><span> = </span><span class="phpdocumentor-signature__argument__default-value">135</span><span> ]</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">string</span></code>
+                    <span class="phpdocumentor-signature__name">modulo_pertence_ao_curso</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__type"><abbr title="\mysqli">mysqli</abbr>&nbsp;</span><span class="phpdocumentor-signature__argument__name">$cx</span></span><span class="phpdocumentor-signature__argument"><span>, </span><span class="phpdocumentor-signature__argument__type">int&nbsp;</span><span class="phpdocumentor-signature__argument__name">$moduloId</span></span><span class="phpdocumentor-signature__argument"><span>, </span><span class="phpdocumentor-signature__argument__type">int&nbsp;</span><span class="phpdocumentor-signature__argument__name">$cursoId</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">bool</span></code>
 
-        <section class="phpdocumentor-description"><p>Remove tags HTML, limita o comprimento do texto e adiciona reticências
-quando necessário. Utiliza funções multibyte quando disponíveis.</p>
-</section>
-
+    
         <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
     <dl class="phpdocumentor-argument-list">
                     <dt class="phpdocumentor-argument-list__entry">
-                <span class="phpdocumentor-argument-list__argument__name">$texto</span>
-                : <span class="phpdocumentor-argument-list__argument__type">string</span>
+                <span class="phpdocumentor-argument-list__argument__name">$cx</span>
+                : <span class="phpdocumentor-argument-list__argument__type"><abbr title="\mysqli">mysqli</abbr></span>
                             </dt>
             <dd class="phpdocumentor-argument-list__definition">
-                    <section class="phpdocumentor-description"><p>O texto original a ser resumido</p>
+                    <section class="phpdocumentor-description"><p>Conexão ativa</p>
 </section>
 
             </dd>
                     <dt class="phpdocumentor-argument-list__entry">
-                <span class="phpdocumentor-argument-list__argument__name">$limite</span>
+                <span class="phpdocumentor-argument-list__argument__name">$moduloId</span>
                 : <span class="phpdocumentor-argument-list__argument__type">int</span>
-                 = <span class="phpdocumentor-argument-list__argument__default-value">135</span>            </dt>
+                            </dt>
             <dd class="phpdocumentor-argument-list__definition">
-                    <section class="phpdocumentor-description"><p>Número máximo de caracteres para o resumo (padrão: 135)</p>
+                    <section class="phpdocumentor-description"><p>ID do módulo</p>
+</section>
+
+            </dd>
+                    <dt class="phpdocumentor-argument-list__entry">
+                <span class="phpdocumentor-argument-list__argument__name">$cursoId</span>
+                : <span class="phpdocumentor-argument-list__argument__type">int</span>
+                            </dt>
+            <dd class="phpdocumentor-argument-list__definition">
+                    <section class="phpdocumentor-description"><p>ID do curso</p>
 </section>
 
             </dd>
@@ -227,9 +213,9 @@ quando necessário. Utiliza funções multibyte quando disponíveis.</p>
 
             <section>
         <h5 class="phpdocumentor-return-value__heading">Return values</h5>
-        <span class="phpdocumentor-signature__response_type">string</span>
+        <span class="phpdocumentor-signature__response_type">bool</span>
                     &mdash;
-                <section class="phpdocumentor-description"><p>O texto resumido com reticências se truncado, ou mensagem padrão se vazio</p>
+                <section class="phpdocumentor-description"><p>True se o módulo existe e pertence ao curso</p>
 </section>
 
             </section>
@@ -249,7 +235,7 @@ quando necessário. Utiliza funções multibyte quando disponíveis.</p>
             <li class="phpdocumentor-on-this-page-section__title">Table Of Contents</li>
             <li>
                 <ul class="phpdocumentor-list -clean">
-                                                                                                                                                                                        <li><a href="files/user-cursos.html#toc-functions">Functions</a></li>
+                                                                                                                                                                                        <li><a href="files/admin-curso-conteudo.html#toc-functions">Functions</a></li>
                                     </ul>
             </li>
 
@@ -257,7 +243,7 @@ quando necessário. Utiliza funções multibyte quando disponíveis.</p>
                             <li class="phpdocumentor-on-this-page-section__title">Functions</li>
                 <li>
                     <ul class="phpdocumentor-list -clean">
-                                                    <li class=""><a href="namespaces/default.html#function_resumo_curso">resumo_curso()</a></li>
+                                                    <li class=""><a href="namespaces/default.html#function_modulo_pertence_ao_curso">modulo_pertence_ao_curso()</a></li>
                                             </ul>
                 </li>
                     </ul>
@@ -277,7 +263,7 @@ quando necessário. Utiliza funções multibyte quando disponíveis.</p>
     </section>
 </section>
         </div>
-        <a href="files/user-cursos.html#top" class="phpdocumentor-back-to-top"><i class="fas fa-chevron-circle-up"></i></a>
+        <a href="files/admin-curso-conteudo.html#top" class="phpdocumentor-back-to-top"><i class="fas fa-chevron-circle-up"></i></a>
 
     </main>
 
