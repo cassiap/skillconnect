@@ -404,6 +404,24 @@ Realiza uma varredura automatizada no código-fonte em busca de vulnerabilidades
 
 ---
 
+## Validar HTML — `validar-html.yml`
+
+### Descrição
+Utiliza a ferramenta `html-validate` para verificar a conformidade de todos os arquivos `.html` com os padrões da W3C, detectando problemas estruturais e de acessibilidade.
+
+### Problemas detectados
+
+| Tipo de Erro | Exemplo |
+|--------------|---------|
+| Tag não fechada | `<div>` ou `<p>` sem a tag de fechamento |
+| Atributo ausente | `<img>` sem o atributo `alt` (acessibilidade) |
+| Tag obsoleta | Uso de `<center>` ou `<font>` (descontinuadas no HTML5) |
+| Link inválido | `<a>` sem o atributo `href` |
+| Estrutura incorreta | Elementos fora da hierarquia correta do documento |
+
+### Resultado
+- ✅ **Aprovado** — Todos os arquivos HTML válidos
+- ❌ **Reprovado** — Erros de estrutura ou acessibilidade encontrados
 
 
 ---
