@@ -324,6 +324,10 @@ Suporta múltiplos modelos em fallback (lista separada por vírgula em `ANTHROPI
 
 ## 8. GitHub Actions (CI/CD)
 
+> Pipelines de CI/CD implementadas para garantir qualidade, segurança e conformidade do projeto.
+
+---
+
 **`main.yml`:** verifica sintaxe PHP (`php -l`) em todos os arquivos `.php` e executa a suíte de testes unitários com PHPUnit. Roda a cada push e pull request na `main`.
 
 **`relatorio.yml`:** conta arquivos por extensão e linhas de código.
