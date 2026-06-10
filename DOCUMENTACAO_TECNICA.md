@@ -328,13 +328,20 @@ Suporta múltiplos modelos em fallback (lista separada por vírgula em `ANTHROPI
 
 ---
 
-**`main.yml`:** verifica sintaxe PHP (`php -l`) em todos os arquivos `.php` e executa a suíte de testes unitários com PHPUnit. Roda a cada push e pull request na `main`.
+## 📋 Workflows implementados
 
-**`relatorio.yml`:** conta arquivos por extensão e linhas de código.
+| Workflow | Arquivo | O que faz |
+|----------|---------|-----------|
+| Verificar PHP | `main.yml` | Checa sintaxe de todos os arquivos `.php` |
+| Relatório do Projeto | `relatorio.yml` | Conta arquivos e linhas de código |
+| Verificação de Segurança | `seguranca.yml` | Verifica `.env` exposto e senhas no código |
+| Validar HTML | `validar-html.yml` | Valida estrutura dos arquivos `.html` |
+| Documentação | `documentacao.yml` | executa o phpDocumentor e publica o resultado no GitHub Pages a cada push.
+Disponível em: https://cassiap.github.io/skillconnect/ |
 
-**`segurança.yml`:** verifica presença de `.env` exposto no repositório e senhas hardcoded.
+> Todos os workflows são disparados automaticamente a cada `push` na branch `main`.
 
-**`validar-html.yml`:** valida os arquivos `.html` do projeto com W3C.
+---
 
 **`documentacao.yml`:** executa o phpDocumentor e publica o resultado no GitHub Pages a cada push.
 Disponível em: https://cassiap.github.io/skillconnect/
