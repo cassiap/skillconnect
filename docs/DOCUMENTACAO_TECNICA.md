@@ -362,6 +362,49 @@ Verifica automaticamente a sintaxe de todos os arquivos `.php` do repositório. 
 - ❌ **Reprovado** — Erro de sintaxe detectado em um ou mais arquivos
 ---
 
+## Relatório do Projeto — `relatorio.yml`
+
+### Descrição
+Gera automaticamente um relatório de métricas a cada push, exibindo informações sobre o desenvolvedor, data do commit, contagem de arquivos e total de linhas de código por extensão.
+
+### Informações geradas
+
+| Informação | Descrição |
+|------------|-----------|
+| Data e hora | Momento exato do push |
+| Desenvolvedor | Usuário GitHub que realizou o commit |
+| Mensagem do commit | Descrição da alteração realizada |
+| Arquivos PHP | Total de arquivos `.php` no projeto |
+| Arquivos HTML | Total de arquivos `.html` no projeto |
+| Arquivos CSS | Total de arquivos `.css` no projeto |
+| Linhas de código | Quantidade de linhas por tipo de arquivo |
+| Tamanho do projeto | Espaço total ocupado pelo repositório |
+
+### Resultado
+- ✅ **Sempre verde** — Apenas exibe as métricas do projeto a cada push
+
+---
+
+## Verificação de Segurança — `seguranca.yml`
+
+### Descrição
+Realiza uma varredura automatizada no código-fonte em busca de vulnerabilidades comuns, como senhas fracas expostas, arquivos `.env` versionados indevidamente e chaves de API visíveis publicamente.
+
+### O que é verificado
+
+| Verificação | O que detecta | Risco |
+|-------------|--------------|-------|
+| Arquivo `.env` | Variáveis de ambiente versionadas indevidamente | 🔴 Alto |
+| Senhas fracas | Strings como `senha123`, `password123`, `admin123` | 🔴 Alto |
+| Chaves de API | Tokens e chaves de acesso expostas no código | 🔴 Crítico |
+
+### Resultado
+- ✅ **Aprovado** — Nenhuma vulnerabilidade encontrada
+- ❌ **Reprovado** — Dado sensível detectado, requer correção imediata
+
+---
+
+
 
 ---
 
