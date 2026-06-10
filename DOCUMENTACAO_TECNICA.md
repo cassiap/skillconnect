@@ -342,8 +342,26 @@ Suporta múltiplos modelos em fallback (lista separada por vírgula em `ANTHROPI
 
 ---
 
-**`documentacao.yml`:** executa o phpDocumentor e publica o resultado no GitHub Pages a cada push.
-Disponível em: https://cassiap.github.io/skillconnect/
+## Verificar PHP — `main.yml`
+
+### Descrição
+Verifica automaticamente a sintaxe de todos os arquivos `.php` do repositório. Utiliza o comando `php -l` para detectar erros antes que causem problemas no projeto.
+
+### Etapas
+
+| Etapa | Descrição |
+|-------|-----------|
+| Set up job | GitHub prepara a máquina virtual Ubuntu |
+| Baixar o código | Clona o repositório na máquina virtual |
+| Instalar PHP | Instala o PHP 8.1 no ambiente |
+| Checar sintaxe | Executa `php -l` em cada arquivo `.php` |
+| Complete job | Finaliza e registra o resultado |
+
+### Resultado
+- ✅ **Aprovado** — Nenhum erro de sintaxe encontrado
+- ❌ **Reprovado** — Erro de sintaxe detectado em um ou mais arquivos
+---
+
 
 ---
 
