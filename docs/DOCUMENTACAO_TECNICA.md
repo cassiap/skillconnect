@@ -336,8 +336,7 @@ Suporta múltiplos modelos em fallback (lista separada por vírgula em `ANTHROPI
 | Relatório do Projeto | `relatorio.yml` | Conta arquivos e linhas de código |
 | Verificação de Segurança | `seguranca.yml` | Verifica `.env` exposto e senhas no código |
 | Validar HTML | `validar-html.yml` | Valida estrutura dos arquivos `.html` |
-| Documentação | `documentacao.yml` | executa o phpDocumentor e publica o resultado no GitHub Pages a cada push.
-Disponível em: https://cassiap.github.io/skillconnect/ |
+| Documentação | `documentacao.yml` | executa o phpDocumentor e publica o resultado no GitHub Pages a cada push.Disponível em: https://cassiap.github.io/skillconnect/ |
 
 > Todos os workflows são disparados automaticamente a cada `push` na branch `main`.
 
