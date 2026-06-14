@@ -91,6 +91,37 @@ skillconnect/
 ```
 
 ---
+## Melhorias Implementadas Após os Feedbacks
+
+Durante o desenvolvimento do projeto, a equipe analisou os feedbacks recebidos pelo professor e identificou oportunidades de melhoria para tornar a plataforma mais completa e próxima de um ambiente real de ensino e empregabilidade.
+
+### Funcionalidades adicionadas
+
+* Inclusão de vídeos nas aulas para enriquecer a experiência de aprendizagem;
+* Sistema de avaliação de cursos pelos alunos;
+* Sistema de avaliação individual das aulas;
+* Controle de ativação e desativação de aulas pelo administrador;
+* Acompanhamento do progresso dos alunos ao longo dos cursos;
+* Emissão automática de certificados após a conclusão dos cursos;
+* Funcionalidade para cancelamento ou saída de cursos;
+* Melhorias de interface e usabilidade em diferentes páginas da plataforma.
+
+### Evolução do Projeto
+
+As melhorias implementadas permitiram transformar o SkillConnect em uma solução mais completa, oferecendo não apenas cursos e oportunidades profissionais, mas também recursos de acompanhamento, avaliação e certificação, aumentando a qualidade da experiência dos usuários e a capacidade de gestão dos administradores.
+## Evidências de Desenvolvimento
+
+As evidências de desenvolvimento individual podem ser verificadas através dos seguintes elementos presentes no repositório:
+
+* Histórico de commits dos integrantes;
+* Branches utilizadas durante o desenvolvimento;
+* Pull Requests;
+* Issues registradas;
+* Documentação de evolução do projeto;
+* Registros de implementação das funcionalidades.
+
+Também foram adicionadas evidências visuais na documentação do projeto demonstrando as principais funcionalidades implementadas e as melhorias realizadas após os feedbacks recebidos.
+
 
 ## GitHub Actions
 
